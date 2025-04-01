@@ -1,0 +1,125 @@
+@import "reset";
+
+.app-form {
+    min-width: 450px;
+
+    .form-group {
+        margin-bottom: 1.5rem;
+
+        label {
+            display: block;
+            color: $highlight-color;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: lighten($primary-bg, 5%);
+            border: 1px solid $text-muted;
+            border-radius: 5px;
+            color: $text-light;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $highlight-color;
+                box-shadow: 0 0 0 2px rgba($highlight-color, 0.25);
+            }
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-error {
+            color: $accent-color;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+    }
+
+    .btn-submit {
+        width: 100%;
+        background-color: $highlight-color;
+        color: $primary-bg;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            background-color: darken($highlight-color, 10%);
+            box-shadow: 0 2px 4px rgba($highlight-color, 0.4);
+        }
+
+        i {
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s ease;
+
+        &-delete {
+            background-color: $accent-color;
+            color: $text-light;
+
+            &:hover {
+                background-color: darken($accent-color, 10%);
+                box-shadow: 0 2px 4px rgba($accent-color, 0.4);
+            }
+        }
+
+        &-edit {
+            background-color: $highlight-color;
+            color: $primary-bg;
+
+            &:hover {
+                background-color: darken($highlight-color, 10%);
+                box-shadow: 0 2px 4px rgba($highlight-color, 0.4);
+            }
+
+            
+        }
+        
+        &-dashboard {
+                background-color: $dashboard-color;
+                color: $text-light;
+
+                &:hover {
+                    background-color: darken($dashboard-color, 10%);
+                    box-shadow: 0 2px 4px rgba($dashboard-color, 0.4);
+                }
+            }
+
+        &-back {
+            background-color: $text-light;
+            color: $primary-bg;
+
+            &:hover {
+                background-color: darken($text-light, 10%);
+                box-shadow: 0 2px 4px rgba($text-light, 0.4);
+            }
+        }
+    }
+}

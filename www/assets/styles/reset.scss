@@ -1,0 +1,22 @@
+@import "~bootstrap/scss/bootstrap";
+
+// Déclaration des variables pour les couleurs
+$primary-bg: #272030;
+$text-light: #f0f0f0;
+$accent-color: #c2858c;
+$highlight-color: #f08a4f;
+$text-muted: rgba(240, 240, 240, 0.6);
+$overlay-bg: rgba(27, 20, 30, 0.7);
+$dashboard-color: #55aaff;
+
+body {
+    background-color: $primary-bg;
+    color: $text-light;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 100px 0;
+}
