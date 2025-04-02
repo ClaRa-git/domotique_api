@@ -30,10 +30,17 @@ class Image
     #[ORM\OneToMany(targetEntity: Room::class, mappedBy: 'image')]
     private Collection $rooms;
 
+    /**
+     * @var Collection<int, Playlist>
+     */
+    #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'image')]
+    private Collection $playlists;
+
     public function __construct()
     {
         $this->profiles = new ArrayCollection();
         $this->rooms = new ArrayCollection();
+        $this->playlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,6 +114,36 @@ class Image
             // set the owning side to null (unless already changed)
             if ($room->getImage() === $this) {
                 $room->setImage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Playlist>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(Playlist $playlist): static
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
+            $playlist->setImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlist $playlist): static
+    {
+        if ($this->playlists->removeElement($playlist)) {
+            // set the owning side to null (unless already changed)
+            if ($playlist->getImage() === $this) {
+                $playlist->setImage(null);
             }
         }
 

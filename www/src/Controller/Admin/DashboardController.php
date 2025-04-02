@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Image;
 use App\Entity\Profile;
+use App\Entity\Song;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -54,6 +55,13 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Images', 'fa fa-image')->setSubItems([
             MenuItem::linkToCrud('Liste des images', 'fa fa-list', Image::class),
             MenuItem::linkToCrud('Ajouter une image', 'fa fa-plus', Image::class)->setAction('new'),
+        ]);
+
+        // Menu de gestion des chansons
+        yield MenuItem::section('Gestion des chansons');
+        yield MenuItem::subMenu('Chansons', 'fa fa-music')->setSubItems([
+            MenuItem::linkToCrud('Liste des chansons', 'fa fa-list', Song::class),
+            MenuItem::linkToCrud('Ajouter une chanson', 'fa fa-plus', Song::class)->setAction('new'),
         ]);
     }
 }
