@@ -34,8 +34,8 @@ services:
       - MYSQL_PASSWORD=admin # mot de passe de l'utilisateur
     volumes:
       # volumes montés
-      - ./mysql:/var/lib/mysql
+      - mysql-domotique:/var/lib/mysql
       - ./db:/root # envoi le répertoire db dans le container
 
 volumes:
-  mysql:
+  mysql-domotique:

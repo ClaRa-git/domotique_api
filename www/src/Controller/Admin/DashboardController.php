@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
+use App\Entity\Profile;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -23,7 +23,7 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         $url = $this->adminUrlGenerator
-            ->setController(User::class)
+            ->setController(ProfileCrudController::class)
             ->generateUrl();
 
         return $this->redirect($url);
@@ -37,7 +37,15 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        // Menu principal
         yield MenuItem::linkToUrl('Accueil', 'fa fa-home', 'http://localhost:8082/admin');
         yield MenuItem::linkToUrl('Swagger', 'fa fa-book', 'http://localhost:8082/api');
+
+        // Menu de gestion des profils
+        yield MenuItem::section('Gestion des profils');
+        yield MenuItem::subMenu('Profils', 'fa fa-user')->setSubItems([
+            MenuItem::linkToCrud('Liste des profils', 'fa fa-list', Profile::class),
+            MenuItem::linkToCrud('Ajouter un profil', 'fa fa-plus', Profile::class)->setAction('new'),
+        ]);
     }
 }

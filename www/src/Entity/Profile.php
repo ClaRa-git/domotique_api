@@ -22,7 +22,7 @@ class Profile
     private ?string $password = null;
 
     #[ORM\ManyToOne(inversedBy: 'profiles')]
-    private ?Avatar $avatar = null;
+    private ?Image $image = null;
 
     public function getId(): ?int
     {
@@ -53,14 +53,14 @@ class Profile
         return $this;
     }
 
-    public function getAvatar(): ?Avatar
+    public function getImage(): ?Image
     {
-        return $this->avatar;
+        return $this->image;
     }
 
-    public function setAvatar(?Avatar $avatar): static
+    public function setImage(?Image $image): static
     {
-        $this->avatar = $avatar;
+        $this->image = $image;
 
         return $this;
     }
