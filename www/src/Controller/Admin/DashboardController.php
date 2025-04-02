@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Image;
 use App\Entity\Profile;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -46,6 +47,13 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Profils', 'fa fa-user')->setSubItems([
             MenuItem::linkToCrud('Liste des profils', 'fa fa-list', Profile::class),
             MenuItem::linkToCrud('Ajouter un profil', 'fa fa-plus', Profile::class)->setAction('new'),
+        ]);
+
+        // Menu de gestion des images
+        yield MenuItem::section('Gestion des images');
+        yield MenuItem::subMenu('Images', 'fa fa-image')->setSubItems([
+            MenuItem::linkToCrud('Liste des images', 'fa fa-list', Image::class),
+            MenuItem::linkToCrud('Ajouter une image', 'fa fa-plus', Image::class)->setAction('new'),
         ]);
     }
 }

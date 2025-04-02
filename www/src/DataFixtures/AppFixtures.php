@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Image;
 use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,6 +21,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->loadUsers($manager);
+
+        $this->loadImages($manager);
 
         $this->loadProfiles($manager);
 
@@ -46,12 +49,69 @@ class AppFixtures extends Fixture
         }
     }
 
+    public function loadImages(ObjectManager $manager): void
+    {
+        $array_images = [
+            [
+                'path' => 'avatar1.jpg'
+            ],
+            [
+                'path' => 'avatar2.jpg'
+            ],
+            [
+                'path' => 'avatar3.jpg'
+            ],
+            [
+                'path' => 'avatar4.jpg'
+            ],
+            [
+                'path' => 'avatar5.jpg'
+            ],
+            [
+                'path' => 'avatar6.jpg'
+            ],
+            [
+                'path' => 'avatar7.jpg'
+            ],
+            [
+                'path' => 'avatar8.jpg'
+            ],
+            [
+                'path' => 'avatar9.jpg'
+            ],
+            [
+                'path' => 'avatar10.jpg'
+            ],
+            [
+                'path' => 'avatar11.jpg'
+            ],
+            [
+                'path' => 'avatar12.jpg'
+            ],
+            [
+                'path' => 'avatar13.jpg'
+            ]
+            
+        ];
+        
+        foreach ($array_images as $key => $image) {
+            $new_image = new Image();
+            $new_image->setImagePath($image['path']);
+
+            // Création des références
+            $this->addReference('image_' . $key + 1, $new_image);
+
+            $manager->persist($new_image);
+        }
+    }
+
     public function loadProfiles(ObjectManager $manager): void
     {
         $array_profiles = [
             [
                 'username' => 'user1',
-                'password' => 'user1'
+                'password' => 'user1',
+                'image' => 1
             ]
         ];
         foreach ($array_profiles as $profile) {
@@ -63,6 +123,9 @@ class AppFixtures extends Fixture
             // $hashedPassword = password_hash($profile['password'], PASSWORD_BCRYPT);
             // $new_profile->setPassword($hashedPassword);
             $new_profile->setPassword($profile['password']);
+
+            // On récupère l'image à partir de la référence
+            $new_profile->setImage($this->getReference('image_' . $profile['image'], Image::class));
 
             $manager->persist($new_profile);
         }            
