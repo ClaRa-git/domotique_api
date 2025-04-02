@@ -24,9 +24,16 @@ class Image
     #[ORM\OneToMany(targetEntity: Profile::class, mappedBy: 'image')]
     private Collection $profiles;
 
+    /**
+     * @var Collection<int, Room>
+     */
+    #[ORM\OneToMany(targetEntity: Room::class, mappedBy: 'image')]
+    private Collection $rooms;
+
     public function __construct()
     {
         $this->profiles = new ArrayCollection();
+        $this->rooms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +77,36 @@ class Image
             // set the owning side to null (unless already changed)
             if ($profile->getImage() === $this) {
                 $profile->setImage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Room>
+     */
+    public function getRooms(): Collection
+    {
+        return $this->rooms;
+    }
+
+    public function addRoom(Room $room): static
+    {
+        if (!$this->rooms->contains($room)) {
+            $this->rooms->add($room);
+            $room->setImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoom(Room $room): static
+    {
+        if ($this->rooms->removeElement($room)) {
+            // set the owning side to null (unless already changed)
+            if ($room->getImage() === $this) {
+                $room->setImage(null);
             }
         }
 
