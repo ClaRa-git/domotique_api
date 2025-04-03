@@ -51,8 +51,8 @@ class Profile
     #[ORM\OneToMany(targetEntity: Vibe::class, mappedBy: 'profile')]
     private Collection $vibes;
 
-    #[ORM\Column(length: 255)]
-    private ?string $avatarPath = null;
+    #[ORM\ManyToOne(inversedBy: 'profiles')]
+    private ?Avatar $avatar = null;
 
     public function __construct()
     {
@@ -149,14 +149,14 @@ class Profile
         return $this;
     }
 
-    public function getAvatarPath(): ?string
+    public function getAvatar(): ?Avatar
     {
-        return $this->avatarPath;
+        return $this->avatar;
     }
 
-    public function setAvatarPath(string $avatarPath): static
+    public function setAvatar(?Avatar $avatar): static
     {
-        $this->avatarPath = $avatarPath;
+        $this->avatar = $avatar;
 
         return $this;
     }

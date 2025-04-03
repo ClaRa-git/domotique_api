@@ -39,8 +39,8 @@ class Vibe
     #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'vibe')]
     private Collection $settings;
 
-    #[ORM\Column(length: 255)]
-    private ?string $iconPath = null;
+    #[ORM\ManyToOne(inversedBy: 'vibes')]
+    private ?Icon $icon = null;
 
     public function __construct()
     {
@@ -161,14 +161,14 @@ class Vibe
         return $this;
     }
 
-    public function getIconPath(): ?string
+    public function getIcon(): ?Icon
     {
-        return $this->iconPath;
+        return $this->icon;
     }
 
-    public function setIconPath(string $iconPath): static
+    public function setIcon(?Icon $icon): static
     {
-        $this->iconPath = $iconPath;
+        $this->icon = $icon;
 
         return $this;
     }

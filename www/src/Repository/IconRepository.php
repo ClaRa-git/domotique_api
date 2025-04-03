@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Image;
+use App\Entity\Icon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Image>
+ * @extends ServiceEntityRepository<Icon>
  */
-class ImageRepository extends ServiceEntityRepository
+class IconRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Image::class);
+        parent::__construct($registry, Icon::class);
     }
 
     //    /**
-    //     * @return Image[] Returns an array of Image objects
+    //     * @return Icon[] Returns an array of Icon objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ImageRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Image
+    //    public function findOneBySomeField($value): ?Icon
     //    {
     //        return $this->createQueryBuilder('i')
     //            ->andWhere('i.exampleField = :val')

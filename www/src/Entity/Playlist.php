@@ -53,8 +53,8 @@ class Playlist
     #[ORM\ManyToMany(targetEntity: Song::class, mappedBy: 'playlists')]
     private Collection $songs;
 
-    #[ORM\Column(length: 255)]
-    private ?string $imagePath = null;
+    #[ORM\ManyToOne(inversedBy: 'playlists')]
+    private ?Image $image = null;
 
     public function __construct()
     {
@@ -148,14 +148,14 @@ class Playlist
         return $this;
     }
 
-    public function getImagePath(): ?string
+    public function getImage(): ?Image
     {
-        return $this->imagePath;
+        return $this->image;
     }
 
-    public function setImagePath(string $imagePath): static
+    public function setImage(?Image $image): static
     {
-        $this->imagePath = $imagePath;
+        $this->image = $image;
 
         return $this;
     }

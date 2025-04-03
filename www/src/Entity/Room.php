@@ -45,8 +45,8 @@ class Room
     #[ORM\ManyToMany(targetEntity: Planning::class, inversedBy: 'rooms')]
     private Collection $plannings;
 
-    #[ORM\Column(length: 255)]
-    private ?string $imagePath = null;
+    #[ORM\ManyToOne(inversedBy: 'rooms')]
+    private ?Image $image = null;
 
     public function __construct()
     {
@@ -125,14 +125,14 @@ class Room
         return $this;
     }
 
-    public function getImagePath(): ?string
+    public function getImage(): ?Image
     {
-        return $this->imagePath;
+        return $this->image;
     }
 
-    public function setImagePath(string $imagePath): static
+    public function setImage(?Image $image): static
     {
-        $this->imagePath = $imagePath;
+        $this->image = $image;
 
         return $this;
     }
