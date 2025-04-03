@@ -3,30 +3,44 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
 use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['room:read']],
+    denormalizationContext: ['groups' => ['room:write']],
+)]
 class Room
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['room:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['room:read', 'room:write'])]
     private ?string $label = null;
 
     #[ORM\ManyToOne(inversedBy: 'rooms')]
+    #[Groups(['room:read', 'room:write'])]
     private ?Image $image = null;
 
     /**
      * @var Collection<int, Device>
      */
     #[ORM\OneToMany(targetEntity: Device::class, mappedBy: 'room')]
+    #[Groups(['room:read', 'room:write'])]
     private Collection $devices;
 
     public function __construct()

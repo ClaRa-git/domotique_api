@@ -39,6 +39,7 @@ class SongCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('title', 'Titre de la chanson'),
+            TextField::new('artist', 'Artiste'),
             Field::new('filePathFile', 'Choisir mp3')
                 ->onlyOnForms()
                 ->setFormType(VichFileType::class)
@@ -63,9 +64,27 @@ class SongCrudController extends AbstractCrudController
                                 <source src="/upload/files/music/' . $value . '" type="audio/mpeg">
                             </audio>';
                 }),
-            NumberField::new('duration', 'durée du titre')
-                ->hideOnForm(),
-            AssociationField::new('album', 'Album associé'),
+            NumberField::new('duration', 'Durée du titre')
+                ->hideOnForm()
+                // on convertit la durée en mm:ss
+                ->formatValue(function ($value, $entity) {
+                    if ($value === null) {
+                        return '00:00';
+                    }
+                    $hours = floor($value / 3600);
+                    $minutes = floor(($value % 3600) / 60);
+                    $seconds = $value % 60;
+
+                    // Si la durée est supérieure à 1 heure, on affiche le format hh:mm:ss
+                    if ($hours > 0) {
+                        return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+                    }
+                    // Sinon, on affiche le format mm:ss / m:ss
+                     else {
+                        return sprintf('%d:%02d', $minutes, $seconds);
+                    }
+                }),
+                
         ];
     }
 

@@ -3,33 +3,50 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
 use App\Repository\ProfileRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Patch()
+    ],
+    normalizationContext: ['groups' => ['profile:read']],
+    denormalizationContext: ['groups' => ['profile:write']],
+)]
 class Profile
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['profile:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['profile:read', 'profile:write'])]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['profile:write'])]
     private ?string $password = null;
 
     #[ORM\ManyToOne(inversedBy: 'profiles')]
+    #[Groups(['profile:read', 'profile:write'])]
     private ?Image $image = null;
 
     /**
      * @var Collection<int, Playlist>
      */
     #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'profile')]
+    #[Groups(['profile:read'])]
     private Collection $playlists;
 
     public function __construct()

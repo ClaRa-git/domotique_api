@@ -3,25 +3,46 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\CriteriaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CriteriaRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Patch(),
+        new Post(),
+        new Delete()
+    ],
+    normalizationContext: ['groups' => ['criteria:read']],
+    denormalizationContext: ['groups' => ['criteria:write']],
+
+)]
 class Criteria
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['criteria:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['criteria:read', 'criteria:write'])]
     private ?int $mood = null;
 
     #[ORM\Column]
+    #[Groups(['criteria:read', 'criteria:write'])]
     private ?int $stress = null;
 
     #[ORM\Column]
+    #[Groups(['criteria:read', 'criteria:write'])]
     private ?int $tone = null;
 
     public function getId(): ?int

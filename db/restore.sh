@@ -1,4 +1,4 @@
 #!/usr/bin/sh
 
-mariadb domotique -uroot -psuperAdmin < /root/init.sql
+mariadb api_domotique -uroot -psuperAdmin < /root/init.sql
 echo "Restauration terminée"
