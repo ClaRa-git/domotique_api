@@ -49,11 +49,18 @@ class Image
     #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'image')]
     private Collection $playlists;
 
+    /**
+     * @var Collection<int, Vibe>
+     */
+    #[ORM\OneToMany(targetEntity: Vibe::class, mappedBy: 'image')]
+    private Collection $vibes;
+
     public function __construct()
     {
         $this->profiles = new ArrayCollection();
         $this->rooms = new ArrayCollection();
         $this->playlists = new ArrayCollection();
+        $this->vibes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,6 +164,36 @@ class Image
             // set the owning side to null (unless already changed)
             if ($playlist->getImage() === $this) {
                 $playlist->setImage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vibe>
+     */
+    public function getVibes(): Collection
+    {
+        return $this->vibes;
+    }
+
+    public function addVibe(Vibe $vibe): static
+    {
+        if (!$this->vibes->contains($vibe)) {
+            $this->vibes->add($vibe);
+            $vibe->setImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVibe(Vibe $vibe): static
+    {
+        if ($this->vibes->removeElement($vibe)) {
+            // set the owning side to null (unless already changed)
+            if ($vibe->getImage() === $this) {
+                $vibe->setImage(null);
             }
         }
 

@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
 use App\Repository\SongRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -46,6 +48,17 @@ class Song
 
     #[Vich\UploadableField(mapping: 'songs', fileNameProperty: 'filePath')]
     private ?File $filePathFile = null;
+
+    /**
+     * @var Collection<int, Playlist>
+     */
+    #[ORM\ManyToMany(targetEntity: Playlist::class, inversedBy: 'songs')]
+    private Collection $playlists;
+
+    public function __construct()
+    {
+        $this->playlists = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -109,6 +122,30 @@ class Song
     public function setFilePathFile(?File $filePathFile): static
     {
         $this->filePathFile = $filePathFile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Playlist>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(Playlist $playlist): static
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlist $playlist): static
+    {
+        $this->playlists->removeElement($playlist);
 
         return $this;
     }

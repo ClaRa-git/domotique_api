@@ -49,9 +49,16 @@ class Profile
     #[Groups(['profile:read'])]
     private Collection $playlists;
 
+    /**
+     * @var Collection<int, Vibe>
+     */
+    #[ORM\OneToMany(targetEntity: Vibe::class, mappedBy: 'profile')]
+    private Collection $vibes;
+
     public function __construct()
     {
         $this->playlists = new ArrayCollection();
+        $this->vibes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,6 +126,36 @@ class Profile
             // set the owning side to null (unless already changed)
             if ($playlist->getProfile() === $this) {
                 $playlist->setProfile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vibe>
+     */
+    public function getVibes(): Collection
+    {
+        return $this->vibes;
+    }
+
+    public function addVibe(Vibe $vibe): static
+    {
+        if (!$this->vibes->contains($vibe)) {
+            $this->vibes->add($vibe);
+            $vibe->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVibe(Vibe $vibe): static
+    {
+        if ($this->vibes->removeElement($vibe)) {
+            // set the owning side to null (unless already changed)
+            if ($vibe->getProfile() === $this) {
+                $vibe->setProfile(null);
             }
         }
 

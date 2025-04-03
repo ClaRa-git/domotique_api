@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
 use App\Repository\DeviceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -52,6 +54,17 @@ class Device
     #[ORM\ManyToOne(inversedBy: 'devices')]
     #[Groups(['device:read'])]
     private ?Room $room = null;
+
+    /**
+     * @var Collection<int, Setting>
+     */
+    #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'device')]
+    private Collection $settings;
+
+    public function __construct()
+    {
+        $this->settings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -138,6 +151,36 @@ class Device
     public function setRoom(?Room $room): static
     {
         $this->room = $room;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Setting>
+     */
+    public function getSettings(): Collection
+    {
+        return $this->settings;
+    }
+
+    public function addSetting(Setting $setting): static
+    {
+        if (!$this->settings->contains($setting)) {
+            $this->settings->add($setting);
+            $setting->setDevice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSetting(Setting $setting): static
+    {
+        if ($this->settings->removeElement($setting)) {
+            // set the owning side to null (unless already changed)
+            if ($setting->getDevice() === $this) {
+                $setting->setDevice(null);
+            }
+        }
 
         return $this;
     }

@@ -43,9 +43,16 @@ class Room
     #[Groups(['room:read', 'room:write'])]
     private Collection $devices;
 
+    /**
+     * @var Collection<int, Planning>
+     */
+    #[ORM\ManyToMany(targetEntity: Planning::class, inversedBy: 'rooms')]
+    private Collection $plannings;
+
     public function __construct()
     {
         $this->devices = new ArrayCollection();
+        $this->plannings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,6 +110,30 @@ class Room
                 $device->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Planning>
+     */
+    public function getPlannings(): Collection
+    {
+        return $this->plannings;
+    }
+
+    public function addPlanning(Planning $planning): static
+    {
+        if (!$this->plannings->contains($planning)) {
+            $this->plannings->add($planning);
+        }
+
+        return $this;
+    }
+
+    public function removePlanning(Planning $planning): static
+    {
+        $this->plannings->removeElement($planning);
 
         return $this;
     }
