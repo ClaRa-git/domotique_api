@@ -53,9 +53,6 @@ class Playlist
     #[ORM\ManyToMany(targetEntity: Song::class, mappedBy: 'playlists')]
     private Collection $songs;
 
-    #[ORM\ManyToOne(inversedBy: 'playlists')]
-    private ?Image $image = null;
-
     public function __construct()
     {
         $this->vibes = new ArrayCollection();
@@ -144,18 +141,6 @@ class Playlist
         if ($this->songs->removeElement($song)) {
             $song->removePlaylist($this);
         }
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): static
-    {
-        $this->image = $image;
 
         return $this;
     }

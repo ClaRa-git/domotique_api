@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Avatar;
 use App\Entity\Image;
 use App\Entity\Profile;
 use App\Entity\User;
@@ -21,6 +22,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->loadUsers($manager);
+
+        $this->loadAvatars($manager);
 
         $this->loadImages($manager);
 
@@ -49,9 +52,9 @@ class AppFixtures extends Fixture
         }
     }
 
-    public function loadImages(ObjectManager $manager): void
+    public function loadAvatars(ObjectManager $manager): void
     {
-        $array_images = [
+        $array_avatars = [
             [
                 'path' => 'avatar1.jpg'
             ],
@@ -94,6 +97,34 @@ class AppFixtures extends Fixture
             
         ];
         
+        foreach ($array_avatars as $key => $avatar) {
+            $new_avatar = new Avatar();
+            $new_avatar->setImagePath($avatar['path']);
+
+            // Création des références
+            $this->addReference('avatar_' . $key + 1, $new_avatar);
+
+            $manager->persist($new_avatar);
+        }
+    }
+
+    public function loadImages(ObjectManager $manager): void
+    {
+        $array_images = [
+            [
+                'path' => 'chambre.jpg'
+            ],
+            [
+                'path' => 'cuisine.jpeg'
+            ],
+            [
+                'path' => 'salon.jpg'
+            ],
+            [
+                'path' => 'playlist.jpg'
+            ]
+        ];
+        
         foreach ($array_images as $key => $image) {
             $new_image = new Image();
             $new_image->setImagePath($image['path']);
@@ -111,7 +142,7 @@ class AppFixtures extends Fixture
             [
                 'username' => 'user1',
                 'password' => 'user1',
-                'image' => 1
+                'avatar' => 1
             ]
         ];
         foreach ($array_profiles as $profile) {
@@ -125,7 +156,7 @@ class AppFixtures extends Fixture
             $new_profile->setPassword($profile['password']);
 
             // On récupère l'image à partir de la référence
-            $new_profile->setImage($this->getReference('image_' . $profile['image'], Image::class));
+            $new_profile->setAvatar($this->getReference('avatar_' . $profile['avatar'], Avatar::class));
 
             $manager->persist($new_profile);
         }            

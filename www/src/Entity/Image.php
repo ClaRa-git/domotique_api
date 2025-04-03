@@ -67,7 +67,6 @@ class Image
     {
         if (!$this->playlists->contains($playlist)) {
             $this->playlists->add($playlist);
-            $playlist->setImage($this);
         }
 
         return $this;
@@ -75,12 +74,7 @@ class Image
 
     public function removePlaylist(Playlist $playlist): static
     {
-        if ($this->playlists->removeElement($playlist)) {
-            // set the owning side to null (unless already changed)
-            if ($playlist->getImage() === $this) {
-                $playlist->setImage(null);
-            }
-        }
+        $this->playlists->removeElement($playlist);
 
         return $this;
     }

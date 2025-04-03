@@ -16,7 +16,7 @@ class Setting
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $value = null;
+    private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
     private ?Feature $feature = null;
@@ -32,12 +32,12 @@ class Setting
         return $this->id;
     }
 
-    public function getValue(): ?int
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    public function setValue(int $value): static
+    public function setValue(string $value): static
     {
         $this->value = $value;
 
