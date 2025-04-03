@@ -34,7 +34,11 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Html');
+            ->setTitle('<img src="/images/logo.png" alt="Logo" style="height: 50px; margin-right: 10px;" >
+                <span style="font-size: 18px; font-weight: bold;">Hoomy Admin</span>
+            ')
+            ->setFaviconPath('images/logo.png')
+            ->renderContentMaximized();
     }
 
     public function configureMenuItems(): iterable
@@ -50,6 +54,13 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Ajouter un profil', 'fa fa-plus', Profile::class)->setAction('new'),
         ]);
 
+        // Menu de gestion des pièces
+        yield MenuItem::section('Gestion des pièces');
+        yield MenuItem::subMenu('Pièces', 'fa fa-bed')->setSubItems([
+            MenuItem::linkToCrud('Liste des pièces', 'fa fa-list', Profile::class),
+            MenuItem::linkToCrud('Ajouter une pièce', 'fa fa-plus', Profile::class)->setAction('new'),
+        ]);
+
         // Menu de gestion des images
         yield MenuItem::section('Gestion des images');
         yield MenuItem::subMenu('Images', 'fa fa-image')->setSubItems([
@@ -63,5 +74,36 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Liste des chansons', 'fa fa-list', Song::class),
             MenuItem::linkToCrud('Ajouter une chanson', 'fa fa-plus', Song::class)->setAction('new'),
         ]);
+
+        // Menu de gestion des appareils
+        yield MenuItem::section('Gestion des appareils');
+
+        // Sous menu de gestion des appareils
+        yield MenuItem::subMenu('Appareils', 'fa fa-plug')->setSubItems([
+            MenuItem::linkToCrud('Liste des appareils', 'fa fa-list', Profile::class),
+            MenuItem::linkToCrud('Ajouter un appareil', 'fa fa-plus', Profile::class)->setAction('new'),
+        ]);
+        // Sous menu de gestion des types d'appareils
+        yield MenuItem::subMenu('Types d\'appareils', 'fa fa-plug')->setSubItems([
+            MenuItem::linkToCrud('Liste des types d\'appareils', 'fa fa-list', Profile::class),
+            MenuItem::linkToCrud('Ajouter un type d\'appareil', 'fa fa-plus', Profile::class)->setAction('new'),
+        ]);
+        // Sous menu de gestion des fonctionnalités des appareils
+        yield MenuItem::subMenu('Fonctionnalités des appareils', 'fa fa-cogs')->setSubItems([
+            MenuItem::linkToCrud('Liste des fonctionnalités', 'fa fa-list', Profile::class),
+            MenuItem::linkToCrud('Ajouter une fonctionnalité', 'fa fa-plus', Profile::class)->setAction('new'),
+        ]);
+        // Sous menu de gestion des paramètres des appareils
+        yield MenuItem::subMenu('Paramètres des appareils', 'fa fa-cog')->setSubItems([
+            MenuItem::linkToCrud('Liste des paramètres', 'fa fa-list', Profile::class),
+            MenuItem::linkToCrud('Ajouter un paramètre', 'fa fa-plus', Profile::class)->setAction('new'),
+        ]);
+
+        // Menu de gestion des unités
+        yield MenuItem::section('Gestion des unités');
+        yield MenuItem::subMenu('Unités', 'fa fa-ruler-combined')->setSubItems([
+            MenuItem::linkToCrud('Liste des unités', 'fa fa-list', Profile::class),
+            MenuItem::linkToCrud('Ajouter une unité', 'fa fa-plus', Profile::class)->setAction('new'),
+        ]);        
     }
 }

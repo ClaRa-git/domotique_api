@@ -14,7 +14,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Symfony\Component\Validator\Constraints\File as FileConstraint;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
