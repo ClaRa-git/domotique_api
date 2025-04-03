@@ -38,10 +38,6 @@ class Profile
     #[Groups(['profile:write'])]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(inversedBy: 'profiles')]
-    #[Groups(['profile:read', 'profile:write'])]
-    private ?Image $image = null;
-
     /**
      * @var Collection<int, Playlist>
      */
@@ -54,6 +50,9 @@ class Profile
      */
     #[ORM\OneToMany(targetEntity: Vibe::class, mappedBy: 'profile')]
     private Collection $vibes;
+
+    #[ORM\Column(length: 255)]
+    private ?string $avatarPath = null;
 
     public function __construct()
     {
@@ -86,18 +85,6 @@ class Profile
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): static
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -158,6 +145,18 @@ class Profile
                 $vibe->setProfile(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatarPath(): ?string
+    {
+        return $this->avatarPath;
+    }
+
+    public function setAvatarPath(string $avatarPath): static
+    {
+        $this->avatarPath = $avatarPath;
 
         return $this;
     }

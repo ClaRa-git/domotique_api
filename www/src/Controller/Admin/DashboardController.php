@@ -67,13 +67,6 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Ajouter une pièce', 'fa fa-plus', Room::class)->setAction('new'),
         ]);
 
-        // Menu de gestion des images
-        yield MenuItem::section('Gestion des images');
-        yield MenuItem::subMenu('Images', 'fa fa-image')->setSubItems([
-            MenuItem::linkToCrud('Liste des images', 'fa fa-list', Image::class),
-            MenuItem::linkToCrud('Ajouter une image', 'fa fa-plus', Image::class)->setAction('new'),
-        ]);
-
         // Menu de gestion des chansons
         yield MenuItem::section('Gestion des chansons');
         yield MenuItem::subMenu('Chansons', 'fa fa-music')->setSubItems([

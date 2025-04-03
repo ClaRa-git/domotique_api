@@ -22,9 +22,6 @@ class Vibe
     private ?Criteria $criteria = null;
 
     #[ORM\ManyToOne(inversedBy: 'vibes')]
-    private ?Image $image = null;
-
-    #[ORM\ManyToOne(inversedBy: 'vibes')]
     private ?Playlist $playlist = null;
 
     #[ORM\ManyToOne(inversedBy: 'vibes')]
@@ -41,6 +38,9 @@ class Vibe
      */
     #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'vibe')]
     private Collection $settings;
+
+    #[ORM\Column(length: 255)]
+    private ?string $iconPath = null;
 
     public function __construct()
     {
@@ -73,18 +73,6 @@ class Vibe
     public function setCriteria(?Criteria $criteria): static
     {
         $this->criteria = $criteria;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): static
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -169,6 +157,18 @@ class Vibe
                 $setting->setVibe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIconPath(): ?string
+    {
+        return $this->iconPath;
+    }
+
+    public function setIconPath(string $iconPath): static
+    {
+        $this->iconPath = $iconPath;
 
         return $this;
     }

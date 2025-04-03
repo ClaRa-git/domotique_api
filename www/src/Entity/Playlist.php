@@ -39,10 +39,6 @@ class Playlist
     private ?string $title = null;
 
     #[ORM\ManyToOne(inversedBy: 'playlists')]
-    #[Groups(['playlist:read', 'playlist:write'])]
-    private ?Image $image = null;
-
-    #[ORM\ManyToOne(inversedBy: 'playlists')]
     private ?Profile $profile = null;
 
     /**
@@ -56,6 +52,9 @@ class Playlist
      */
     #[ORM\ManyToMany(targetEntity: Song::class, mappedBy: 'playlists')]
     private Collection $songs;
+
+    #[ORM\Column(length: 255)]
+    private ?string $imagePath = null;
 
     public function __construct()
     {
@@ -76,18 +75,6 @@ class Playlist
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): static
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -157,6 +144,18 @@ class Playlist
         if ($this->songs->removeElement($song)) {
             $song->removePlaylist($this);
         }
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(string $imagePath): static
+    {
+        $this->imagePath = $imagePath;
 
         return $this;
     }

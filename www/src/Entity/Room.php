@@ -32,10 +32,6 @@ class Room
     #[Groups(['room:read', 'room:write'])]
     private ?string $label = null;
 
-    #[ORM\ManyToOne(inversedBy: 'rooms')]
-    #[Groups(['room:read', 'room:write'])]
-    private ?Image $image = null;
-
     /**
      * @var Collection<int, Device>
      */
@@ -48,6 +44,9 @@ class Room
      */
     #[ORM\ManyToMany(targetEntity: Planning::class, inversedBy: 'rooms')]
     private Collection $plannings;
+
+    #[ORM\Column(length: 255)]
+    private ?string $imagePath = null;
 
     public function __construct()
     {
@@ -68,18 +67,6 @@ class Room
     public function setLabel(string $label): static
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): static
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -134,6 +121,18 @@ class Room
     public function removePlanning(Planning $planning): static
     {
         $this->plannings->removeElement($planning);
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(string $imagePath): static
+    {
+        $this->imagePath = $imagePath;
 
         return $this;
     }
