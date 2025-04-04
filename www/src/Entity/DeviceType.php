@@ -24,7 +24,7 @@ class DeviceType
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['device_type:read', 'device:read', 'feature:read', 'planning:read', 'room:read', , 'setting:read', 'vibe:read'])]
+    #[Groups(['device_type:read', 'device:read', 'feature:read', 'planning:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
