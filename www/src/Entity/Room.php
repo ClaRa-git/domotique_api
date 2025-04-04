@@ -17,36 +17,37 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(),
         new GetCollection()
     ],
-    normalizationContext: ['groups' => ['room:read']],
-    denormalizationContext: ['groups' => ['room:write']],
+    normalizationContext: ['groups' => ['room:read']]
 )]
 class Room
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['room:read'])]
+    #[Groups(['room:read', 'device:read', 'planning:read', 'profile:read', 'setting:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['room:read', 'room:write'])]
+    #[Groups(['room:read', 'device:read', 'planning:read', 'profile:read', 'setting:read', 'vibe:read'])]
     private ?string $label = null;
 
     /**
      * @var Collection<int, Device>
      */
     #[ORM\OneToMany(targetEntity: Device::class, mappedBy: 'room')]
-    #[Groups(['room:read', 'room:write'])]
+    #[Groups(['room:read', 'planning:read', 'profile:read'])]
     private Collection $devices;
 
     /**
      * @var Collection<int, Planning>
      */
     #[ORM\ManyToMany(targetEntity: Planning::class, inversedBy: 'rooms')]
+    #[Groups(['room:read'])]
     private Collection $plannings;
 
-    #[ORM\ManyToOne(inversedBy: 'rooms')]
-    private ?Image $image = null;
+    #[ORM\Column(length: 255)]
+    #[Groups(['room:read'])]
+    private ?string $imagePath = null;
 
     public function __construct()
     {
@@ -125,14 +126,14 @@ class Room
         return $this;
     }
 
-    public function getImage(): ?Image
+    public function getImagePath(): ?string
     {
-        return $this->image;
+        return $this->imagePath;
     }
 
-    public function setImage(?Image $image): static
+    public function setImagePath(string $imagePath): static
     {
-        $this->image = $image;
+        $this->imagePath = $imagePath;
 
         return $this;
     }

@@ -30,19 +30,19 @@ class Criteria
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['criteria:read'])]
+    #[Groups(['criteria:read', 'profile:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['criteria:read', 'criteria:write'])]
+    #[Groups(['criteria:read', 'criteria:write', 'profile:read', 'vibe:read'])]
     private ?int $mood = null;
 
     #[ORM\Column]
-    #[Groups(['criteria:read', 'criteria:write'])]
+    #[Groups(['criteria:read', 'criteria:write', 'profile:read', 'vibe:read'])]
     private ?int $stress = null;
 
     #[ORM\Column]
-    #[Groups(['criteria:read', 'criteria:write'])]
+    #[Groups(['criteria:read', 'criteria:write', 'profile:read', 'vibe:read'])]
     private ?int $tone = null;
 
     public function getId(): ?int

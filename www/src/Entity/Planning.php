@@ -2,39 +2,64 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\PlanningRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlanningRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Patch(),
+        new Post(),
+        new Delete()
+    ],
+    normalizationContext: ['groups' => ['planning:read']],
+    denormalizationContext: ['groups' => ['planning:write']],
+)]
 class Planning
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['planning:read', 'profile:read', 'room:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['planning:read', 'planning:write', 'profile:read', 'room:read', 'vibe:read'])]
     private ?string $label = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['planning:read', 'planning:write', 'profile:read', 'room:read'])]
     private ?\DateTimeInterface $dateStart = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['planning:read', 'planning:write', 'profile:read', 'room:read'])]
     private ?\DateTimeInterface $dateEnd = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['planning:read', 'planning:write', 'profile:read', 'room:read'])]
     private ?string $recurrence = null;
 
     #[ORM\ManyToOne(inversedBy: 'plannings')]
+    #[Groups(['planning:read', 'planning:write'])]
     private ?Vibe $vibe = null;
 
     /**
      * @var Collection<int, Room>
      */
     #[ORM\ManyToMany(targetEntity: Room::class, mappedBy: 'plannings')]
+    #[Groups(['planning:read', 'planning:write', 'profile:read'])]
     private Collection $rooms;
 
     public function __construct()

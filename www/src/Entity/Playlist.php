@@ -31,27 +31,34 @@ class Playlist
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['playlist:read', 'profile:read'])]
+    #[Groups(['playlist:read', 'profile:read', 'song:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['playlist:read', 'playlist:write', 'profile:read', 'profile:write'])]
+    #[Groups(['playlist:read', 'playlist:write', 'profile:read', 'song:read', 'vibe:read'])]
     private ?string $title = null;
 
     #[ORM\ManyToOne(inversedBy: 'playlists')]
+    #[Groups(['playlist:read', 'playlist:write'])]
     private ?Profile $profile = null;
 
     /**
      * @var Collection<int, Vibe>
      */
     #[ORM\OneToMany(targetEntity: Vibe::class, mappedBy: 'playlist')]
+    #[Groups(['playlist:read', 'playlist:write'])]
     private Collection $vibes;
 
     /**
      * @var Collection<int, Song>
      */
     #[ORM\ManyToMany(targetEntity: Song::class, mappedBy: 'playlists')]
+    #[Groups(['playlist:read', 'playlist:write', 'profile:read'])]
     private Collection $songs;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['playlist:read', 'playlist:write', 'profile:read'])]
+    private ?string $imagePath = null;
 
     public function __construct()
     {
@@ -141,6 +148,18 @@ class Playlist
         if ($this->songs->removeElement($song)) {
             $song->removePlaylist($this);
         }
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(string $imagePath): static
+    {
+        $this->imagePath = $imagePath;
 
         return $this;
     }

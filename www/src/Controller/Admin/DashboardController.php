@@ -6,7 +6,6 @@ use App\Entity\Avatar;
 use App\Entity\Device;
 use App\Entity\DeviceType;
 use App\Entity\Feature;
-use App\Entity\Image;
 use App\Entity\Profile;
 use App\Entity\Room;
 use App\Entity\Setting;
@@ -64,13 +63,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Avatars', 'fa fa-user')->setSubItems([
             MenuItem::linkToCrud('Liste des avatars', 'fa fa-list', Avatar::class),
             MenuItem::linkToCrud('Ajouter un avatar', 'fa fa-plus', Avatar::class)->setAction('new'),
-        ]);
-
-        // Menu de gestion des images
-        yield MenuItem::section('Gestion des images');
-        yield MenuItem::subMenu('Images', 'fa fa-image')->setSubItems([
-            MenuItem::linkToCrud('Liste des images', 'fa fa-list', Image::class),
-            MenuItem::linkToCrud('Ajouter une image', 'fa fa-plus', Image::class)->setAction('new'),
         ]);
 
         // Menu de gestion des pièces

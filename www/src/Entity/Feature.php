@@ -24,21 +24,22 @@ class Feature
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['feature:read'])]
+    #[Groups(['feature:read', 'device:read', 'planning:read', 'room:read', 'setting:read', 'unit:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['feature:read'])]
+    #[Groups(['feature:read', 'device:read', 'planning:read', 'room:read', 'setting:read', 'unit:read', 'vibe:read'])]
     private ?string $label = null;
 
     #[ORM\ManyToOne(inversedBy: 'features')]
-    #[Groups(['feature:read'])]
+    #[Groups(['feature:read', 'device:read', 'planning:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?Unit $unit = null;
 
     /**
      * @var Collection<int, Setting>
      */
     #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'feature')]
+    #[Groups(['feature:read'])]
     private Collection $settings;
 
     public function __construct()

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250403132446 extends AbstractMigration
+final class Version20250404071743 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,6 +20,9 @@ final class Version20250403132446 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql(<<<'SQL'
+            CREATE TABLE avatar (id INT AUTO_INCREMENT NOT NULL, image_path VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+        SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE criteria (id INT AUTO_INCREMENT NOT NULL, mood INT NOT NULL, stress INT NOT NULL, tone INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
@@ -33,22 +36,25 @@ final class Version20250403132446 extends AbstractMigration
             CREATE TABLE feature (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, unit_id INT DEFAULT NULL, INDEX IDX_1FD77566F8BD700D (unit_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
+            CREATE TABLE icon (id INT AUTO_INCREMENT NOT NULL, image_path VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+        SQL);
+        $this->addSql(<<<'SQL'
             CREATE TABLE planning (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, date_start DATETIME NOT NULL, date_end DATETIME NOT NULL, recurrence VARCHAR(50) NOT NULL, vibe_id INT DEFAULT NULL, INDEX IDX_D499BFF64B255BC3 (vibe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE playlist (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(50) NOT NULL, profile_id INT DEFAULT NULL, INDEX IDX_D782112DCCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE playlist (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(50) NOT NULL, image_path VARCHAR(255) NOT NULL, profile_id INT DEFAULT NULL, INDEX IDX_D782112DCCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE profile (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(50) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE profile (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(50) NOT NULL, password VARCHAR(255) NOT NULL, avatar_id INT DEFAULT NULL, INDEX IDX_8157AA0F86383B10 (avatar_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, image_path VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE room_planning (room_id INT NOT NULL, planning_id INT NOT NULL, INDEX IDX_747F7F3254177093 (room_id), INDEX IDX_747F7F323D865311 (planning_id), PRIMARY KEY(room_id, planning_id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE setting (id INT AUTO_INCREMENT NOT NULL, value INT NOT NULL, feature_id INT DEFAULT NULL, device_id INT DEFAULT NULL, vibe_id INT DEFAULT NULL, INDEX IDX_9F74B89860E4B879 (feature_id), INDEX IDX_9F74B89894A4C7D4 (device_id), INDEX IDX_9F74B8984B255BC3 (vibe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE setting (id INT AUTO_INCREMENT NOT NULL, value VARCHAR(255) NOT NULL, feature_id INT DEFAULT NULL, device_id INT DEFAULT NULL, vibe_id INT DEFAULT NULL, INDEX IDX_9F74B89860E4B879 (feature_id), INDEX IDX_9F74B89894A4C7D4 (device_id), INDEX IDX_9F74B8984B255BC3 (vibe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE song (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(50) NOT NULL, artist VARCHAR(50) NOT NULL, duration INT NOT NULL, file_path VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
@@ -63,7 +69,7 @@ final class Version20250403132446 extends AbstractMigration
             CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_USERNAME (username), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE vibe (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, criteria_id INT DEFAULT NULL, playlist_id INT DEFAULT NULL, profile_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_42054C01990BEA15 (criteria_id), INDEX IDX_42054C016BBD148 (playlist_id), INDEX IDX_42054C01CCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE vibe (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, criteria_id INT DEFAULT NULL, playlist_id INT DEFAULT NULL, profile_id INT DEFAULT NULL, icon_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_42054C01990BEA15 (criteria_id), INDEX IDX_42054C016BBD148 (playlist_id), INDEX IDX_42054C01CCFA12B8 (profile_id), INDEX IDX_42054C0154B9D732 (icon_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE device ADD CONSTRAINT FK_92FB68E4FFA550E FOREIGN KEY (device_type_id) REFERENCES device_type (id)
@@ -79,6 +85,9 @@ final class Version20250403132446 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE playlist ADD CONSTRAINT FK_D782112DCCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE profile ADD CONSTRAINT FK_8157AA0F86383B10 FOREIGN KEY (avatar_id) REFERENCES avatar (id)
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE room_planning ADD CONSTRAINT FK_747F7F3254177093 FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE
@@ -110,6 +119,9 @@ final class Version20250403132446 extends AbstractMigration
         $this->addSql(<<<'SQL'
             ALTER TABLE vibe ADD CONSTRAINT FK_42054C01CCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile (id)
         SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE vibe ADD CONSTRAINT FK_42054C0154B9D732 FOREIGN KEY (icon_id) REFERENCES icon (id)
+        SQL);
     }
 
     public function down(Schema $schema): void
@@ -129,6 +141,9 @@ final class Version20250403132446 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE playlist DROP FOREIGN KEY FK_D782112DCCFA12B8
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE profile DROP FOREIGN KEY FK_8157AA0F86383B10
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE room_planning DROP FOREIGN KEY FK_747F7F3254177093
@@ -161,6 +176,12 @@ final class Version20250403132446 extends AbstractMigration
             ALTER TABLE vibe DROP FOREIGN KEY FK_42054C01CCFA12B8
         SQL);
         $this->addSql(<<<'SQL'
+            ALTER TABLE vibe DROP FOREIGN KEY FK_42054C0154B9D732
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE avatar
+        SQL);
+        $this->addSql(<<<'SQL'
             DROP TABLE criteria
         SQL);
         $this->addSql(<<<'SQL'
@@ -171,6 +192,9 @@ final class Version20250403132446 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE feature
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE icon
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE planning

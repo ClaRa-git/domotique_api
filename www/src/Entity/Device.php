@@ -24,11 +24,11 @@ class Device
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['device:read', 'device_type:read', 'room:read'])]
+    #[Groups(['device:read', 'device_type:read', 'feature:read', 'planning:read', 'profile:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device:read', 'device_type:read', 'room:read'])]
+    #[Groups(['device:read', 'device_type:read', 'feature:read', 'planning:read', 'profile:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?string $label = null;
 
     #[ORM\Column(length: 50)]
@@ -44,21 +44,22 @@ class Device
     private ?string $reference = null;
 
     #[ORM\Column]
-    #[Groups(['device:read', 'device_type:read', 'room:read'])]
+    #[Groups(['device:read', 'device_type:read', 'feature:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?bool $state = null;
 
     #[ORM\ManyToOne(inversedBy: 'devices')]
-    #[Groups(['device:read', 'room:read'])]
+    #[Groups(['device:read', 'feature:read', 'planning:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?DeviceType $deviceType = null;
 
     #[ORM\ManyToOne(inversedBy: 'devices')]
-    #[Groups(['device:read'])]
+    #[Groups(['device:read', 'setting:read'])]
     private ?Room $room = null;
 
     /**
      * @var Collection<int, Setting>
      */
     #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'device')]
+    #[Groups(['device:read', 'device_type:read', 'planning:read', 'room:read'])]
     private Collection $settings;
 
     public function __construct()

@@ -3,28 +3,49 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\SettingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SettingRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Patch(),
+        new Post(),
+        new Delete()
+    ],
+    normalizationContext: ['groups' => ['setting:read']],
+    denormalizationContext: ['groups' => ['setting:write']]
+)]
 class Setting
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['setting:read', 'device:read', 'device_type:read', 'feature:read', 'planning:read', 'room:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['setting:read', 'setting:write', 'device:read', 'device_type:read', 'feature:read', 'planning:read', 'room:read', 'vibe:read'])]
     private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
+    #[Groups(['setting:read', 'setting:write', 'device:read', 'device_type:read', 'planning:read', 'room:read', 'vibe:read'])]
     private ?Feature $feature = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
+    #[Groups(['setting:read', 'setting:write', 'feature:read', 'vibe:read'])]
     private ?Device $device = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
+    #[Groups(['setting:read', 'setting:write', 'device:read', 'room:read'])]
     private ?Vibe $vibe = null;
 
     public function getId(): ?int

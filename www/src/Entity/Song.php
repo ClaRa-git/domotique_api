@@ -27,23 +27,23 @@ class Song
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['song:read'])]
+    #[Groups(['song:read', 'playlist:read', 'profile:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['song:read'])]
+    #[Groups(['song:read', 'playlist:read', 'profile:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['song:read'])]
+    #[Groups(['song:read', 'playlist:read'])]
     private ?string $artist = null;
 
     #[ORM\Column]
-    #[Groups(['song:read'])]
+    #[Groups(['song:read', 'playlist:read'])]
     private ?int $duration = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['song:read'])]
+    #[Groups(['song:read', 'playlist:read'])]
     private ?string $filePath = null;
 
     #[Vich\UploadableField(mapping: 'songs', fileNameProperty: 'filePath')]
@@ -53,6 +53,7 @@ class Song
      * @var Collection<int, Playlist>
      */
     #[ORM\ManyToMany(targetEntity: Playlist::class, inversedBy: 'songs')]
+    #[Groups(['song:read'])]
     private Collection $playlists;
 
     public function __construct()

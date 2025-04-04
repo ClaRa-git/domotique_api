@@ -2,44 +2,70 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\VibeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VibeRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Patch(),
+        new Post(),
+        new Delete()
+    ],
+    normalizationContext: ['groups' => ['vibe:read']],
+    denormalizationContext: ['groups' => ['vibe:write']]
+)]
 class Vibe
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['vibe:read', 'device:read', 'icon:read', 'planning:read', 'playlist:read', 'profile:read', 'room:read', 'setting:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['vibe:read', 'vibe:write', 'device:read', 'icon:read', 'planning:read', 'playlist:read', 'profile:read', 'room:read', 'setting:read'])]
     private ?string $label = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['vibe:read', 'vibe:write', 'profile:read'])]
     private ?Criteria $criteria = null;
 
     #[ORM\ManyToOne(inversedBy: 'vibes')]
+    #[Groups(['vibe:read', 'vibe:write'])]
     private ?Playlist $playlist = null;
 
     #[ORM\ManyToOne(inversedBy: 'vibes')]
+    #[Groups(['vibe:read', 'vibe:write'])]
     private ?Profile $profile = null;
 
     /**
      * @var Collection<int, Planning>
      */
     #[ORM\OneToMany(targetEntity: Planning::class, mappedBy: 'vibe')]
+    #[Groups(['vibe:read', 'vibe:write', 'profile:read'])]
     private Collection $plannings;
 
     /**
      * @var Collection<int, Setting>
      */
     #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'vibe')]
+    #[Groups(['vibe:read', 'vibe:write'])]
     private Collection $settings;
 
     #[ORM\ManyToOne(inversedBy: 'vibes')]
+    #[Groups(['vibe:read', 'vibe:write'])]
     private ?Icon $icon = null;
 
     public function __construct()

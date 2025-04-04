@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Avatar;
-use App\Entity\Image;
 use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -24,8 +23,6 @@ class AppFixtures extends Fixture
         $this->loadUsers($manager);
 
         $this->loadAvatars($manager);
-
-        $this->loadImages($manager);
 
         $this->loadProfiles($manager);
 
@@ -105,34 +102,6 @@ class AppFixtures extends Fixture
             $this->addReference('avatar_' . $key + 1, $new_avatar);
 
             $manager->persist($new_avatar);
-        }
-    }
-
-    public function loadImages(ObjectManager $manager): void
-    {
-        $array_images = [
-            [
-                'path' => 'chambre.jpg'
-            ],
-            [
-                'path' => 'cuisine.jpeg'
-            ],
-            [
-                'path' => 'salon.jpg'
-            ],
-            [
-                'path' => 'playlist.jpg'
-            ]
-        ];
-        
-        foreach ($array_images as $key => $image) {
-            $new_image = new Image();
-            $new_image->setImagePath($image['path']);
-
-            // Création des références
-            $this->addReference('image_' . $key + 1, $new_image);
-
-            $manager->persist($new_image);
         }
     }
 

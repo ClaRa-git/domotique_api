@@ -1,10 +1,10 @@
 # version: '3.8'
 
 services:
-  apache_api_domotique:
+  apache_domotique:
     # nom du service
     build: apache # dossier contenant le Dockerfile
-    container_name: apache_api_domotique # nom du container
+    container_name: apache_domotique # nom du container
     restart: always # redémarrage automatique
     ports:
       # ports exposés
@@ -18,10 +18,10 @@ services:
       - PHP_ERROR_REPORTING=E_ALL # afficher toutes les erreurs
       - PHP_DISPLAY_ERRORS=On # afficher les erreurs
 
-  mariadb_api_domotique:
+  mariadb_domotique:
     # nom du service
     image: mariadb:latest # image à utiliser
-    container_name: mariadb_api_domotique # nom du container
+    container_name: mariadb_domotique # nom du container
     restart: always # redémarrage automatique
     ports:
       # ports exposés
@@ -29,7 +29,7 @@ services:
     environment:
       # variables d'environnement
       - MYSQL_ROOT_PASSWORD=superAdmin # mot de passe root
-      - MYSQL_DATABASE=api_domotique # nom de la base de données
+      - MYSQL_DATABASE=domotique # nom de la base de données
       - MYSQL_USER=admin # nom de l'utilisateur
       - MYSQL_PASSWORD=admin # mot de passe de l'utilisateur
     volumes:

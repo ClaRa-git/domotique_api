@@ -27,11 +27,11 @@ class Profile
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['profile:read'])]
+    #[Groups(['profile:read', 'playlist:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['profile:read', 'profile:write'])]
+    #[Groups(['profile:read', 'profile:write', 'playlist:read', 'vibe:read'])]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
@@ -49,9 +49,11 @@ class Profile
      * @var Collection<int, Vibe>
      */
     #[ORM\OneToMany(targetEntity: Vibe::class, mappedBy: 'profile')]
+    #[Groups(['profile:read', 'profile:write'])]
     private Collection $vibes;
 
     #[ORM\ManyToOne(inversedBy: 'profiles')]
+    #[Groups(['profile:read', 'profile:write'])]
     private ?Avatar $avatar = null;
 
     public function __construct()
