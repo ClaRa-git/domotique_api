@@ -27,7 +27,7 @@ class DeviceTypeCrudController extends AbstractCrudController
     {
         // renommage des pages
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des types d\appareil')
+            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des types d\'appareil')
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter un type d\'appareil')
             ->setPageTitle(Crud::PAGE_EDIT, 'Modifier un type d\'appareil');
     }

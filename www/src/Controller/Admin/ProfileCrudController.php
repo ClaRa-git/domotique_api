@@ -49,7 +49,7 @@ class ProfileCrudController extends AbstractCrudController
         $fields = [
             IdField::new('id')->hideOnForm(),
             TextField::new('username', 'Nom d\'utilisateur'),
-            TextField::new('password', 'Mot de passe'),
+            TextField::new('password', 'Mot de passe')
         ];
     
         if ($pageName === Crud::PAGE_INDEX) {

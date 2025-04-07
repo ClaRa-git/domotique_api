@@ -15,6 +15,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class DeviceCrudController extends AbstractCrudController
 {
+    public function createEntity(string $entityFqcn)
+    {
+        // On crée un nouvel appareil
+        $device = new Device();
+        $device->setState(0);
+        return $device;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Device::class;
@@ -35,7 +43,11 @@ class DeviceCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('label', 'Appareil'),
             TextField::new('address', 'Adresse'),
-            BooleanField::new('state', 'État')->hideOnForm(),
+            TextField::new('brand', 'Marque'),
+            TextField::new('reference', 'Référence'),
+            // On met le state à true par défaut
+            BooleanField::new('state', 'État')
+                ->hideOnForm(), 
             AssociationField::new('deviceType', 'Type d\'appareil')
                 ->setFormTypeOption('choice_value', 'id'),
             AssociationField::new('room', 'Pièce')

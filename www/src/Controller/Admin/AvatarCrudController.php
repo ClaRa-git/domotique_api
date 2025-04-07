@@ -59,14 +59,14 @@ class AvatarCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            //on redéfinit les boutons d'actions de la page index
+            // redéfinition des boutons d'actions de la page d'index
             ->update(
                 Crud::PAGE_INDEX,
                 Action::NEW,
                 fn (Action $action) => $action
                     ->setIcon('fa fa-plus')
                     ->setLabel('Ajouter')
-                    ->setCssClass('btn btn-success')
+                    ->setCssClass('btn btn-primary')
             )
             ->update(
                 Crud::PAGE_INDEX,
@@ -75,27 +75,27 @@ class AvatarCrudController extends AbstractCrudController
                     ->setIcon('fa fa-pen')
                     ->setLabel('Modifier')
             )
-            ->remove(
+            ->update(
                 Crud::PAGE_INDEX,
                 Action::DELETE,
                 fn (Action $action) => $action
                     ->setIcon('fa fa-trash')
                     ->setLabel('Supprimer')
             )
-            //on redéfinit les boutons d'actions de la page edit
+            // redéfinition des boutons d'actions de la page édit
             ->update(
                 Crud::PAGE_EDIT,
                 Action::SAVE_AND_RETURN,
                 fn (Action $action) => $action
                     ->setLabel('Enregistrer et quitter')
-            )
+            )                 
             ->update(
                 Crud::PAGE_EDIT,
                 Action::SAVE_AND_CONTINUE,
                 fn (Action $action) => $action
                     ->setLabel('Enregistrer et continuer')
             )
-            //on redéfinit les boutons d'actions de la page new
+            // redéfinition des boutons d'actions de la page new
             ->update(
                 Crud::PAGE_NEW,
                 Action::SAVE_AND_RETURN,

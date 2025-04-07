@@ -89,4 +89,9 @@ class Icon
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->image_path;
+    }
 }

@@ -34,7 +34,9 @@ class SettingCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('value', 'Valeur'),
             AssociationField::new('feature', 'Fonctionnalité')
-                ->setFormTypeOption('choice_value', 'id')
+                ->setFormTypeOption('choice_value', 'id'),
+            AssociationField::new('device', 'Appareil')
+                ->setFormTypeOption('choice_value', 'id')            
         ];
     }
 

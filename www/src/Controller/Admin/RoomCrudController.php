@@ -8,10 +8,28 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RoomCrudController extends AbstractCrudController
 {
+    // on crée nos constantes
+    public const ROOM_BASE_PATH = 'images/rooms';
+    public const ROOM_UPLOAD_DIR = 'public/images/rooms';
+
+    public function createEntity(string $entityFqcn)
+    {
+        // on crée une nouvelle instance de la classe Room
+        $new_room =  new Room();
+
+        // on définit une image par défaut
+        $new_room->setImagePath('room.jpg');
+
+        // on retourne l'instance de la classe Room
+        return $new_room;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Room::class;
@@ -43,7 +61,19 @@ class RoomCrudController extends AbstractCrudController
         // redéfinition du formulaire
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('label')
+            TextField::new('label'),
+            ImageField::new('image_path', 'Image')
+                ->setBasePath(self::ROOM_BASE_PATH)
+                ->setUploadDir(self::ROOM_UPLOAD_DIR)
+                ->setUploadedFileNamePattern(
+                    //on donne un nom de fichier unique à l'image
+                    fn (UploadedFile $file): string => sprintf(
+                        'upload_%d_%s.%s',
+                        random_int(1, 999),
+                        $file->getFilename(),
+                        $file->guessExtension()
+                    )
+                ),
         ];
     }
 
