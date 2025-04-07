@@ -65,18 +65,18 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Ajouter un avatar', 'fa fa-plus', Avatar::class)->setAction('new'),
         ]);
 
-        // Menu de gestion des pièces
-        yield MenuItem::section('Gestion des pièces');
-        yield MenuItem::subMenu('Pièces', 'fa fa-bed')->setSubItems([
-            MenuItem::linkToCrud('Liste des pièces', 'fa fa-list', Room::class),
-            MenuItem::linkToCrud('Ajouter une pièce', 'fa fa-plus', Room::class)->setAction('new'),
-        ]);
-
         // Menu de gestion des chansons
         yield MenuItem::section('Gestion des chansons');
         yield MenuItem::subMenu('Chansons', 'fa fa-music')->setSubItems([
             MenuItem::linkToCrud('Liste des chansons', 'fa fa-list', Song::class),
             MenuItem::linkToCrud('Ajouter une chanson', 'fa fa-plus', Song::class)->setAction('new'),
+        ]);
+
+        // Menu de gestion des pièces
+        yield MenuItem::section('Gestion des pièces');
+        yield MenuItem::subMenu('Pièces', 'fa fa-bed')->setSubItems([
+            MenuItem::linkToCrud('Liste des pièces', 'fa fa-list', Room::class),
+            MenuItem::linkToCrud('Ajouter une pièce', 'fa fa-plus', Room::class)->setAction('new'),
         ]);
 
         // Menu de gestion des appareils

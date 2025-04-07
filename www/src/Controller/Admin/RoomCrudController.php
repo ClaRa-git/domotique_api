@@ -63,7 +63,7 @@ class RoomCrudController extends AbstractCrudController
                 Action::NEW,
                 fn (Action $action) => $action
                     ->setIcon('fa fa-plus')
-                    ->setLabel('Ajouter une pièce')
+                    ->setLabel('Ajouter')
                     ->setCssClass('btn btn-primary')
             )
             ->update(
@@ -104,8 +104,36 @@ class RoomCrudController extends AbstractCrudController
                 Crud::PAGE_NEW,
                 Action::SAVE_AND_ADD_ANOTHER,
                 fn (Action $action) => $action
-                    ->setLabel('Enregistrer et ajouter une autre pièce')
-            );                
+                    ->setLabel('Enregistrer et ajouter')
+            )
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->update(
+                Crud::PAGE_INDEX,
+                Action::DETAIL,
+                fn (Action $action) => $action
+                    ->setIcon('fa fa-eye')
+                    ->setLabel('Voir')
+            )
+            ->update(
+                Crud::PAGE_DETAIL,
+                Action::EDIT,
+                fn (Action $action) => $action
+                    ->setIcon('fa fa-pen')
+                    ->setLabel('Modifier')
+            )
+            ->remove(
+                Crud::PAGE_DETAIL,
+                Action::DELETE,
+                fn (Action $action) => $action
+                    ->setIcon('fa fa-trash')
+                    ->setLabel('Supprimer')
+            )
+            ->update(
+                Crud::PAGE_DETAIL,
+                Action::INDEX,
+                fn (Action $action) => $action
+                    ->setIcon('fa fa-list')
+                    ->setLabel('Retour à la liste')
+            );
     }
-
 }

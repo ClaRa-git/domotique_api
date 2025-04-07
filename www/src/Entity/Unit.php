@@ -38,6 +38,9 @@ class Unit
     #[Groups(['unit:read'])]
     private Collection $features;
 
+    #[ORM\Column(length: 20)]
+    private ?string $symbol = null;
+
     public function __construct()
     {
         $this->features = new ArrayCollection();
@@ -86,6 +89,18 @@ class Unit
                 $feature->setUnit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSymbol(): ?string
+    {
+        return $this->symbol;
+    }
+
+    public function setSymbol(string $symbol): static
+    {
+        $this->symbol = $symbol;
 
         return $this;
     }

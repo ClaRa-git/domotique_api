@@ -106,7 +106,7 @@ class AvatarCrudController extends AbstractCrudController
                 Crud::PAGE_NEW,
                 Action::SAVE_AND_ADD_ANOTHER,
                 fn (Action $action) => $action
-                    ->setLabel('Enregistrer et ajouter un nouveau')
+                    ->setLabel('Enregistrer et ajouter')
             )
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->update(
