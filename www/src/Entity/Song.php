@@ -56,6 +56,10 @@ class Song
     #[Groups(['song:read'])]
     private Collection $playlists;
 
+    #[ORM\Column(length: 255)]
+    #[Groups(['song:read', 'playlist:read'])]
+    private ?string $imagePath = null;
+
     public function __construct()
     {
         $this->playlists = new ArrayCollection();
@@ -154,5 +158,17 @@ class Song
     public function __toString(): string
     {
         return $this->title;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(string $imagePath): static
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
     }
 }

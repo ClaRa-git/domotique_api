@@ -16,9 +16,25 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\File as FileConstraint;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class SongCrudController extends AbstractCrudController
 {
+    public const SONG_BASE_PATH = 'upload/images/songs';
+    public const SONG_UPLOAD_DIR = 'public/upload/images/songs';
+
+    public function createEntity(string $entityFqcn)
+    {
+        // on crée une nouvelle instance de la classe Room
+        $new_song =  new Song();
+
+        // on définit une image par défaut
+        $new_song->setImagePath('song.jpg');
+
+        // on retourne l'instance de la classe Room
+        return $new_song;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Song::class;
@@ -56,6 +72,17 @@ class SongCrudController extends AbstractCrudController
                         ]),
                     ],
                 ]),
+            ImageField::new('image_path', 'Couverture')
+            ->setBasePath(self::SONG_BASE_PATH)
+            ->setUploadDir(self::SONG_UPLOAD_DIR)
+            ->setUploadedFileNamePattern(
+                fn(UploadedFile $file): string => sprintf(
+                    'upload_%d_%s.%s',
+                    random_int(1, 999),
+                    $file->getFilename(),
+                    $file->guessExtension()
+                )
+            ),
             TextField::new('file_path', 'Aperçu')
                 ->hideOnForm()
                 ->formatValue(function ($value, $entity) {

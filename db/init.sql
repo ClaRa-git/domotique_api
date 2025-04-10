@@ -259,12 +259,11 @@ DROP TABLE IF EXISTS `playlist`;
 CREATE TABLE `playlist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
-  `image_path` varchar(255) NOT NULL,
   `profile_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_D782112DCCFA12B8` (`profile_id`),
   CONSTRAINT `FK_D782112DCCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +273,9 @@ CREATE TABLE `playlist` (
 LOCK TABLES `playlist` WRITE;
 /*!40000 ALTER TABLE `playlist` DISABLE KEYS */;
 INSERT INTO `playlist` VALUES
-(1,'SAO','playlist.jpg',1);
+(1,'SAO',1),
+(2,'Egoist',1),
+(3,'LiSA',1);
 /*!40000 ALTER TABLE `playlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -410,8 +411,9 @@ CREATE TABLE `song` (
   `artist` varchar(50) NOT NULL,
   `duration` int(11) NOT NULL,
   `file_path` varchar(255) NOT NULL,
+  `image_path` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -421,8 +423,10 @@ CREATE TABLE `song` (
 LOCK TABLES `song` WRITE;
 /*!40000 ALTER TABLE `song` DISABLE KEYS */;
 INSERT INTO `song` VALUES
-(1,'Unlasting','LiSA',295,'67f7932e1654c_sao-alicization-war-of-underworld-ending-full-unlasting-by-lisa.mp3'),
-(2,'Adamas','Amalee',241,'67f7936d55918_Sword Art Online Alicization - ADAMAS Opening  ENGLISH  AmaLee.mp3');
+(1,'Unlasting','LiSA',295,'67f7932e1654c_sao-alicization-war-of-underworld-ending-full-unlasting-by-lisa.mp3','song.jpg'),
+(2,'Adamas','Amalee',241,'67f7936d55918_Sword Art Online Alicization - ADAMAS Opening  ENGLISH  AmaLee.mp3','song.jpg'),
+(3,'Euterpe','Egoist',225,'67f7bda2bd239_Euterpe.mp3','upload_785_phpBj7KPO.jpg'),
+(4,'Fallen','Egoist',276,'67f7bdb417053_EGOIST - Fallen.mp3','upload_306_phpGpKMIr.jpg');
 /*!40000 ALTER TABLE `song` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,7 +456,9 @@ LOCK TABLES `song_playlist` WRITE;
 /*!40000 ALTER TABLE `song_playlist` DISABLE KEYS */;
 INSERT INTO `song_playlist` VALUES
 (1,1),
-(2,1);
+(2,1),
+(3,2),
+(4,2);
 /*!40000 ALTER TABLE `song_playlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -556,4 +562,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-10  9:56:03
+-- Dump completed on 2025-04-10 13:01:19

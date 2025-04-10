@@ -56,10 +56,6 @@ class Playlist
     #[Groups(['playlist:read', 'playlist:write', 'profile:read'])]
     private Collection $songs;
 
-    #[ORM\Column(length: 255)]
-    #[Groups(['playlist:read', 'playlist:write', 'profile:read'])]
-    private ?string $imagePath = null;
-
     public function __construct()
     {
         $this->vibes = new ArrayCollection();
@@ -148,18 +144,6 @@ class Playlist
         if ($this->songs->removeElement($song)) {
             $song->removePlaylist($this);
         }
-
-        return $this;
-    }
-
-    public function getImagePath(): ?string
-    {
-        return $this->imagePath;
-    }
-
-    public function setImagePath(string $imagePath): static
-    {
-        $this->imagePath = $imagePath;
 
         return $this;
     }
