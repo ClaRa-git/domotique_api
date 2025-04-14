@@ -66,7 +66,7 @@ CREATE TABLE `criteria` (
   `stress` int(11) NOT NULL,
   `tone` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,6 +75,8 @@ CREATE TABLE `criteria` (
 
 LOCK TABLES `criteria` WRITE;
 /*!40000 ALTER TABLE `criteria` DISABLE KEYS */;
+INSERT INTO `criteria` VALUES
+(1,80,10,70);
 /*!40000 ALTER TABLE `criteria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +101,7 @@ CREATE TABLE `device` (
   KEY `IDX_92FB68E54177093` (`room_id`),
   CONSTRAINT `FK_92FB68E4FFA550E` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`),
   CONSTRAINT `FK_92FB68E54177093` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +112,9 @@ LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
 INSERT INTO `device` VALUES
 (1,'Ampoule Salon','1234567','Philips','1234567',0,2,1),
-(2,'Ampoule chambre','1234568','Philips','1234568',0,2,2);
+(2,'Ampoule chambre','1234568','Philips','1234568',0,2,2),
+(3,'Prise salon','123456','Samsung','123456',0,3,1),
+(4,'Ampoule salon 2','123456','Samsung','123456',0,2,1);
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,8 +278,7 @@ LOCK TABLES `playlist` WRITE;
 /*!40000 ALTER TABLE `playlist` DISABLE KEYS */;
 INSERT INTO `playlist` VALUES
 (1,'SAO',1),
-(2,'Egoist',1),
-(3,'LiSA',1);
+(2,'Egoist',1);
 /*!40000 ALTER TABLE `playlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -541,7 +544,7 @@ CREATE TABLE `vibe` (
   CONSTRAINT `FK_42054C016BBD148` FOREIGN KEY (`playlist_id`) REFERENCES `playlist` (`id`),
   CONSTRAINT `FK_42054C01990BEA15` FOREIGN KEY (`criteria_id`) REFERENCES `criteria` (`id`),
   CONSTRAINT `FK_42054C01CCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -550,6 +553,8 @@ CREATE TABLE `vibe` (
 
 LOCK TABLES `vibe` WRITE;
 /*!40000 ALTER TABLE `vibe` DISABLE KEYS */;
+INSERT INTO `vibe` VALUES
+(1,'chill',1,2,1,NULL);
 /*!40000 ALTER TABLE `vibe` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -562,4 +567,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-10 13:01:19
+-- Dump completed on 2025-04-14  9:09:59
