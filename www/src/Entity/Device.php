@@ -52,7 +52,7 @@ class Device
     private ?DeviceType $deviceType = null;
 
     #[ORM\ManyToOne(inversedBy: 'devices')]
-    #[Groups(['device:read', 'setting:read'])]
+    #[Groups(['device:read', 'setting:read', 'vibe:read'])]
     private ?Room $room = null;
 
     /**

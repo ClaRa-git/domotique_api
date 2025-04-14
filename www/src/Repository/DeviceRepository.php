@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Device;
+use App\Entity\Setting;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,31 @@ class DeviceRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function getDeviceSettingForRoomAndVibe($roomId, $vibeId)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $qb = $entityManager->createQueryBuilder();
+
+        $query = $qb->select([
+            's.value',
+            'f.label',
+            'u.symbol',
+            'd.label as deviceLabel',
+        ])
+        ->from(Setting::class, 's')
+        ->join('s.device', 'd')
+        ->join('s.feature', 'f')
+        ->join('f.unit', 'u')
+        ->where('d.room = :roomId')
+        ->andWhere('s.vibe = :vibeId')
+        ->setParameter('roomId', $roomId)
+        ->setParameter('vibeId', $vibeId)
+        ->getQuery();
+        
+        $result = $query->getResult();
+
+        return $result;
+    }
 }
