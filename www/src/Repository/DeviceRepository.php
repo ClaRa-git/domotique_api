@@ -53,11 +53,13 @@ class DeviceRepository extends ServiceEntityRepository
             'f.label',
             'u.symbol',
             'd.label as deviceLabel',
+            'dt.label as deviceTypeLabel',
         ])
         ->from(Setting::class, 's')
         ->join('s.device', 'd')
+        ->join('d.deviceType', 'dt')
         ->join('s.feature', 'f')
-        ->join('f.unit', 'u')
+        ->leftJoin('f.unit', 'u')
         ->where('d.room = :roomId')
         ->andWhere('s.vibe = :vibeId')
         ->setParameter('roomId', $roomId)
