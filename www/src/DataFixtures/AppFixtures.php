@@ -6,12 +6,12 @@ use App\Entity\Avatar;
 use App\Entity\Device;
 use App\Entity\DeviceType;
 use App\Entity\Feature;
+use App\Entity\Icon;
 use App\Entity\Profile;
 use App\Entity\Room;
 use App\Entity\Setting;
 use App\Entity\Unit;
 use App\Entity\User;
-use App\Entity\Vibe;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -28,6 +28,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->loadUsers($manager);
+
+        $this->loadIcons($manager);
 
         $this->loadAvatars($manager);
 
@@ -65,6 +67,34 @@ class AppFixtures extends Fixture
             $new_user->setPassword($this->encoder->hashPassword($new_user, $user['password']));
 
             $manager->persist($new_user);
+        }
+    }
+
+    public function loadIcons(ObjectManager $manager): void
+    {
+        $array_icons = [
+            [
+                'path' =>'chill.png'
+            ],
+            [
+                'path' =>'couple.png'
+            ],
+            [
+                'path' =>'cozy.png'
+            ],
+            [
+                'path' =>'friend.png'
+            ],
+            [
+                'path' =>'party.png'
+            ]
+        ];
+
+        foreach ($array_icons as $key => $icon) {
+            $new_icon = new Icon();
+            $new_icon->setImagePath($icon['path']);
+
+            $manager->persist($new_icon);
         }
     }
 

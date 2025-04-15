@@ -186,7 +186,7 @@ CREATE TABLE `feature` (
   PRIMARY KEY (`id`),
   KEY `IDX_1FD77566F8BD700D` (`unit_id`),
   CONSTRAINT `FK_1FD77566F8BD700D` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +197,8 @@ LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
 INSERT INTO `feature` VALUES
 (1,'Température',1),
-(2,'Luminosité',2);
+(2,'Luminosité',2),
+(3,'On/Off',NULL);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +213,7 @@ CREATE TABLE `icon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `image_path` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,6 +222,12 @@ CREATE TABLE `icon` (
 
 LOCK TABLES `icon` WRITE;
 /*!40000 ALTER TABLE `icon` DISABLE KEYS */;
+INSERT INTO `icon` VALUES
+(1,'chill.png'),
+(2,'cozy.png'),
+(3,'party.png'),
+(4,'friend.png'),
+(5,'couple.png');
 /*!40000 ALTER TABLE `icon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +274,7 @@ CREATE TABLE `playlist` (
   PRIMARY KEY (`id`),
   KEY `IDX_D782112DCCFA12B8` (`profile_id`),
   CONSTRAINT `FK_D782112DCCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,7 +285,8 @@ LOCK TABLES `playlist` WRITE;
 /*!40000 ALTER TABLE `playlist` DISABLE KEYS */;
 INSERT INTO `playlist` VALUES
 (1,'SAO',1),
-(2,'Egoist',1);
+(2,'Egoist',1),
+(4,'Divers',1);
 /*!40000 ALTER TABLE `playlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,7 +394,7 @@ CREATE TABLE `setting` (
   CONSTRAINT `FK_9F74B8984B255BC3` FOREIGN KEY (`vibe_id`) REFERENCES `vibe` (`id`),
   CONSTRAINT `FK_9F74B89860E4B879` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`),
   CONSTRAINT `FK_9F74B89894A4C7D4` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -396,8 +404,10 @@ CREATE TABLE `setting` (
 LOCK TABLES `setting` WRITE;
 /*!40000 ALTER TABLE `setting` DISABLE KEYS */;
 INSERT INTO `setting` VALUES
-(1,'60',2,1,NULL),
-(2,'20',2,2,NULL);
+(1,'60',2,1,1),
+(2,'20',2,2,1),
+(3,'40',2,4,1),
+(4,'1',3,3,1);
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -567,4 +577,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-14  9:09:59
+-- Dump completed on 2025-04-15  7:58:28
