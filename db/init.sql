@@ -140,9 +140,9 @@ LOCK TABLES `device_type` WRITE;
 /*!40000 ALTER TABLE `device_type` DISABLE KEYS */;
 INSERT INTO `device_type` VALUES
 (1,'Thermostat'),
-(2,'Ampoule'),
+(2,'Ampoule blanche'),
 (3,'Prise'),
-(4,'Capteur');
+(4,'Capteur température');
 /*!40000 ALTER TABLE `device_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,8 +285,7 @@ LOCK TABLES `playlist` WRITE;
 /*!40000 ALTER TABLE `playlist` DISABLE KEYS */;
 INSERT INTO `playlist` VALUES
 (1,'SAO',1),
-(2,'Egoist',1),
-(4,'Divers',1);
+(2,'Egoist',1);
 /*!40000 ALTER TABLE `playlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -564,7 +563,7 @@ CREATE TABLE `vibe` (
 LOCK TABLES `vibe` WRITE;
 /*!40000 ALTER TABLE `vibe` DISABLE KEYS */;
 INSERT INTO `vibe` VALUES
-(1,'chill',1,2,1,NULL);
+(1,'chill',1,2,1,1);
 /*!40000 ALTER TABLE `vibe` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -577,4 +576,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-15  7:58:28
+-- Dump completed on 2025-04-15 11:31:51

@@ -24,12 +24,12 @@ class Icon
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['icon:read'])]
+    #[Groups(['icon:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['icon:read'])]
-    private ?string $image_path = null;
+    #[Groups(['icon:read', 'vibe:read'])]
+    private ?string $imagePath = null;
 
     /**
      * @var Collection<int, Vibe>
@@ -50,12 +50,12 @@ class Icon
 
     public function getImagePath(): ?string
     {
-        return $this->image_path;
+        return $this->imagePath;
     }
 
-    public function setImagePath(string $image_path): static
+    public function setImagePath(string $imagePath): static
     {
-        $this->image_path = $image_path;
+        $this->imagePath = $imagePath;
 
         return $this;
     }
@@ -92,6 +92,6 @@ class Icon
 
     public function __toString(): string
     {
-        return $this->image_path;
+        return $this->imagePath;
     }
 }
