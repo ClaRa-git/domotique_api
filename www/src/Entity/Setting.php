@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
@@ -23,6 +25,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     normalizationContext: ['groups' => ['setting:read']],
     denormalizationContext: ['groups' => ['setting:write']]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'device.id' => 'exact',
+    ]
 )]
 class Setting
 {

@@ -39,6 +39,7 @@ class Unit
     private Collection $features;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['unit:read', 'feature:read', 'device:read', 'planning:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?string $symbol = null;
 
     public function __construct()
