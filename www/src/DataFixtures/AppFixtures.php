@@ -213,22 +213,27 @@ class AppFixtures extends Fixture
     {
         $array_device_types = [
             [
-                'label' => 'Thermostat'
+                'label' => 'Thermostat',
+                'protocole' => 'Zigbee'
             ],
             [
-                'label' => 'Ampoule'
+                'label' => 'Ampoule',
+                'protocole' => 'Zigbee'
             ],
             [
-                'label' => 'Prise'
+                'label' => 'Prise',
+                'protocole' => 'Zigbee'
             ],
             [
-                'label' => 'Capteur'
+                'label' => 'Capteur',
+                'protocole' => 'Zigbee'
             ]
         ];
 
         foreach ($array_device_types as $key => $device_type) {
             $new_device_type = new DeviceType();
             $new_device_type->setLabel($device_type['label']);
+            $new_device_type->setProtocole($device_type['protocole']);
 
             $manager->persist($new_device_type);
 

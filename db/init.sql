@@ -101,7 +101,7 @@ CREATE TABLE `device` (
   KEY `IDX_92FB68E54177093` (`room_id`),
   CONSTRAINT `FK_92FB68E4FFA550E` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`),
   CONSTRAINT `FK_92FB68E54177093` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,7 +114,9 @@ INSERT INTO `device` VALUES
 (1,'Ampoule Salon','1234567','Philips','1234567',0,2,1),
 (2,'Ampoule chambre','1234568','Philips','1234568',0,2,2),
 (3,'Prise salon','123456','Samsung','123456',0,3,1),
-(4,'Ampoule salon 2','123456','Samsung','123456',0,2,1);
+(4,'Ampoule salon 2','123456','Samsung','123456',0,2,1),
+(5,'Smart Bulb','192.168.0.10','Philips','HUE-123',0,5,NULL),
+(6,'Smart Bulb','192.168.0.10','Philips','HUE-123',0,5,NULL);
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,8 +130,9 @@ DROP TABLE IF EXISTS `device_type`;
 CREATE TABLE `device_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
+  `protocole` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,10 +142,11 @@ CREATE TABLE `device_type` (
 LOCK TABLES `device_type` WRITE;
 /*!40000 ALTER TABLE `device_type` DISABLE KEYS */;
 INSERT INTO `device_type` VALUES
-(1,'Thermostat'),
-(2,'Ampoule blanche'),
-(3,'Prise'),
-(4,'Capteur température');
+(1,'Thermostat','Zigbee'),
+(2,'Ampoule blanche','Zigbee'),
+(3,'Prise','Zigbee'),
+(4,'Capteur température','Zigbee'),
+(5,'Ampoule couleur','Zigbee');
 /*!40000 ALTER TABLE `device_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,8 +171,6 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20250409073739','2025-04-09 07:37:52',442);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,7 +188,7 @@ CREATE TABLE `feature` (
   PRIMARY KEY (`id`),
   KEY `IDX_1FD77566F8BD700D` (`unit_id`),
   CONSTRAINT `FK_1FD77566F8BD700D` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +200,8 @@ LOCK TABLES `feature` WRITE;
 INSERT INTO `feature` VALUES
 (1,'Température',1),
 (2,'Luminosité',2),
-(3,'On/Off',NULL);
+(3,'On/Off',NULL),
+(4,'Couleur',NULL);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -393,7 +396,7 @@ CREATE TABLE `setting` (
   CONSTRAINT `FK_9F74B8984B255BC3` FOREIGN KEY (`vibe_id`) REFERENCES `vibe` (`id`),
   CONSTRAINT `FK_9F74B89860E4B879` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`),
   CONSTRAINT `FK_9F74B89894A4C7D4` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -406,7 +409,9 @@ INSERT INTO `setting` VALUES
 (1,'60',2,1,1),
 (2,'20',2,2,1),
 (3,'40',2,4,1),
-(4,'1',3,3,1);
+(4,'1',3,3,1),
+(5,'75',2,6,NULL),
+(6,'100',4,6,NULL);
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -576,4 +581,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-15 11:31:51
+-- Dump completed on 2025-04-18 10:12:23

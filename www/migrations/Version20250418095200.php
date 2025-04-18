@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250415112915 extends AbstractMigration
+final class Version20250418095200 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -30,7 +30,7 @@ final class Version20250415112915 extends AbstractMigration
             CREATE TABLE device (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, address VARCHAR(50) NOT NULL, brand VARCHAR(50) NOT NULL, reference VARCHAR(50) NOT NULL, state TINYINT(1) NOT NULL, device_type_id INT DEFAULT NULL, room_id INT DEFAULT NULL, INDEX IDX_92FB68E4FFA550E (device_type_id), INDEX IDX_92FB68E54177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE device_type (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE device_type (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, protocole VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE feature (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, unit_id INT DEFAULT NULL, INDEX IDX_1FD77566F8BD700D (unit_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4

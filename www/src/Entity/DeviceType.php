@@ -38,6 +38,9 @@ class DeviceType
     #[Groups(['device_type:read'])]
     private Collection $devices;
 
+    #[ORM\Column(length: 255)]
+    private ?string $protocole = null;
+
     public function __construct()
     {
         $this->devices = new ArrayCollection();
@@ -93,5 +96,17 @@ class DeviceType
     public function __toString(): string
     {
         return $this->label;
+    }
+
+    public function getProtocole(): ?string
+    {
+        return $this->protocole;
+    }
+
+    public function setProtocole(string $protocole): static
+    {
+        $this->protocole = $protocole;
+
+        return $this;
     }
 }
