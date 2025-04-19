@@ -37,19 +37,18 @@ class Setting
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['setting:read', 'device:read', 'device_type:read', 'feature:read', 'planning:read', 'room:read', 'vibe:read'])]
+    #[Groups(['setting:read', 'device:read', 'device_type:read', 'planning:read', 'room:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['setting:read', 'setting:write', 'device:read', 'device_type:read', 'feature:read', 'planning:read', 'room:read', 'vibe:read'])]
+    #[Groups(['setting:read', 'setting:write', 'device:read', 'device_type:read', 'planning:read', 'room:read', 'vibe:read'])]
     private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
-    #[Groups(['setting:read', 'setting:write', 'device:read', 'device_type:read', 'planning:read', 'room:read', 'vibe:read'])]
     private ?Feature $feature = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
-    #[Groups(['setting:read', 'setting:write', 'feature:read', 'vibe:read'])]
+    #[Groups(['setting:read', 'setting:write', 'vibe:read'])]
     private ?Device $device = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]

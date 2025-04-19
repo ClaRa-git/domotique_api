@@ -34,11 +34,11 @@ class Device
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['device:read', 'device_type:read', 'feature:read', 'planning:read', 'profile:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device:read', 'device_type:read', 'planning:read', 'profile:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device:read', 'device_type:read', 'feature:read', 'planning:read', 'profile:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device:read', 'device_type:read', 'planning:read', 'profile:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?string $label = null;
 
     #[ORM\Column(length: 50)]
@@ -54,7 +54,7 @@ class Device
     private ?string $reference = null;
 
     #[ORM\Column]
-    #[Groups(['device:read', 'device_type:read', 'feature:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device:read', 'device_type:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?bool $state = null;
 
     #[ORM\ManyToOne(inversedBy: 'devices')]

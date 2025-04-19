@@ -8,6 +8,7 @@ use App\Entity\DeviceType;
 use App\Entity\Feature;
 use App\Entity\Icon;
 use App\Entity\Profile;
+use App\Entity\Protocole;
 use App\Entity\Room;
 use App\Entity\Setting;
 use App\Entity\Unit;
@@ -36,6 +37,8 @@ class AppFixtures extends Fixture
         $this->loadProfiles($manager);
 
         $this->loadUnit($manager);
+
+        $this->loadProtocole($manager);
 
         $this->loadDeviceType($manager);
 
@@ -209,31 +212,58 @@ class AppFixtures extends Fixture
         }
     }
 
+    public function loadProtocole(ObjectManager $manager): void
+    {
+        $array_protocoles = [
+            [
+                'label' => 'Zigbee'
+            ],
+            [
+                'label' => 'Z-Wave'
+            ],
+            [
+                'label' => 'Wi-Fi'
+            ]
+        ];
+
+        foreach ($array_protocoles as $key => $protocole) {
+            $new_protocole = new Protocole();
+            $new_protocole->setLabel($protocole['label']);
+
+            $manager->persist($new_protocole);
+
+            // Création des références
+            $this->addReference('protocole_' . $key + 1, $new_protocole);
+        }
+    }
+
     public function loadDeviceType(ObjectManager $manager): void
     {
         $array_device_types = [
             [
                 'label' => 'Thermostat',
-                'protocole' => 'Zigbee'
+                'protocole' => 1
             ],
             [
                 'label' => 'Ampoule',
-                'protocole' => 'Zigbee'
+                'protocole' => 1
             ],
             [
                 'label' => 'Prise',
-                'protocole' => 'Zigbee'
+                'protocole' => 1
             ],
             [
                 'label' => 'Capteur',
-                'protocole' => 'Zigbee'
+                'protocole' => 1
             ]
         ];
 
         foreach ($array_device_types as $key => $device_type) {
             $new_device_type = new DeviceType();
             $new_device_type->setLabel($device_type['label']);
-            $new_device_type->setProtocole($device_type['protocole']);
+            
+            // On récupère le protocole à partir de la référence
+            $new_device_type->setProtocole($this->getReference('protocole_' . $device_type['protocole'], Protocole::class));
 
             $manager->persist($new_device_type);
 
@@ -247,18 +277,25 @@ class AppFixtures extends Fixture
         $array_features = [
             [
                 'label' => 'Température',
-                'unit' => 1
+                'unit' => 1,
+                'device_type' => 1
             ],
             [
                 'label' => 'Luminosité',
-                'unit' => 2
+                'unit' => 2,
+                'device_type' => 2
             ]
         ];
 
         foreach ($array_features as $key => $feature) {
             $new_feature = new Feature();
             $new_feature->setLabel($feature['label']);
+
+            // On récupère l'unité à partir de la référence
             $new_feature->setUnit($this->getReference('unit_' . $feature['unit'], Unit::class));
+
+            // On récupère le type de device à partir de la référence
+            $new_feature->setDeviceType($this->getReference('device_type_' . $feature['device_type'], DeviceType::class));
 
             $manager->persist($new_feature);
 

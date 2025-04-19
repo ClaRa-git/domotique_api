@@ -24,26 +24,35 @@ class DeviceType
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['device_type:read', 'device:read', 'feature:read', 'planning:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device_type:read', 'device:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device_type:read', 'device:read', 'feature:read', 'planning:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device_type:read', 'device:read'])]
     private ?string $label = null;
 
     /**
      * @var Collection<int, Device>
      */
     #[ORM\OneToMany(targetEntity: Device::class, mappedBy: 'deviceType')]
-    #[Groups(['device_type:read'])]
     private Collection $devices;
 
-    #[ORM\Column(length: 255)]
-    private ?string $protocole = null;
+    #[ORM\ManyToOne(inversedBy: 'deviceTypes')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['device:read'])]
+    private ?Protocole $protocole = null;
+
+    /**
+     * @var Collection<int, Feature>
+     */
+    #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'deviceType')]
+    #[Groups(['device:read'])]
+    private Collection $features;
 
     public function __construct()
     {
         $this->devices = new ArrayCollection();
+        $this->features = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,14 +107,44 @@ class DeviceType
         return $this->label;
     }
 
-    public function getProtocole(): ?string
+    public function getProtocole(): ?Protocole
     {
         return $this->protocole;
     }
 
-    public function setProtocole(string $protocole): static
+    public function setProtocole(?Protocole $protocole): static
     {
         $this->protocole = $protocole;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Feature>
+     */
+    public function getFeatures(): Collection
+    {
+        return $this->features;
+    }
+
+    public function addFeature(Feature $feature): static
+    {
+        if (!$this->features->contains($feature)) {
+            $this->features->add($feature);
+            $feature->setDeviceType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeature(Feature $feature): static
+    {
+        if ($this->features->removeElement($feature)) {
+            // set the owning side to null (unless already changed)
+            if ($feature->getDeviceType() === $this) {
+                $feature->setDeviceType(null);
+            }
+        }
 
         return $this;
     }

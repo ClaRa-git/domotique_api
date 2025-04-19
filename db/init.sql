@@ -130,8 +130,10 @@ DROP TABLE IF EXISTS `device_type`;
 CREATE TABLE `device_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
-  `protocole` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `protocole_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_8A2D0B3C1F4E6A1` (`protocole_id`),
+  CONSTRAINT `FK_8A2D0B3C1F4E6A1` FOREIGN KEY (`protocole_id`) REFERENCES `protocole` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -142,11 +144,11 @@ CREATE TABLE `device_type` (
 LOCK TABLES `device_type` WRITE;
 /*!40000 ALTER TABLE `device_type` DISABLE KEYS */;
 INSERT INTO `device_type` VALUES
-(1,'Thermostat','Zigbee'),
-(2,'Ampoule blanche','Zigbee'),
-(3,'Prise','Zigbee'),
-(4,'Capteur température','Zigbee'),
-(5,'Ampoule couleur','Zigbee');
+(1,'Thermostat',1),
+(2,'Ampoule blanche',1),
+(3,'Prise',1),
+(4,'Capteur température',1),
+(5,'Ampoule couleur',1);
 /*!40000 ALTER TABLE `device_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,9 +187,12 @@ CREATE TABLE `feature` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
   `unit_id` int(11) DEFAULT NULL,
+  `device_type_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1FD77566F8BD700D` (`unit_id`),
-  CONSTRAINT `FK_1FD77566F8BD700D` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`)
+  KEY `IDX_1FD77566F8B9D732` (`device_type_id`),
+  CONSTRAINT `FK_1FD77566F8BD700D` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`),
+  CONSTRAINT `FK_1FD77566F8B9D732` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -198,10 +203,10 @@ CREATE TABLE `feature` (
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
 INSERT INTO `feature` VALUES
-(1,'Température',1),
-(2,'Luminosité',2),
-(3,'On/Off',NULL),
-(4,'Couleur',NULL);
+(1,'Température',1,1),
+(2,'Luminosité',2,2),
+(3,'On/Off',NULL,3),
+(4,'Couleur',NULL,5);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,6 +325,32 @@ INSERT INTO `profile` VALUES
 (1,'user1','user1',1),
 (2,'user2','user2',2);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `protocole`
+--
+
+DROP TABLE IF EXISTS `protocole`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `protocole` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `protocole`
+--
+
+LOCK TABLES `protocole` WRITE;
+/*!40000 ALTER TABLE `protocole` DISABLE KEYS */;
+INSERT INTO `protocole` VALUES
+(1,'Zigbee'),
+(2,'Z-Wave');
+/*!40000 ALTER TABLE `protocole` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
