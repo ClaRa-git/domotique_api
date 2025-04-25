@@ -24,11 +24,11 @@ class Protocole
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['protocole:read', 'device:read'])]
+    #[Groups(['protocole:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['protocole:read', 'device:read'])]
+    #[Groups(['protocole:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?string $label = null;
 
     /**

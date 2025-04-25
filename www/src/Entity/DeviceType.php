@@ -24,29 +24,27 @@ class DeviceType
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['device_type:read', 'device:read'])]
+    #[Groups(['device_type:read','device:read','room:read','setting:read','vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device_type:read', 'device:read'])]
+    #[Groups(['device_type:read','device:read','room:read','setting:read','vibe:read'])]
     private ?string $label = null;
 
     /**
      * @var Collection<int, Device>
      */
     #[ORM\OneToMany(targetEntity: Device::class, mappedBy: 'deviceType')]
+    #[Groups(['setting:read'])]
     private Collection $devices;
 
     #[ORM\ManyToOne(inversedBy: 'deviceTypes')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['device:read'])]
     private ?Protocole $protocole = null;
 
     /**
      * @var Collection<int, Feature>
      */
     #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'deviceType')]
-    #[Groups(['device:read'])]
     private Collection $features;
 
     public function __construct()

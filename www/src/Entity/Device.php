@@ -34,47 +34,53 @@ class Device
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['device:read', 'device_type:read', 'planning:read', 'profile:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device:read','room:read','setting:read','vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device:read', 'device_type:read', 'planning:read', 'profile:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device:read','room:read','setting:read','vibe:read'])]
     private ?string $label = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device:read', 'device_type:read', 'room:read'])]
+    #[Groups(['device:read','room:read','setting:read','vibe:read'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device:read', 'device_type:read'])]
+    #[Groups(['device:read'])]
     private ?string $brand = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device:read', 'device_type:read'])]
+    #[Groups(['device:read'])]
     private ?string $reference = null;
 
     #[ORM\Column]
-    #[Groups(['device:read', 'device_type:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device:read','room:read','setting:read','vibe:read'])]
     private ?bool $state = null;
 
     #[ORM\ManyToOne(inversedBy: 'devices')]
-    #[Groups(['device:read', 'feature:read', 'planning:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device:read','room:read','vibe:read'])]
     private ?DeviceType $deviceType = null;
 
     #[ORM\ManyToOne(inversedBy: 'devices')]
-    #[Groups(['device:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['device:read','setting:read','vibe:read'])]
     private ?Room $room = null;
 
     /**
      * @var Collection<int, Setting>
      */
     #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'device')]
-    #[Groups(['device:read', 'device_type:read', 'planning:read', 'room:read'])]
     private Collection $settings;
+
+    /**
+     * @var Collection<int, DefaultSetting>
+     */
+    #[ORM\OneToMany(targetEntity: DefaultSetting::class, mappedBy: 'device')]
+    private Collection $defaultSettings;
 
     public function __construct()
     {
         $this->settings = new ArrayCollection();
+        $this->defaultSettings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,5 +205,35 @@ class Device
     public function __toString(): string
     {
         return $this->label;
+    }
+
+    /**
+     * @return Collection<int, DefaultSetting>
+     */
+    public function getDefaultSettings(): Collection
+    {
+        return $this->defaultSettings;
+    }
+
+    public function addDefaultSetting(DefaultSetting $defaultSetting): static
+    {
+        if (!$this->defaultSettings->contains($defaultSetting)) {
+            $this->defaultSettings->add($defaultSetting);
+            $defaultSetting->setDevice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDefaultSetting(DefaultSetting $defaultSetting): static
+    {
+        if ($this->defaultSettings->removeElement($defaultSetting)) {
+            // set the owning side to null (unless already changed)
+            if ($defaultSetting->getDevice() === $this) {
+                $defaultSetting->setDevice(null);
+            }
+        }
+
+        return $this;
     }
 }

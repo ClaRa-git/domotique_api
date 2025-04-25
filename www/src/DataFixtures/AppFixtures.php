@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Avatar;
+use App\Entity\DefaultSetting;
 use App\Entity\Device;
 use App\Entity\DeviceType;
 use App\Entity\Feature;
@@ -48,7 +49,7 @@ class AppFixtures extends Fixture
 
         $this->loadDevice($manager);
 
-        $this->loadSetting($manager);
+        $this->loadDefaultSetting($manager);
 
         $manager->flush();
     }
@@ -223,6 +224,9 @@ class AppFixtures extends Fixture
             ],
             [
                 'label' => 'Wi-Fi'
+            ],
+            [
+                'label' => 'Player'
             ]
         ];
 
@@ -261,7 +265,7 @@ class AppFixtures extends Fixture
         foreach ($array_device_types as $key => $device_type) {
             $new_device_type = new DeviceType();
             $new_device_type->setLabel($device_type['label']);
-            
+
             // On récupère le protocole à partir de la référence
             $new_device_type->setProtocole($this->getReference('protocole_' . $device_type['protocole'], Protocole::class));
 
@@ -277,13 +281,11 @@ class AppFixtures extends Fixture
         $array_features = [
             [
                 'label' => 'Température',
-                'unit' => 1,
-                'device_type' => 1
+                'unit' => 1
             ],
             [
                 'label' => 'Luminosité',
-                'unit' => 2,
-                'device_type' => 2
+                'unit' => 2
             ]
         ];
 
@@ -293,9 +295,6 @@ class AppFixtures extends Fixture
 
             // On récupère l'unité à partir de la référence
             $new_feature->setUnit($this->getReference('unit_' . $feature['unit'], Unit::class));
-
-            // On récupère le type de device à partir de la référence
-            $new_feature->setDeviceType($this->getReference('device_type_' . $feature['device_type'], DeviceType::class));
 
             $manager->persist($new_feature);
 
@@ -369,25 +368,23 @@ class AppFixtures extends Fixture
         }
     }
 
-    public function loadSetting(ObjectManager $manager): void
+    public function loadDefaultSetting(ObjectManager $manager): void
     {
         $array_settings = [
             [
                 'value' => '60',
-                'vibe' => null,
                 'device' => 1,
                 'feature' => 2
             ],
             [
                 'value' => '20',
-                'vibe' => null,
                 'device' => 2,
                 'feature' => 2
             ]
         ];
 
         foreach ($array_settings as $key => $setting) {
-            $new_setting = new Setting();
+            $new_setting = new DefaultSetting();
             $new_setting->setValue($setting['value']);
             $new_setting->setDevice($this->getReference('device_' . $setting['device'], Device::class));
             $new_setting->setFeature($this->getReference('feature_' . $setting['feature'], Feature::class));

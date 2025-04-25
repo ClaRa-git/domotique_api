@@ -24,11 +24,11 @@ class Avatar
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['avatar:read', 'profile:read'])]
+    #[Groups(['avatar:read','profile:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['avatar:read', 'profile:read'])]
+    #[Groups(['avatar:read','profile:read'])]
     private ?string $imagePath = null;
 
     /**

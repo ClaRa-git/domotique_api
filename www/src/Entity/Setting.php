@@ -45,10 +45,11 @@ class Setting
     private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
+    #[Groups(['device:read', 'setting:read', 'vibe:read'])]
     private ?Feature $feature = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
-    #[Groups(['setting:read', 'setting:write', 'vibe:read'])]
+    #[Groups(['vibe:read'])]
     private ?Device $device = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]

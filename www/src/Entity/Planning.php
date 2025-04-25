@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
@@ -26,6 +28,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     normalizationContext: ['groups' => ['planning:read']],
     denormalizationContext: ['groups' => ['planning:write']],
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'profile.id' => 'exact'
+    ]
 )]
 class Planning
 {
@@ -59,8 +67,12 @@ class Planning
      * @var Collection<int, Room>
      */
     #[ORM\ManyToMany(targetEntity: Room::class, mappedBy: 'plannings')]
-    #[Groups(['planning:read', 'planning:write', 'profile:read'])]
+    #[Groups(['planning:read', 'planning:write'])]
     private Collection $rooms;
+
+    #[ORM\ManyToOne(inversedBy: 'plannings')]
+    #[Groups(['planning:read', 'planning:write'])]
+    private ?Profile $profile = null;
 
     public function __construct()
     {
@@ -155,6 +167,18 @@ class Planning
         if ($this->rooms->removeElement($room)) {
             $room->removePlanning($this);
         }
+
+        return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?Profile $profile): static
+    {
+        $this->profile = $profile;
 
         return $this;
     }

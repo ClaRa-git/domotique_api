@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\DefaultSetting;
 use App\Entity\Device;
 use App\Entity\DeviceType;
 use App\Entity\Feature;
+use App\Entity\Protocole;
 use App\Entity\Setting;
 use App\Repository\DeviceRepository;
 use App\Repository\FeatureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,7 +65,18 @@ final class ServiceController extends AbstractController
         } else {
             $deviceType = new DeviceType();
             $deviceType->setLabel($data['deviceType']);
-            $deviceType->setProtocole($data['protocole'] ?? null);
+
+            // Vérifie si le Protocole existe déjà
+            $protocole = $em->getRepository(Protocole::class)->findOneBy(['label' => $data['protocole']]);
+            if ($protocole) {
+                $deviceType->setProtocole($protocole);
+            } else {
+                $protocole = new Protocole();
+                $protocole->setLabel($data['protocole']);
+                $em->persist($protocole);
+                $deviceType->setProtocole($protocole);
+            }
+
             $em->persist($deviceType);
             $device->setDeviceType($deviceType);
         }
@@ -70,7 +84,7 @@ final class ServiceController extends AbstractController
         $em->persist($device);
 
         foreach ($data['settings'] as $setting) {
-            $newSetting = new Setting();
+            $newSetting = new DefaultSetting();
             $newSetting->setValue($setting['value']);
             $newSetting->setDevice($device);
 
@@ -82,6 +96,8 @@ final class ServiceController extends AbstractController
                 $feature->setLabel($setting['feature']);
                 $em->persist($feature);
                 $newSetting->setFeature($feature);
+                $feature->setDeviceType($deviceType);
+                $deviceType->addFeature($feature);
             }
 
             $em->persist($newSetting);

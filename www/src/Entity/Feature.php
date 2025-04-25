@@ -24,22 +24,29 @@ class Feature
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['feature:read', 'device:read'])]
+    #[Groups(['feature:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['feature:read', 'device:read'])]
+    #[Groups(['feature:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?string $label = null;
 
     #[ORM\ManyToOne(inversedBy: 'features')]
-    #[Groups(['device:read'])]
+    #[Groups(['device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?Unit $unit = null;
 
     /**
      * @var Collection<int, Setting>
      */
     #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'feature')]
+    #[Groups(['room:read'])]
     private Collection $settings;
+
+    /**
+     * @var Collection<int, DefaultSetting>
+     */
+    #[ORM\OneToMany(targetEntity: DefaultSetting::class, mappedBy: 'feature')]
+    private Collection $defaultSettings;
 
     #[ORM\ManyToOne(inversedBy: 'features')]
     private ?DeviceType $deviceType = null;
@@ -47,6 +54,7 @@ class Feature
     public function __construct()
     {
         $this->settings = new ArrayCollection();
+        $this->defaultSettings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,6 +119,36 @@ class Feature
     public function __toString(): string
     {
         return $this->label;
+    }
+
+    /**
+     * @return Collection<int, DefaultSetting>
+     */
+    public function getDefaultSettings(): Collection
+    {
+        return $this->defaultSettings;
+    }
+
+    public function addDefaultSetting(DefaultSetting $defaultSetting): static
+    {
+        if (!$this->defaultSettings->contains($defaultSetting)) {
+            $this->defaultSettings->add($defaultSetting);
+            $defaultSetting->setFeature($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDefaultSetting(DefaultSetting $defaultSetting): static
+    {
+        if ($this->defaultSettings->removeElement($defaultSetting)) {
+            // set the owning side to null (unless already changed)
+            if ($defaultSetting->getFeature() === $this) {
+                $defaultSetting->setFeature(null);
+            }
+        }
+
+        return $this;
     }
 
     public function getDeviceType(): ?DeviceType

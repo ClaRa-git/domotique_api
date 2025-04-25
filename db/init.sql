@@ -81,6 +81,40 @@ INSERT INTO `criteria` VALUES
 UNLOCK TABLES;
 
 --
+-- Table structure for table `defaultSetting`
+--
+
+DROP TABLE IF EXISTS `defaultSetting`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `defaultSetting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `value` varchar(255) NOT NULL,
+  `device_id` int(11) DEFAULT NULL,
+  `feature_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_9F74B89894A4C7D5` (`device_id`),
+  KEY `IDX_9F74B89860E4B880` (`feature_id`),
+  CONSTRAINT `FK_9F74B89894A4C7D5` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`),
+  CONSTRAINT `FK_9F74B89860E4B880` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `defaultSetting`
+--
+
+LOCK TABLES `defaultSetting` WRITE;
+/*!40000 ALTER TABLE `defaultSetting` DISABLE KEYS */;
+INSERT INTO `defaultSetting` VALUES
+(1,'20',2,1),
+(2,'50',2,2),
+(3,'0',3,3),
+(4,'0',NULL,4);
+/*!40000 ALTER TABLE `defaultSetting` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `device`
 --
 
@@ -114,9 +148,7 @@ INSERT INTO `device` VALUES
 (1,'Ampoule Salon','1234567','Philips','1234567',0,2,1),
 (2,'Ampoule chambre','1234568','Philips','1234568',0,2,2),
 (3,'Prise salon','123456','Samsung','123456',0,3,1),
-(4,'Ampoule salon 2','123456','Samsung','123456',0,2,1),
-(5,'Smart Bulb','192.168.0.10','Philips','HUE-123',0,5,NULL),
-(6,'Smart Bulb','192.168.0.10','Philips','HUE-123',0,5,NULL);
+(4,'Ampoule salon 2','123456','Samsung','123456',0,2,1);
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,8 +164,8 @@ CREATE TABLE `device_type` (
   `label` varchar(50) NOT NULL,
   `protocole_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_8A2D0B3C1F4E6A1` (`protocole_id`),
-  CONSTRAINT `FK_8A2D0B3C1F4E6A1` FOREIGN KEY (`protocole_id`) REFERENCES `protocole` (`id`)
+  KEY `IDX_4D3F4B2A7C1A0B6` (`protocole_id`),
+  CONSTRAINT `FK_4D3F4B2A7C1A0B6` FOREIGN KEY (`protocole_id`) REFERENCES `protocole` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,9 +222,9 @@ CREATE TABLE `feature` (
   `device_type_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1FD77566F8BD700D` (`unit_id`),
-  KEY `IDX_1FD77566F8B9D732` (`device_type_id`),
+  KEY `IDX_1FD77566F8BD701D` (`device_type_id`),
   CONSTRAINT `FK_1FD77566F8BD700D` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`),
-  CONSTRAINT `FK_1FD77566F8B9D732` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`)
+  CONSTRAINT `FK_1FD77566F8BD701D` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -253,9 +285,12 @@ CREATE TABLE `planning` (
   `date_end` datetime NOT NULL,
   `recurrence` varchar(50) NOT NULL,
   `vibe_id` int(11) DEFAULT NULL,
+  `profile_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_D499BFF64B255BC3` (`vibe_id`),
-  CONSTRAINT `FK_D499BFF64B255BC3` FOREIGN KEY (`vibe_id`) REFERENCES `vibe` (`id`)
+  KEY `IDX_D499BFF6CCFA12B8` (`profile_id`),
+  CONSTRAINT `FK_D499BFF64B255BC3` FOREIGN KEY (`vibe_id`) REFERENCES `vibe` (`id`),
+  CONSTRAINT `FK_D499BFF6CCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -349,7 +384,8 @@ LOCK TABLES `protocole` WRITE;
 /*!40000 ALTER TABLE `protocole` DISABLE KEYS */;
 INSERT INTO `protocole` VALUES
 (1,'Zigbee'),
-(2,'Z-Wave');
+(2,'Z-Wave'),
+(3, 'WiFi');
 /*!40000 ALTER TABLE `protocole` ENABLE KEYS */;
 UNLOCK TABLES;
 

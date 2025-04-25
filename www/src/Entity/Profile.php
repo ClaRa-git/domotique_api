@@ -56,10 +56,17 @@ class Profile
     #[Groups(['profile:read', 'profile:write'])]
     private ?Avatar $avatar = null;
 
+    /**
+     * @var Collection<int, Planning>
+     */
+    #[ORM\OneToMany(targetEntity: Planning::class, mappedBy: 'profile')]
+    private Collection $plannings;
+
     public function __construct()
     {
         $this->playlists = new ArrayCollection();
         $this->vibes = new ArrayCollection();
+        $this->plannings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,5 +173,35 @@ class Profile
     public function __toString(): string
     {
         return $this->username;
+    }
+
+    /**
+     * @return Collection<int, Planning>
+     */
+    public function getPlannings(): Collection
+    {
+        return $this->plannings;
+    }
+
+    public function addPlanning(Planning $planning): static
+    {
+        if (!$this->plannings->contains($planning)) {
+            $this->plannings->add($planning);
+            $planning->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlanning(Planning $planning): static
+    {
+        if ($this->plannings->removeElement($planning)) {
+            // set the owning side to null (unless already changed)
+            if ($planning->getProfile() === $this) {
+                $planning->setProfile(null);
+            }
+        }
+
+        return $this;
     }
 }

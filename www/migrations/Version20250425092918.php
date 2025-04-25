@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250419154950 extends AbstractMigration
+final class Version20250425092918 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,10 +27,13 @@ final class Version20250419154950 extends AbstractMigration
             CREATE TABLE criteria (id INT AUTO_INCREMENT NOT NULL, mood INT NOT NULL, stress INT NOT NULL, tone INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
+            CREATE TABLE default_setting (id INT AUTO_INCREMENT NOT NULL, value VARCHAR(255) NOT NULL, feature_id INT DEFAULT NULL, device_id INT DEFAULT NULL, INDEX IDX_6DF1E9DD60E4B879 (feature_id), INDEX IDX_6DF1E9DD94A4C7D4 (device_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+        SQL);
+        $this->addSql(<<<'SQL'
             CREATE TABLE device (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, address VARCHAR(50) NOT NULL, brand VARCHAR(50) NOT NULL, reference VARCHAR(50) NOT NULL, state TINYINT(1) NOT NULL, device_type_id INT DEFAULT NULL, room_id INT DEFAULT NULL, INDEX IDX_92FB68E4FFA550E (device_type_id), INDEX IDX_92FB68E54177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE device_type (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, protocole_id INT NOT NULL, INDEX IDX_5E78213F77FB932 (protocole_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE device_type (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, protocole_id INT DEFAULT NULL, INDEX IDX_5E78213F77FB932 (protocole_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE feature (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, unit_id INT DEFAULT NULL, device_type_id INT DEFAULT NULL, INDEX IDX_1FD77566F8BD700D (unit_id), INDEX IDX_1FD775664FFA550E (device_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
@@ -39,7 +42,7 @@ final class Version20250419154950 extends AbstractMigration
             CREATE TABLE icon (id INT AUTO_INCREMENT NOT NULL, image_path VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE planning (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, date_start DATETIME NOT NULL, date_end DATETIME NOT NULL, recurrence VARCHAR(50) NOT NULL, vibe_id INT DEFAULT NULL, INDEX IDX_D499BFF64B255BC3 (vibe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE planning (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, date_start DATETIME NOT NULL, date_end DATETIME NOT NULL, recurrence VARCHAR(50) NOT NULL, vibe_id INT DEFAULT NULL, profile_id INT DEFAULT NULL, INDEX IDX_D499BFF64B255BC3 (vibe_id), INDEX IDX_D499BFF6CCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE playlist (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(50) NOT NULL, profile_id INT DEFAULT NULL, INDEX IDX_D782112DCCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
@@ -75,6 +78,12 @@ final class Version20250419154950 extends AbstractMigration
             CREATE TABLE vibe (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, criteria_id INT DEFAULT NULL, playlist_id INT DEFAULT NULL, profile_id INT DEFAULT NULL, icon_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_42054C01990BEA15 (criteria_id), INDEX IDX_42054C016BBD148 (playlist_id), INDEX IDX_42054C01CCFA12B8 (profile_id), INDEX IDX_42054C0154B9D732 (icon_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
+            ALTER TABLE default_setting ADD CONSTRAINT FK_6DF1E9DD60E4B879 FOREIGN KEY (feature_id) REFERENCES feature (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE default_setting ADD CONSTRAINT FK_6DF1E9DD94A4C7D4 FOREIGN KEY (device_id) REFERENCES device (id)
+        SQL);
+        $this->addSql(<<<'SQL'
             ALTER TABLE device ADD CONSTRAINT FK_92FB68E4FFA550E FOREIGN KEY (device_type_id) REFERENCES device_type (id)
         SQL);
         $this->addSql(<<<'SQL'
@@ -91,6 +100,9 @@ final class Version20250419154950 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE planning ADD CONSTRAINT FK_D499BFF64B255BC3 FOREIGN KEY (vibe_id) REFERENCES vibe (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE planning ADD CONSTRAINT FK_D499BFF6CCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile (id)
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE playlist ADD CONSTRAINT FK_D782112DCCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile (id)
@@ -137,6 +149,12 @@ final class Version20250419154950 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
+            ALTER TABLE default_setting DROP FOREIGN KEY FK_6DF1E9DD60E4B879
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE default_setting DROP FOREIGN KEY FK_6DF1E9DD94A4C7D4
+        SQL);
+        $this->addSql(<<<'SQL'
             ALTER TABLE device DROP FOREIGN KEY FK_92FB68E4FFA550E
         SQL);
         $this->addSql(<<<'SQL'
@@ -153,6 +171,9 @@ final class Version20250419154950 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE planning DROP FOREIGN KEY FK_D499BFF64B255BC3
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE planning DROP FOREIGN KEY FK_D499BFF6CCFA12B8
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE playlist DROP FOREIGN KEY FK_D782112DCCFA12B8
@@ -198,6 +219,9 @@ final class Version20250419154950 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE criteria
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE default_setting
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE device

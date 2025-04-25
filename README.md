@@ -146,3 +146,21 @@ cconsole d:m:m
 mkdir -p www/config/jwt
 openssl genpkey -out www/config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
 openssl pkey -in www/config/jwt/private.pem -out www/config/jwt/public.pem -pubout# domotique_api
+
+pour appairer un device (exemple) : 
+curl -X POST http://localhost:8082/api/device/init \
+  -H "Content-Type: application/json" \
+  -d '{
+    "label": "Smart Bulb",
+    "address": "192.168.1.45",
+    "brand": "Philips",
+    "reference": "Hue123",
+    "deviceType": "light",
+    "protocole": "Zigbee",
+    "settings": [
+      { "feature": "On/Off", "value": true },
+      { "feature": "Brightness", "value": 80 },
+      { "feature": "Hue", "value": 46720 }
+    ]
+  }'
+

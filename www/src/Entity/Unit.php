@@ -24,11 +24,11 @@ class Unit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['unit:read', 'device:read'])]
+    #[Groups(['unit:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['unit:read', 'device:read'])]
+    #[Groups(['unit:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?string $label = null;
 
     /**
@@ -38,7 +38,7 @@ class Unit
     private Collection $features;
 
     #[ORM\Column(length: 20)]
-    #[Groups(['unit:read', 'device:read'])]
+    #[Groups(['unit:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?string $symbol = null;
 
     public function __construct()
