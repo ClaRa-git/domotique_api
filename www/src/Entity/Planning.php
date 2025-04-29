@@ -49,14 +49,6 @@ class Planning
     #[Groups(['planning:read', 'planning:write', 'profile:read', 'room:read', 'vibe:read'])]
     private ?string $label = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['planning:read', 'planning:write', 'profile:read', 'room:read'])]
-    private ?\DateTimeInterface $dateStart = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['planning:read', 'planning:write', 'profile:read', 'room:read'])]
-    private ?\DateTimeInterface $dateEnd = null;
-
     #[ORM\Column(length: 50)]
     #[Groups(['planning:read', 'planning:write', 'profile:read', 'room:read'])]
     private ?string $recurrence = null;
@@ -76,6 +68,22 @@ class Planning
     #[Groups(['planning:read', 'planning:write'])]
     private ?Profile $profile = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['planning:read', 'planning:write'])]
+    private ?\DateTimeInterface $dateStart = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['planning:read', 'planning:write'])]
+    private ?\DateTimeInterface $dateEnd = null;
+
+    #[ORM\Column(length: 5)]
+    #[Groups(['planning:read', 'planning:write'])]
+    private ?string $hourStart = null;
+
+    #[ORM\Column(length: 5)]
+    #[Groups(['planning:read', 'planning:write'])]
+    private ?string $hourEnd = null;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -94,30 +102,6 @@ class Planning
     public function setLabel(string $label): static
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    public function getDateStart(): ?\DateTimeInterface
-    {
-        return $this->dateStart;
-    }
-
-    public function setDateStart(\DateTimeInterface $dateStart): static
-    {
-        $this->dateStart = $dateStart;
-
-        return $this;
-    }
-
-    public function getDateEnd(): ?\DateTimeInterface
-    {
-        return $this->dateEnd;
-    }
-
-    public function setDateEnd(\DateTimeInterface $dateEnd): static
-    {
-        $this->dateEnd = $dateEnd;
 
         return $this;
     }
@@ -181,6 +165,54 @@ class Planning
     public function setProfile(?Profile $profile): static
     {
         $this->profile = $profile;
+
+        return $this;
+    }
+
+    public function getDateStart(): ?\DateTimeInterface
+    {
+        return $this->dateStart;
+    }
+
+    public function setDateStart(\DateTimeInterface $dateStart): static
+    {
+        $this->dateStart = $dateStart;
+
+        return $this;
+    }
+
+    public function getDateEnd(): ?\DateTimeInterface
+    {
+        return $this->dateEnd;
+    }
+
+    public function setDateEnd(\DateTimeInterface $dateEnd): static
+    {
+        $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
+    public function getHourStart(): ?string
+    {
+        return $this->hourStart;
+    }
+
+    public function setHourStart(string $hourStart): static
+    {
+        $this->hourStart = $hourStart;
+
+        return $this;
+    }
+
+    public function getHourEnd(): ?string
+    {
+        return $this->hourEnd;
+    }
+
+    public function setHourEnd(string $hourEnd): static
+    {
+        $this->hourEnd = $hourEnd;
 
         return $this;
     }

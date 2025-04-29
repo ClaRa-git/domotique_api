@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250425092918 extends AbstractMigration
+final class Version20250429202340 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -42,7 +42,7 @@ final class Version20250425092918 extends AbstractMigration
             CREATE TABLE icon (id INT AUTO_INCREMENT NOT NULL, image_path VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE planning (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, date_start DATETIME NOT NULL, date_end DATETIME NOT NULL, recurrence VARCHAR(50) NOT NULL, vibe_id INT DEFAULT NULL, profile_id INT DEFAULT NULL, INDEX IDX_D499BFF64B255BC3 (vibe_id), INDEX IDX_D499BFF6CCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE planning (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, recurrence VARCHAR(50) NOT NULL, vibe_id INT DEFAULT NULL, profile_id INT DEFAULT NULL, INDEX IDX_D499BFF64B255BC3 (vibe_id), INDEX IDX_D499BFF6CCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE playlist (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(50) NOT NULL, profile_id INT DEFAULT NULL, INDEX IDX_D782112DCCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4

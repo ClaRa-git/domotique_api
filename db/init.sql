@@ -283,8 +283,10 @@ DROP TABLE IF EXISTS `planning`;
 CREATE TABLE `planning` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
-  `date_start` datetime NOT NULL,
-  `date_end` datetime NOT NULL,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL,
+  `hour_start` varchar(5) NOT NULL,
+  `hour_end` varchar(5) NOT NULL,
   `recurrence` varchar(50) NOT NULL,
   `vibe_id` int(11) DEFAULT NULL,
   `profile_id` int(11) DEFAULT NULL,

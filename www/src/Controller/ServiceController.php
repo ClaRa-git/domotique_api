@@ -126,8 +126,12 @@ final class ServiceController extends AbstractController
         }
 
         $date = new \DateTime($data['date']);
-        $planning = $planningRepository->getPlanningForDate($date);
 
-        return $this->json($planning);        
+        $plannings = $planningRepository->getPlanningForDate($date);
+
+        return $this->json([
+            'status' => 'ok',
+            'plannings' => $plannings,
+        ]);        
     }
 }
