@@ -81,13 +81,13 @@ INSERT INTO `criteria` VALUES
 UNLOCK TABLES;
 
 --
--- Table structure for table `defaultSetting`
+-- Table structure for table `default_setting`
 --
 
-DROP TABLE IF EXISTS `defaultSetting`;
+DROP TABLE IF EXISTS `default_setting`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `defaultSetting` (
+CREATE TABLE `default_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(255) NOT NULL,
   `device_id` int(11) DEFAULT NULL,
@@ -95,23 +95,24 @@ CREATE TABLE `defaultSetting` (
   PRIMARY KEY (`id`),
   KEY `IDX_9F74B89894A4C7D5` (`device_id`),
   KEY `IDX_9F74B89860E4B880` (`feature_id`),
-  CONSTRAINT `FK_9F74B89894A4C7D5` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`),
-  CONSTRAINT `FK_9F74B89860E4B880` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  CONSTRAINT `FK_9F74B89860E4B880` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`),
+  CONSTRAINT `FK_9F74B89894A4C7D5` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `defaultSetting`
+-- Dumping data for table `default_setting`
 --
 
-LOCK TABLES `defaultSetting` WRITE;
-/*!40000 ALTER TABLE `defaultSetting` DISABLE KEYS */;
-INSERT INTO `defaultSetting` VALUES
-(1,'20',2,1),
+LOCK TABLES `default_setting` WRITE;
+/*!40000 ALTER TABLE `default_setting` DISABLE KEYS */;
+INSERT INTO `default_setting` VALUES
+(1,'60',1,2),
 (2,'50',2,2),
-(3,'0',3,3),
-(4,'0',NULL,4);
-/*!40000 ALTER TABLE `defaultSetting` ENABLE KEYS */;
+(3,'false',3,3),
+(4,'40',4,5),
+(5,'red',4,4);
+/*!40000 ALTER TABLE `default_setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -225,7 +226,7 @@ CREATE TABLE `feature` (
   KEY `IDX_1FD77566F8BD701D` (`device_type_id`),
   CONSTRAINT `FK_1FD77566F8BD700D` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`),
   CONSTRAINT `FK_1FD77566F8BD701D` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +239,8 @@ INSERT INTO `feature` VALUES
 (1,'Température',1,1),
 (2,'Luminosité',2,2),
 (3,'On/Off',NULL,3),
-(4,'Couleur',NULL,5);
+(4,'Couleur',NULL,5),
+(5,'Luminosité',2,5);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -373,7 +375,7 @@ CREATE TABLE `protocole` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -385,7 +387,7 @@ LOCK TABLES `protocole` WRITE;
 INSERT INTO `protocole` VALUES
 (1,'Zigbee'),
 (2,'Z-Wave'),
-(3, 'WiFi');
+(3,'WiFi');
 /*!40000 ALTER TABLE `protocole` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -463,7 +465,7 @@ CREATE TABLE `setting` (
   CONSTRAINT `FK_9F74B8984B255BC3` FOREIGN KEY (`vibe_id`) REFERENCES `vibe` (`id`),
   CONSTRAINT `FK_9F74B89860E4B879` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`),
   CONSTRAINT `FK_9F74B89894A4C7D4` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -475,10 +477,7 @@ LOCK TABLES `setting` WRITE;
 INSERT INTO `setting` VALUES
 (1,'60',2,1,1),
 (2,'20',2,2,1),
-(3,'40',2,4,1),
-(4,'1',3,3,1),
-(5,'75',2,6,NULL),
-(6,'100',4,6,NULL);
+(3,'false',3,3,1);
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -648,4 +647,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-18 10:12:23
+-- Dump completed on 2025-04-26 12:00:56

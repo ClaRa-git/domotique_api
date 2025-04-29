@@ -34,11 +34,11 @@ class Device
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['device:read','room:read','setting:read','vibe:read'])]
+    #[Groups(['default_setting:read', 'device:read','room:read','setting:read','vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['device:read','room:read','setting:read','vibe:read'])]
+    #[Groups(['default_setting:read', 'device:read','room:read','setting:read','vibe:read'])]
     private ?string $label = null;
 
     #[ORM\Column(length: 50)]

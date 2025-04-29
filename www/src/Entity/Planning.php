@@ -32,7 +32,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiFilter(
     SearchFilter::class,
     properties: [
-        'profile.id' => 'exact'
+        'profile.id' => 'exact',
+        'vibe.id' => 'exact',
+        'dateStart' => 'partial',
     ]
 )]
 class Planning

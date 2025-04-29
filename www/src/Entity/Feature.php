@@ -24,11 +24,11 @@ class Feature
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['feature:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['feature:read', 'default_setting:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['feature:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['feature:read', 'default_setting:read', 'device:read', 'room:read', 'setting:read', 'vibe:read'])]
     private ?string $label = null;
 
     #[ORM\ManyToOne(inversedBy: 'features')]

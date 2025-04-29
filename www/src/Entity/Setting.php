@@ -30,6 +30,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     SearchFilter::class,
     properties: [
         'device.id' => 'exact',
+        'vibe.id' => 'exact',
     ]
 )]
 class Setting
@@ -45,11 +46,11 @@ class Setting
     private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
-    #[Groups(['device:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['setting:read', 'setting:write', 'device:read', 'vibe:read'])]
     private ?Feature $feature = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]
-    #[Groups(['vibe:read'])]
+    #[Groups(['setting:read', 'setting:write','vibe:read'])]
     private ?Device $device = null;
 
     #[ORM\ManyToOne(inversedBy: 'settings')]

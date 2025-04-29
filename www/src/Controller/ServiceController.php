@@ -10,6 +10,7 @@ use App\Entity\Protocole;
 use App\Entity\Setting;
 use App\Repository\DeviceRepository;
 use App\Repository\FeatureRepository;
+use App\Repository\PlanningRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Definition;
@@ -106,5 +107,27 @@ final class ServiceController extends AbstractController
         $em->flush();
 
         return new JsonResponse(['status' => 'ok', 'device_id' => $device->getId()]);
+    }
+
+    /**
+     * @Route("/service-planning", name="app_service_planning")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param PlanningRepository $planningRepository
+     * @return JsonResponse
+     */
+    #[Route('/service-planning', name: 'app_service_planning', methods: ['POST'])]
+    public function getPlanningForDate(Request $request, EntityManagerInterface $em, PlanningRepository $planningRepository): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['date'])) {
+            return new JsonResponse(['error' => 'Invalid payload'], 400);
+        }
+
+        $date = new \DateTime($data['date']);
+        $planning = $planningRepository->getPlanningForDate($date);
+
+        return $this->json($planning);        
     }
 }
