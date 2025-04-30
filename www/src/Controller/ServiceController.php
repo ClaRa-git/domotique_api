@@ -117,7 +117,7 @@ final class ServiceController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/service-planning', name: 'app_service_planning', methods: ['POST'])]
-    public function getPlanningForDate(Request $request, EntityManagerInterface $em, PlanningRepository $planningRepository): JsonResponse
+    public function getPlanningsForDate(Request $request, EntityManagerInterface $em, PlanningRepository $planningRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -126,8 +126,14 @@ final class ServiceController extends AbstractController
         }
 
         $date = new \DateTime($data['date']);
+        $day = $data['day'];
 
-        $plannings = $planningRepository->getPlanningForDate($date);
+        $planningsForDay = $planningRepository->getPlanningForDate($date);
+        $weeklyPlannings = $planningRepository->getWeeklyPlanning($day);
+        $dailyPlannings = $planningRepository->getDailyPlannings($date);
+
+        // On combine les deux tableaux
+        $plannings = array_merge($planningsForDay, $weeklyPlannings, $dailyPlannings);
 
         return $this->json([
             'status' => 'ok',

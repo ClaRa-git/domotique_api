@@ -41,6 +41,11 @@ class PlanningRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    /**
+     * Méthode pour récupérer les plannings d'une date donnée
+     * @param \DateTimeInterface $date
+     * @return array
+     */
     public function getPlanningForDate(\DateTimeInterface $date): array
     {
         $entityManager = $this->getEntityManager();
@@ -49,8 +54,58 @@ class PlanningRepository extends ServiceEntityRepository
 
         $query = $qb->select('p')
             ->from(Planning::class, 'p')
-            ->where('p.dateStart <= :date')
-            ->andWhere('p.dateEnd >= :date')
+            ->where('p.createdAt = :date')
+            ->andWhere('p.recurrence = :none')
+            ->setParameter('none', 'none')
+            ->setParameter('date', $date)
+            ->getQuery();
+        
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    /**
+     * Méthode pour récupérer les plannings récurrents d'un jour donné
+     * @param string $day
+     * @return array
+     */
+    public function getWeeklyPlanning(string $day): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $qb = $entityManager->createQueryBuilder();
+
+        $query = $qb->select('p')
+            ->from(Planning::class, 'p')
+            ->where('p.recurrence <> :none')
+            ->andWhere('p.recurrence <> :daily')
+            ->andWhere('p.dayCreation = :day')
+            ->setParameter('day', $day)
+            ->setParameter('none', 'none')
+            ->setParameter('daily', 'daily')
+            ->getQuery();
+        
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    /**
+     * Méthode pour récupérer les plannings quotidiens
+     * @return array
+     */
+    public function getDailyPlannings(\DateTimeInterface $date): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $qb = $entityManager->createQueryBuilder();
+
+        $query = $qb->select('p')
+            ->from(Planning::class, 'p')
+            ->where('p.recurrence = :daily')
+            ->andWhere('p.createdAt <= :date')
+            ->setParameter('daily', 'daily')
             ->setParameter('date', $date)
             ->getQuery();
         

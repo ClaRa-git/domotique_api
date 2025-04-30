@@ -284,7 +284,7 @@ CREATE TABLE `planning` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
   `date_start` date NOT NULL,
-  `date_end` date NOT NULL,
+  `day_creation` varchar(10) NOT NULL,
   `hour_start` varchar(5) NOT NULL,
   `hour_end` varchar(5) NOT NULL,
   `recurrence` varchar(50) NOT NULL,

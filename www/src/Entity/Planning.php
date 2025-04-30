@@ -34,7 +34,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     properties: [
         'profile.id' => 'exact',
         'vibe.id' => 'exact',
-        'dateStart' => 'partial',
+        'createdAt' => 'partial',
     ]
 )]
 class Planning
@@ -68,14 +68,6 @@ class Planning
     #[Groups(['planning:read', 'planning:write'])]
     private ?Profile $profile = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['planning:read', 'planning:write'])]
-    private ?\DateTimeInterface $dateStart = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['planning:read', 'planning:write'])]
-    private ?\DateTimeInterface $dateEnd = null;
-
     #[ORM\Column(length: 5)]
     #[Groups(['planning:read', 'planning:write'])]
     private ?string $hourStart = null;
@@ -83,6 +75,14 @@ class Planning
     #[ORM\Column(length: 5)]
     #[Groups(['planning:read', 'planning:write'])]
     private ?string $hourEnd = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['planning:read', 'planning:write'])]
+    private ?\DateTimeInterface $dateStart = null;
+
+    #[ORM\Column(length: 10)]
+    #[Groups(['planning:read', 'planning:write'])]
+    private ?string $dayCreation = null;
 
     public function __construct()
     {
@@ -169,30 +169,6 @@ class Planning
         return $this;
     }
 
-    public function getDateStart(): ?\DateTimeInterface
-    {
-        return $this->dateStart;
-    }
-
-    public function setDateStart(\DateTimeInterface $dateStart): static
-    {
-        $this->dateStart = $dateStart;
-
-        return $this;
-    }
-
-    public function getDateEnd(): ?\DateTimeInterface
-    {
-        return $this->dateEnd;
-    }
-
-    public function setDateEnd(\DateTimeInterface $dateEnd): static
-    {
-        $this->dateEnd = $dateEnd;
-
-        return $this;
-    }
-
     public function getHourStart(): ?string
     {
         return $this->hourStart;
@@ -213,6 +189,30 @@ class Planning
     public function setHourEnd(string $hourEnd): static
     {
         $this->hourEnd = $hourEnd;
+
+        return $this;
+    }
+
+    public function getDateStart(): ?\DateTimeInterface
+    {
+        return $this->dateStart;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $dateStart): static
+    {
+        $this->dateStart = $dateStart;
+
+        return $this;
+    }
+
+    public function getDayCreation(): ?string
+    {
+        return $this->dayCreation;
+    }
+
+    public function setDayCreation(string $dayCreation): static
+    {
+        $this->dayCreation = $dayCreation;
 
         return $this;
     }
