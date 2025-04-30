@@ -54,7 +54,7 @@ class PlanningRepository extends ServiceEntityRepository
 
         $query = $qb->select('p')
             ->from(Planning::class, 'p')
-            ->where('p.createdAt = :date')
+            ->where('p.dateStart = :date')
             ->andWhere('p.recurrence = :none')
             ->setParameter('none', 'none')
             ->setParameter('date', $date)
@@ -104,7 +104,7 @@ class PlanningRepository extends ServiceEntityRepository
         $query = $qb->select('p')
             ->from(Planning::class, 'p')
             ->where('p.recurrence = :daily')
-            ->andWhere('p.createdAt <= :date')
+            ->andWhere('p.dateStart <= :date')
             ->setParameter('daily', 'daily')
             ->setParameter('date', $date)
             ->getQuery();
