@@ -43,8 +43,6 @@ class PlanningRepository extends ServiceEntityRepository
 
     public function getPlanningForDate(\DateTimeInterface $date): array
     {
-        $formattedDate = new \DateTime($date->format('Y-m-d'));
-
         $entityManager = $this->getEntityManager();
 
         $qb = $entityManager->createQueryBuilder();
@@ -53,7 +51,7 @@ class PlanningRepository extends ServiceEntityRepository
             ->from(Planning::class, 'p')
             ->where('p.dateStart <= :date')
             ->andWhere('p.dateEnd >= :date')
-            ->setParameter('date', $formattedDate)
+            ->setParameter('date', $date)
             ->getQuery();
         
         $result = $query->getResult();
