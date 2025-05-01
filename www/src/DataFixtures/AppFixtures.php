@@ -281,17 +281,20 @@ class AppFixtures extends Fixture
         $array_features = [
             [
                 'label' => 'Température',
-                'unit' => 1
+                'unit' => 1,
+                'default_value' => '0'
             ],
             [
                 'label' => 'Luminosité',
-                'unit' => 2
+                'unit' => 2,
+                'default_value' => '0'
             ]
         ];
 
         foreach ($array_features as $key => $feature) {
             $new_feature = new Feature();
             $new_feature->setLabel($feature['label']);
+            $new_feature->setDefaultValue($feature['default_value']);
 
             // On récupère l'unité à partir de la référence
             $new_feature->setUnit($this->getReference('unit_' . $feature['unit'], Unit::class));

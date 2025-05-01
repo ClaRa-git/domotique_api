@@ -11,6 +11,7 @@ use App\Entity\Setting;
 use App\Repository\DeviceRepository;
 use App\Repository\FeatureRepository;
 use App\Repository\PlanningRepository;
+use App\Repository\SettingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Definition;
@@ -140,4 +141,113 @@ final class ServiceController extends AbstractController
             'plannings' => $plannings,
         ]);        
     }
+
+    /**
+     * Récupère les settings s'ils existent d'un appareil pour une ambiance donnée
+     * S'ils n'exitent pas, on récupère les réglages par défaut s'ils existent
+     * S'ils n'existent pas, on récupère les features de l'appareil
+     * S'ils n'existent pas, on renvoie un message d'erreur
+     * @Route("/service-setting", name="app_service_setting")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param SettingRepository $settingRepository
+     * @param FeatureRepository $featureRepository
+     * @return JsonResponse
+     */
+    #[Route('/service-setting', name: 'app_service_setting', methods: ['POST'])]
+    public function getSettingsForDevice(Request $request, EntityManagerInterface $em, SettingRepository $settingRepository, FeatureRepository $featureRepository): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['deviceId'], $data['vibeId'], $data['deviceTypeId'])) {
+            return new JsonResponse(['error' => 'Invalid payload'], 400);
+        }
+
+        $deviceId = $data['deviceId'];
+        $vibeId = $data['vibeId'];
+        $deviceTypeId = $data['deviceTypeId'];
+
+        // On essaie de récupère les réglages de l'appareil pour l'ambiance donnée 
+        $settings = $settingRepository->getSettingsDeviceVibe($deviceId, $vibeId);
+
+        // On créé un tableau parcourant $settings pour le formater
+        $formattedSettings = [];
+
+        foreach ($settings as $setting) {
+            $formattedSettings[] = [
+                'id' => $setting->getId(),
+                'featureId' => $setting->getFeature()->getId(),
+                'deviceId' => $setting->getDevice()->getId(),
+                'vibeId' => $setting->getVibe()->getId(),
+                'label' => $setting->getFeature()->getLabel(),
+                'value' => $setting->getValue(),
+                'unit' => $setting->getFeature()->getUnit() ? $setting->getFeature()->getUnit()->getSymbol() : null,
+            ];
+        }
+
+        // S'il n'existe pas de réglages
+        if (empty($formattedSettings)) {
+
+            // On regarde si l'appareil a des réglages par défaut
+            $defaultSettings = $settingRepository->getDefaultSettings($deviceId);
+
+            // On créé un tableau parcourant $defaultSettings pour le formater
+            foreach ($defaultSettings as $setting) {
+                $formattedSettings[] = [
+                    'id' => null,
+                    'featureId' => $setting->getFeature()->getId(),
+                    'deviceId' => $setting->getDevice()->getId(),
+                    'vibeId' => $setting->getVibe()->getId(),
+                    'label' => $setting->getFeature()->getLabel(),
+                    'value' => $setting->getValue(),
+                    'unit' => $setting->getFeature()->getUnit() ? $setting->getFeature()->getUnit()->getSymbol() : null,
+                ];
+            }
+
+            // S'il n'existe pas de réglages par défaut
+            if (empty($formattedSettings)) {
+
+                // On recupère les features de l'appareil
+                $features = $featureRepository->getFeaturesUnitsForType($deviceTypeId);
+                // On créé un tableau parcourant $features pour le formater
+                foreach ($features as $feature) {
+                    $formattedSettings[] = [
+                        'id' => null,
+                        'featureId' => $feature->getId(),
+                        'deviceId' => (int)$deviceId,
+                        'vibeId' => (int)$vibeId,
+                        'label' => $feature->getLabel(),
+                        'value' => $feature->getDefaultValue(),
+                        'unit' => $feature->getUnit() ? $feature->getUnit()->getSymbol() : null,
+                    ];
+                }
+
+                return $this->json([
+                    'status' => 'ok',
+                    'message' => 'Features found',
+                    'settings' => $formattedSettings
+                ]);
+
+            } else {
+
+                return $this->json([
+                    'status' => 'ok',
+                    'message' => 'Default settings found',
+                    'settings' => $formattedSettings
+                ]);
+            }
+        } else {
+
+            return $this->json([
+                'status' => 'ok',
+                'message' => 'Settings found',
+                'settings' => $formattedSettings
+            ]);
+        }
+
+        return $this->json([
+            'status' => 'error',
+            'message' => 'No setting/feature found'
+        ]);
+    }    
 }

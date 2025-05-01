@@ -40,4 +40,30 @@ class FeatureRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Méthode pour récupérer les features et les unités d'un appareil
+     * @param int $deviceId
+     * @return array
+     */
+    public function getFeaturesUnitsForType($deviceTypeId): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $qb = $entityManager->createQueryBuilder();
+
+        $query = $qb->select([
+            'f',
+            'u'
+        ])
+            ->from(Feature::class, 'f')
+            ->leftJoin('f.unit', 'u')
+            ->where('f.deviceType = :deviceId')
+            ->setParameter('deviceId', $deviceTypeId)
+            ->getQuery();
+            
+        $result = $query->getResult();
+
+        return $result;
+    }
 }

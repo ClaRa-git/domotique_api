@@ -51,6 +51,9 @@ class Feature
     #[ORM\ManyToOne(inversedBy: 'features')]
     private ?DeviceType $deviceType = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $defaultValue = null;
+
     public function __construct()
     {
         $this->settings = new ArrayCollection();
@@ -159,6 +162,18 @@ class Feature
     public function setDeviceType(?DeviceType $deviceType): static
     {
         $this->deviceType = $deviceType;
+
+        return $this;
+    }
+
+    public function getDefaultValue(): ?string
+    {
+        return $this->defaultValue;
+    }
+
+    public function setDefaultValue(string $defaultValue): static
+    {
+        $this->defaultValue = $defaultValue;
 
         return $this;
     }

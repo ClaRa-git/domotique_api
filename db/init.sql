@@ -219,6 +219,7 @@ DROP TABLE IF EXISTS `feature`;
 CREATE TABLE `feature` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
+  `default_value`varchar(255) NOT NULL,
   `unit_id` int(11) DEFAULT NULL,
   `device_type_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -236,11 +237,11 @@ CREATE TABLE `feature` (
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
 INSERT INTO `feature` VALUES
-(1,'Température',1,1),
-(2,'Luminosité',2,2),
-(3,'On/Off',NULL,3),
-(4,'Couleur',NULL,5),
-(5,'Luminosité',2,5);
+(1,'Température','0',1,1),
+(2,'Luminosité','0',2,2),
+(3,'On/Off','false',NULL,3),
+(4,'Couleur','#ffffff',NULL,5),
+(5,'Luminosité','0',2,5);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
