@@ -194,10 +194,10 @@ final class ServiceController extends AbstractController
             // On créé un tableau parcourant $defaultSettings pour le formater
             foreach ($defaultSettings as $setting) {
                 $formattedSettings[] = [
-                    'id' => null,
+                    'id' => 0,
                     'featureId' => $setting->getFeature()->getId(),
                     'deviceId' => $setting->getDevice()->getId(),
-                    'vibeId' => $setting->getVibe()->getId(),
+                    'vibeId' => (int)$vibeId,
                     'label' => $setting->getFeature()->getLabel(),
                     'value' => $setting->getValue(),
                     'unit' => $setting->getFeature()->getUnit() ? $setting->getFeature()->getUnit()->getSymbol() : null,
@@ -212,7 +212,7 @@ final class ServiceController extends AbstractController
                 // On créé un tableau parcourant $features pour le formater
                 foreach ($features as $feature) {
                     $formattedSettings[] = [
-                        'id' => null,
+                        'id' => 0,
                         'featureId' => $feature->getId(),
                         'deviceId' => (int)$deviceId,
                         'vibeId' => (int)$vibeId,
