@@ -58,7 +58,6 @@ final class ServiceController extends AbstractController
         $device->setAddress($data['address']);
         $device->setBrand($data['brand'] ?? null);
         $device->setReference($data['reference'] ?? null);
-        $device->setState(0);
 
         // Vérifie si le DeviceType existe déjà
         $deviceType = $em->getRepository(DeviceType::class)->findOneBy(['label' => $data['deviceType']]);
@@ -149,13 +148,12 @@ final class ServiceController extends AbstractController
      * S'ils n'existent pas, on renvoie un message d'erreur
      * @Route("/service-setting", name="app_service_setting")
      * @param Request $request
-     * @param EntityManagerInterface $em
      * @param SettingRepository $settingRepository
      * @param FeatureRepository $featureRepository
      * @return JsonResponse
      */
     #[Route('/service-setting', name: 'app_service_setting', methods: ['POST'])]
-    public function getSettingsForDevice(Request $request, EntityManagerInterface $em, SettingRepository $settingRepository, FeatureRepository $featureRepository): JsonResponse
+    public function getSettingsForDevice(Request $request, SettingRepository $settingRepository, FeatureRepository $featureRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -182,6 +180,8 @@ final class ServiceController extends AbstractController
                 'label' => $setting->getFeature()->getLabel(),
                 'value' => $setting->getValue(),
                 'unit' => $setting->getFeature()->getUnit() ? $setting->getFeature()->getUnit()->getSymbol() : null,
+                'minimum' => $setting->getFeature()->getMinimum(),
+                'maximum' => $setting->getFeature()->getMaximum(),
             ];
         }
 
@@ -201,6 +201,8 @@ final class ServiceController extends AbstractController
                     'label' => $setting->getFeature()->getLabel(),
                     'value' => $setting->getValue(),
                     'unit' => $setting->getFeature()->getUnit() ? $setting->getFeature()->getUnit()->getSymbol() : null,
+                    'minimum' => $setting->getFeature()->getMinimum(),
+                    'maximum' => $setting->getFeature()->getMaximum(),
                 ];
             }
 
@@ -219,6 +221,8 @@ final class ServiceController extends AbstractController
                         'label' => $feature->getLabel(),
                         'value' => $feature->getDefaultValue(),
                         'unit' => $feature->getUnit() ? $feature->getUnit()->getSymbol() : null,
+                        'minimum' => $feature->getMinimum(),
+                        'maximum' => $feature->getMaximum(),
                     ];
                 }
 

@@ -53,10 +53,6 @@ class Device
     #[Groups(['device:read'])]
     private ?string $reference = null;
 
-    #[ORM\Column]
-    #[Groups(['device:read','room:read','setting:read','vibe:read'])]
-    private ?bool $state = null;
-
     #[ORM\ManyToOne(inversedBy: 'devices')]
     #[Groups(['device:read','room:read','vibe:read'])]
     private ?DeviceType $deviceType = null;
@@ -132,18 +128,6 @@ class Device
     public function setReference(string $reference): static
     {
         $this->reference = $reference;
-
-        return $this;
-    }
-
-    public function isState(): ?bool
-    {
-        return $this->state;
-    }
-
-    public function setState(bool $state): static
-    {
-        $this->state = $state;
 
         return $this;
     }

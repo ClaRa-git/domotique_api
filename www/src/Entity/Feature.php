@@ -54,6 +54,12 @@ class Feature
     #[ORM\Column(length: 255)]
     private ?string $defaultValue = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $minimum = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $maximum = null;
+
     public function __construct()
     {
         $this->settings = new ArrayCollection();
@@ -174,6 +180,30 @@ class Feature
     public function setDefaultValue(string $defaultValue): static
     {
         $this->defaultValue = $defaultValue;
+
+        return $this;
+    }
+
+    public function getMinimum(): ?int
+    {
+        return $this->minimum;
+    }
+
+    public function setMinimum(?int $minimum): static
+    {
+        $this->minimum = $minimum;
+
+        return $this;
+    }
+
+    public function getMaximum(): ?int
+    {
+        return $this->maximum;
+    }
+
+    public function setMaximum(?int $maximum): static
+    {
+        $this->maximum = $maximum;
 
         return $this;
     }

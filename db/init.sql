@@ -97,7 +97,7 @@ CREATE TABLE `default_setting` (
   KEY `IDX_9F74B89860E4B880` (`feature_id`),
   CONSTRAINT `FK_9F74B89860E4B880` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`),
   CONSTRAINT `FK_9F74B89894A4C7D5` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,10 @@ INSERT INTO `default_setting` VALUES
 (2,'50',2,2),
 (3,'false',3,3),
 (4,'40',4,5),
-(5,'red',4,4);
+(5,'#ffffff',4,4),
+(6,'true',1,6),
+(7,'false',2,6),
+(8,'true',4,7);
 /*!40000 ALTER TABLE `default_setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +131,6 @@ CREATE TABLE `device` (
   `address` varchar(50) NOT NULL,
   `brand` varchar(50) NOT NULL,
   `reference` varchar(50) NOT NULL,
-  `state` tinyint(1) NOT NULL,
   `device_type_id` int(11) DEFAULT NULL,
   `room_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -146,10 +148,10 @@ CREATE TABLE `device` (
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
 INSERT INTO `device` VALUES
-(1,'Ampoule Salon','1234567','Philips','1234567',0,2,1),
-(2,'Ampoule chambre','1234568','Philips','1234568',0,2,2),
-(3,'Prise salon','123456','Samsung','123456',0,3,1),
-(4,'Ampoule salon 2','123456','Samsung','123456',0,2,1);
+(1,'Ampoule Salon','1234567','Philips','1234567',2,1),
+(2,'Ampoule chambre','1234568','Philips','1234568',2,2),
+(3,'Prise salon','123456','Samsung','123456',3,1),
+(4,'Ampoule salon 2','123456','Samsung','123456',5,1);
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +221,9 @@ DROP TABLE IF EXISTS `feature`;
 CREATE TABLE `feature` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
-  `default_value`varchar(255) NOT NULL,
+  `default_value` varchar(255) NOT NULL,
+  `minimum` int(11) DEFAULT NULL,
+  `maximum` int(11) DEFAULT NULL,
   `unit_id` int(11) DEFAULT NULL,
   `device_type_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -227,7 +231,7 @@ CREATE TABLE `feature` (
   KEY `IDX_1FD77566F8BD701D` (`device_type_id`),
   CONSTRAINT `FK_1FD77566F8BD700D` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`),
   CONSTRAINT `FK_1FD77566F8BD701D` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,11 +241,13 @@ CREATE TABLE `feature` (
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
 INSERT INTO `feature` VALUES
-(1,'Température','0',1,1),
-(2,'Luminosité','0',2,2),
-(3,'On/Off','false',NULL,3),
-(4,'Couleur','#ffffff',NULL,5),
-(5,'Luminosité','0',2,5);
+(1,'Température','0',10,50,1,1),
+(2,'Luminosité','0',0,100,2,2),
+(3,'On/Off','false',NULL,NULL,NULL,3),
+(4,'Couleur','#ffffff',NULL,NULL,NULL,5),
+(5,'Luminosité','0',0,100,2,5),
+(6,'On/Off','false',NULL,NULL,NULL,2),
+(7,'On/Off','false',NULL,NULL,NULL,5);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -468,7 +474,7 @@ CREATE TABLE `setting` (
   CONSTRAINT `FK_9F74B8984B255BC3` FOREIGN KEY (`vibe_id`) REFERENCES `vibe` (`id`),
   CONSTRAINT `FK_9F74B89860E4B879` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`),
   CONSTRAINT `FK_9F74B89894A4C7D4` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,7 +486,12 @@ LOCK TABLES `setting` WRITE;
 INSERT INTO `setting` VALUES
 (1,'60',2,1,1),
 (2,'20',2,2,1),
-(3,'false',3,3,1);
+(3,'false',3,3,1),
+(10,'true',6,1,1),
+(11,'true',6,2,1),
+(12,'false',7,4,1),
+(13,'#00ff00',4,4,1),
+(14,'40',5,4,1);
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -650,4 +661,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-26 12:00:56
+-- Dump completed on 2025-05-02 17:42:18

@@ -280,14 +280,40 @@ class AppFixtures extends Fixture
     {
         $array_features = [
             [
+                'label' => 'On/Off',
+                'unit' => null,
+                'default_value' => 'false',
+                'deviceType' => 1
+            ],
+            [
+                'label' => 'On/Off',
+                'unit' => null,
+                'default_value' => 'false',
+                'deviceType' => 2
+            ],
+            [
+                'label' => 'On/Off',
+                'unit' => null,
+                'default_value' => 'false',
+                'deviceType' => 3
+            ],
+            [
+                'label' => 'On/Off',
+                'unit' => null,
+                'default_value' => 'false',
+                'deviceType' => 4
+            ],
+            [
                 'label' => 'Température',
                 'unit' => 1,
-                'default_value' => '0'
+                'default_value' => '0',
+                'deviceType' => 1
             ],
             [
                 'label' => 'Luminosité',
                 'unit' => 2,
-                'default_value' => '0'
+                'default_value' => '0',
+                'deviceType' => 2
             ]
         ];
 
@@ -295,6 +321,9 @@ class AppFixtures extends Fixture
             $new_feature = new Feature();
             $new_feature->setLabel($feature['label']);
             $new_feature->setDefaultValue($feature['default_value']);
+
+            // On récupère le type de dispositif à partir de la référence
+            $new_feature->setDeviceType($this->getReference('device_type_' . $feature['deviceType'], DeviceType::class));
 
             // On récupère l'unité à partir de la référence
             $new_feature->setUnit($this->getReference('unit_' . $feature['unit'], Unit::class));
@@ -339,7 +368,6 @@ class AppFixtures extends Fixture
                 'address' => '1234567',
                 'brand' => 'Philips',
                 'reference' => '1234567',
-                'state' => 0,
                 'device_type' => 2,
                 'room' => 1
             ],
@@ -348,7 +376,6 @@ class AppFixtures extends Fixture
                 'address' => '1234568',
                 'brand' => 'Philips',
                 'reference' => '1234568',
-                'state' => 0,
                 'device_type' => 2,
                 'room' => 2
             ]
@@ -362,7 +389,6 @@ class AppFixtures extends Fixture
             $new_device->setAddress($device['address']);
             $new_device->setBrand($device['brand']);
             $new_device->setReference($device['reference']);
-            $new_device->setState($device['state']);
 
             $manager->persist($new_device);
 

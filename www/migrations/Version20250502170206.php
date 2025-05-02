@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250501132045 extends AbstractMigration
+final class Version20250502170206 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -30,13 +30,13 @@ final class Version20250501132045 extends AbstractMigration
             CREATE TABLE default_setting (id INT AUTO_INCREMENT NOT NULL, value VARCHAR(255) NOT NULL, feature_id INT DEFAULT NULL, device_id INT DEFAULT NULL, INDEX IDX_6DF1E9DD60E4B879 (feature_id), INDEX IDX_6DF1E9DD94A4C7D4 (device_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE device (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, address VARCHAR(50) NOT NULL, brand VARCHAR(50) NOT NULL, reference VARCHAR(50) NOT NULL, state TINYINT(1) NOT NULL, device_type_id INT DEFAULT NULL, room_id INT DEFAULT NULL, INDEX IDX_92FB68E4FFA550E (device_type_id), INDEX IDX_92FB68E54177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE device (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, address VARCHAR(50) NOT NULL, brand VARCHAR(50) NOT NULL, reference VARCHAR(50) NOT NULL, device_type_id INT DEFAULT NULL, room_id INT DEFAULT NULL, INDEX IDX_92FB68E4FFA550E (device_type_id), INDEX IDX_92FB68E54177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE device_type (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, protocole_id INT DEFAULT NULL, INDEX IDX_5E78213F77FB932 (protocole_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE feature (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, default_value VARCHAR(255) NOT NULL, unit_id INT DEFAULT NULL, device_type_id INT DEFAULT NULL, INDEX IDX_1FD77566F8BD700D (unit_id), INDEX IDX_1FD775664FFA550E (device_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE feature (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, default_value VARCHAR(255) NOT NULL, minimum INT DEFAULT NULL, maximum INT DEFAULT NULL, unit_id INT DEFAULT NULL, device_type_id INT DEFAULT NULL, INDEX IDX_1FD77566F8BD700D (unit_id), INDEX IDX_1FD775664FFA550E (device_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE icon (id INT AUTO_INCREMENT NOT NULL, image_path VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
