@@ -37,6 +37,25 @@ services:
       # volumes montés
       - mysql-domotique:/var/lib/mysql
       - ./db:/root # envoi le répertoire db dans le container
+  
+  mosquitto:
+    # nom du service
+    image: eclipse-mosquitto:latest # image à utiliser
+    container_name: mqtt-broker # nom du container
+    restart: always # redémarrage automatique
+    ports:
+      # ports exposés
+      - "1883:1883" # port MQTT
+      - "9001:9001" # port WebSocket
+    volumes:
+      # volumes montés
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
 
 volumes:
   mysql-domotique:
+
+networks:
+  mqtt-net:
+    driver: bridge

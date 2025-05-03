@@ -18,3 +18,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\MqttClient:
+        arguments:
+            $host: '%env(MQTT_HOST)%'
+            $port: '%env(int:MQTT_PORT)%'
+            $username: '%env(MQTT_USERNAME)%'
+            $password: '%env(MQTT_PASSWORD)%'

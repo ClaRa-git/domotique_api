@@ -10,18 +10,15 @@ use App\Entity\Feature;
 use App\Entity\Icon;
 use App\Entity\Playlist;
 use App\Entity\Protocole;
-use App\Entity\Room;
 use App\Entity\Setting;
 use App\Entity\Vibe;
 use App\Repository\DeviceRepository;
 use App\Repository\FeatureRepository;
 use App\Repository\PlanningRepository;
-use App\Repository\PlaylistRepository;
 use App\Repository\SettingRepository;
-use App\Repository\VibeRepository;
+use App\Service\MqttClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -182,6 +179,10 @@ final class ServiceController extends AbstractController
             $formattedSettings[] = [
                 'id' => $setting->getId(),
                 'featureId' => $setting->getFeature()->getId(),
+                'featureLabel' => $setting->getFeature()->getLabel(),
+                'deviceAddress' => $setting->getDevice()->getAddress(),
+                'deviceRef' => $setting->getDevice()->getReference(),
+                'deviceLabel' => $setting->getDevice()->getLabel(),
                 'deviceId' => $setting->getDevice()->getId(),
                 'vibeId' => $setting->getVibe()->getId(),
                 'label' => $setting->getFeature()->getLabel(),
@@ -455,6 +456,34 @@ final class ServiceController extends AbstractController
             'status' => 'ok',
             'vibes' => $fullVibes
         ]);
+    }
+
+    /**
+     * Méthode pour envoyer les réglages d'une ambiance à un appareil
+     * @Route("/send-vibe", name="app_send_vibe")
+     * @param Request $request
+     * @param MqttService $mqttService
+     * @return JsonResponse
+     */
+    #[Route('/send-vibe', name: 'send_vibe', methods: ['POST'])]
+    public function sendVibe(Request $request, MqttClient $mqttClient): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $settings = $data['settings'] ?? [];
+
+        foreach ($settings as $setting) {
+            $topic = 'device/' . $setting['deviceAddress'];
+            $message = json_encode([
+                'value' => $setting['value'],
+                'ref'   => $setting['deviceRef'],
+                'label' => $setting['deviceLabel'],
+                'feature' => $setting['featureLabel'],
+                'address' => $setting['deviceAddress']
+            ]);
+            $mqttClient->publish($topic, $message);
+        }
+
+        return new JsonResponse(['status' => 'success']);
     }
 
 }
