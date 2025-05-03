@@ -40,4 +40,29 @@ class VibeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Méthode pour récupérer les vibes d'un profil
+     * @param int $profileId
+     * @return Vibe[]
+     */
+    public function getAllForUser(int $profileId): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $qb = $entityManager->createQueryBuilder();
+
+        $query = $qb->select([
+            'v',
+        ])
+            ->from(Vibe::class, 'v')
+            ->join('v.profile', 'p')
+            ->where('p.id = :profileId')
+            ->setParameter('profileId', $profileId)
+            ->getQuery();
+
+        $result = $query->getResult();
+
+        return $result;       
+    }
 }

@@ -2,17 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Criteria;
 use App\Entity\DefaultSetting;
 use App\Entity\Device;
 use App\Entity\DeviceType;
 use App\Entity\Feature;
+use App\Entity\Icon;
+use App\Entity\Playlist;
 use App\Entity\Protocole;
+use App\Entity\Room;
 use App\Entity\Setting;
 use App\Entity\Vibe;
 use App\Repository\DeviceRepository;
 use App\Repository\FeatureRepository;
 use App\Repository\PlanningRepository;
+use App\Repository\PlaylistRepository;
 use App\Repository\SettingRepository;
+use App\Repository\VibeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Definition;
@@ -46,7 +52,7 @@ final class ServiceController extends AbstractController
      * @param FeatureRepository $featureRepo
      * @return JsonResponse
      */
-    #[Route('/api/device/init', name: 'api_device_init', methods: ['POST'])]
+    #[Route('/api/device-init', name: 'api_device_init', methods: ['POST'])]
     public function initDevice(Request $request, EntityManagerInterface $em, FeatureRepository $featureRepo): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
@@ -335,4 +341,120 @@ final class ServiceController extends AbstractController
             'message' => 'Settings updated'
         ]);
     }
+
+    /**
+     * Méthode pour récupérer les vibes recommandées
+     * @Route("/service-vibe-recommended", name="app_service_vibe_recommended")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    #[Route('/service-vibe-recommended', name: 'app_service_vibe_recommended', methods: ['POST'])]
+    public function recommendVibes(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $userId = $data['userId'];
+        $userMood = $data['mood'];
+        $userTone = $data['tone'];
+        $userStress = $data['stress'];
+
+        $vibeRepository = $em->getRepository(Vibe::class);
+        $vibes = $vibeRepository->getAllForUser($userId);
+
+        $results = [];
+
+        foreach ($vibes as $vibe) {
+            $distance = sqrt(
+                pow($vibe->getCriteria()->getMood() - $userMood, 2) +
+                pow($vibe->getCriteria()->getTone() - $userTone, 2) +
+                pow($vibe->getCriteria()->getStress() - $userStress, 2)
+            );
+
+            $results[] = ['vibe' => $vibe, 'distance' => $distance];
+        }
+
+        usort($results, fn($a, $b) => $a['distance'] <=> $b['distance']);
+
+        // retourne les 2 vibes les plus proches
+        $topVibes = array_slice(array_map(fn($r) => $r['vibe'], $results), 0, 2);
+
+        // On va réconstruire les vibes
+        $fullVibes = [];
+
+        // On récupère les critères des vibes
+        foreach ($topVibes as $vibe) {
+            $criteriaId = $vibe->getCriteria()->getId();
+            $criteria = $em->getRepository(Criteria::class)->find($criteriaId);
+            
+            $iconId = $vibe->getIcon()->getId();
+            $icon = $em->getRepository(Icon::class)->find($iconId);
+
+            $playlistId = $vibe->getPlaylist()->getId();
+            $playlist = $em->getRepository(Playlist::class)->find($playlistId);
+
+            $settings = $em->getRepository(Setting::class)->findBy(['vibe' => $vibe]);            
+            $formattedSettings = [];
+
+            foreach ($settings as $setting) {
+                $device = $em->getRepository(Device::class)->find($setting->getDevice()->getId());
+
+                $formattedSettings[] = [
+                    'id' => $setting->getId(),
+                    'value' => $setting->getValue(),
+                    'deviceAddress' => $device->getAddress(),
+                    'roomId' => $device->getRoom()->getId(),
+                    'featureLabel' => $setting->getFeature()->getLabel()
+                ];
+            }
+
+            $playlistSongs = [];
+            $playlistId = 0;
+            $playlistTitle = '';
+
+            if ($playlist) {
+                $playlistId = $playlist->getId();
+                $playlistTitle = $playlist->getTitle();
+
+                // On récupère toutes les songs de la playlist
+                $songs = $playlist->getSongs();
+                foreach ($songs as $song) {
+                    $playlistSongs[] = [
+                        'id' => $song->getId(),
+                        'title' => $song->getTitle(),
+                        'artist' => $song->getArtist(),
+                        'duration' => $song->getDuration(),
+                        'filePath' => $song->getFilePath(),
+                        'imagePath' => $song->getImagePath()
+                    ];
+                }
+            }
+
+            $fullVibes[] = [
+                'id' => $vibe->getId(),
+                'label' => $vibe->getLabel(),
+                'criteria' => [
+                    'id' => $criteria->getId(),
+                    'mood' => $criteria->getMood(),
+                    'tone' => $criteria->getTone(),
+                    'stress' => $criteria->getStress()
+                ],
+                'icon' => [
+                    'id' => $icon->getId(),
+                    'imagePath' => $icon->getImagePath()
+                ],
+                'playlist' => [
+                    'id' => $playlistId,
+                    'title' => $playlistTitle,
+                    'songs' => $playlistSongs
+                ],
+                'settings' => $formattedSettings
+            ];
+        }
+
+        return $this->json([
+            'status' => 'ok',
+            'vibes' => $fullVibes
+        ]);
+    }
+
 }
