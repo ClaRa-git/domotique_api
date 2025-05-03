@@ -8,6 +8,7 @@ use App\Entity\DeviceType;
 use App\Entity\Feature;
 use App\Entity\Protocole;
 use App\Entity\Setting;
+use App\Entity\Vibe;
 use App\Repository\DeviceRepository;
 use App\Repository\FeatureRepository;
 use App\Repository\PlanningRepository;
@@ -185,11 +186,44 @@ final class ServiceController extends AbstractController
             ];
         }
 
-        // S'il n'existe pas de réglages
-        if (empty($formattedSettings)) {
+        // On regarde si l'appareil a des réglages par défaut
+        $defaultSettings = $settingRepository->getDefaultSettings($deviceId);
 
-            // On regarde si l'appareil a des réglages par défaut
-            $defaultSettings = $settingRepository->getDefaultSettings($deviceId);
+        // Si le taille de settings est différente de celle de defaultSettings
+        // On combine les deux tableaux
+        if (count($settings) !== count($defaultSettings)) {
+            // On garde les réglages de l'appareil et on rajoute les réglages par défaut qui n'exite pas dans $settings
+            foreach ($defaultSettings as $setting) {
+                $found = false;
+                foreach ($settings as $s) {
+                    if ($s->getFeature()->getId() === $setting->getFeature()->getId()) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $formattedSettings[] = [
+                        'id' => 0,
+                        'featureId' => $setting->getFeature()->getId(),
+                        'deviceId' => $setting->getDevice()->getId(),
+                        'vibeId' => (int)$vibeId,
+                        'label' => $setting->getFeature()->getLabel(),
+                        'value' => $setting->getValue(),
+                        'unit' => $setting->getFeature()->getUnit() ? $setting->getFeature()->getUnit()->getSymbol() : null,
+                        'minimum' => $setting->getFeature()->getMinimum(),
+                        'maximum' => $setting->getFeature()->getMaximum(),
+                    ];
+                }
+            }
+
+            return $this->json([
+                'status' => 'ok',
+                'message' => 'Settings/Default settings found',
+                'settings' => $formattedSettings
+            ]);
+        } 
+        // S'il n'existe pas de réglages
+        else if (empty($formattedSettings)) {
 
             // On créé un tableau parcourant $defaultSettings pour le formater
             foreach ($defaultSettings as $setting) {
@@ -241,7 +275,6 @@ final class ServiceController extends AbstractController
                 ]);
             }
         } else {
-
             return $this->json([
                 'status' => 'ok',
                 'message' => 'Settings found',
@@ -253,5 +286,53 @@ final class ServiceController extends AbstractController
             'status' => 'error',
             'message' => 'No setting/feature found'
         ]);
-    }    
+    }
+
+    /**
+     * @Route("/settings-update", name="app_settings_update")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    #[Route('/service-settings-update', name: 'app_service-settings_update', methods: ['POST'])]
+    public function updateSettings(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérifie si le payload est vide
+        if (!$data) {
+            return new JsonResponse(['error' => 'Invalid payload'], 400);
+        }
+
+        foreach ($data as $settingData) {
+            // Vérifie si le setting existe
+            $setting = $em->getRepository(Setting::class)->find($settingData['id']);
+            if ($setting) {
+                // Met à jour la valeur du setting
+                $setting->setValue($settingData['value']);
+                $em->persist($setting);
+            } 
+            // Si le setting n'existe pas, on le crée
+            else {
+                $device = $em->getRepository(Device::class)->find($settingData['deviceId']);
+                $vibe = $em->getRepository(Vibe::class)->find($settingData['vibeId']);
+                $feature = $em->getRepository(Feature::class)->find($settingData['featureId']);
+
+                $setting = new Setting();
+                $setting->setValue($settingData['value']);
+                $setting->setDevice($device);
+                $setting->setVibe($vibe);
+                $setting->setFeature($feature);
+                $em->persist($setting);
+            }
+
+            // On met à jour le réglage
+            $em->flush();
+        }
+
+        return $this->json([
+            'status' => 'ok',
+            'message' => 'Settings updated'
+        ]);
+    }
 }
