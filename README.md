@@ -1,53 +1,10 @@
-# 📦 Recipe Docker API Symfony 7 et API Platform
+# 📦 Projet Domotique Hoomy
+
+## Application de bien être qui permet de créer des vibes qui contrôleront des appareils domotiques
 
 ## 📋 Prérequis
 
 ### ⚠️ BIEN LIRE TOUTE LA DOCUMENTATION
-
-- [Docker](https://docs.docker.com/engine/install/) : Installation de Docker.
-
-## 📂 Récupération du projet
-
-Clonez le dépôt Git pour récupérer le projet :
-
-```bash
-git clone git@github.com:lidem-admin-github/modele-api-symfony7-Apiplateforme-vierge.git
-```
-
-ou
-
-```bash
-git clone https://github.com/lidem-admin-github/modele-api-symfony7-Apiplateforme-vierge.git
-```
-
-## 🔧 Configuration de la base de données
-
-Dans le fichier `docker-compose.yml`, redéfinissez les valeurs de la base de données :
-
-```yml
-services:
-  mariadb:
-    environment:
-      - MYSQL_ROOT_PASSWORD=mot_de_passe_root
-      - MYSQL_DATABASE=nom_bdd
-      - MYSQL_USER=nom_user
-      - MYSQL_PASSWORD=mdp_user
-```
-
-## 🔩 Configuration du fichier .htaccess
-
-Une fois votre projet monté, le point d'entrée de l'application sera dans /public/index.php :
-Récupérer le .htaccess à la racine et placé le dans le dossier public.
-
-```bash
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    # Rewrite everything to the front controller
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [QSA,L]
-</IfModule>
-```
 
 ## 🚀 Démarrage de Docker
 
@@ -121,27 +78,26 @@ source ~/.bash_profile
 
 ## 📦 Installation du projet Symfony
 
-```bash
+```
+bash
+
 ccomposer install
+
+```
+nnpm
+npm i
+
 ```
 
-## 📝 Commandes principale console Symfony
-
-```bash
-cconsole make:entity
+## Import de la base de donnée (pas de fixture)
 ```
-
-```bash
-cconsole make:migration
-```
-
-```bash
-cconsole d:m:m
+db-import
 ```
 
 ⚠️ **Attention** : Vérifiez votre .env avec les valeurs de vos variables d'environnement définies précédemment.
 
 ## 🎉 ENJOY :)
+
 
 mkdir -p www/config/jwt
 openssl genpkey -out www/config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
