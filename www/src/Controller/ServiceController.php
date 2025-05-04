@@ -326,9 +326,11 @@ final class ServiceController extends AbstractController
                 $em->persist($setting);
             }
 
-            // On met à jour le réglage
-            $em->flush();
+            
         }
+        
+        // On met à jour le réglage
+        $em->flush();
 
         return $this->json([
             'status' => 'ok',
@@ -454,7 +456,7 @@ final class ServiceController extends AbstractController
     }
 
     /**
-     * Méthode pour envoyer les réglages d'une ambiance à un appareil
+     * Méthode pour lancer une ambiance
      * @Route("/send-vibe", name="app_send_vibe")
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -477,24 +479,25 @@ final class ServiceController extends AbstractController
         $newVibePlaying->setVibe($vibe);
         $newVibePlaying->setProfile($em->getRepository(Profile::class)->find($vibe->getProfile()->getId()));
         $em->persist($newVibePlaying);
+        $em->flush();
 
         // On met à jour la pièce
         $room = $em->getRepository(Room::class)->find($roomId);
         if ($room) {
             $room->setVibePlaying($newVibePlaying);
             $em->persist($room);
+            $em->flush();
         }
 
-        $em->flush();
-
-        $playlist = $em->getRepository(Playlist::class)->find($vibe->getPlaylist()->getSongs());
+        $playlist = $em->getRepository(Playlist::class)->find($vibe->getPlaylist()->getId());
+        $songs = $playlist->getSongs();
 
         foreach ($settings as $setting) {
             $topic = 'device/' . $setting['deviceAddress'];
 
             if ($setting['featureLabel'] === 'Play') {
                 $message = json_encode([
-                    'playlist' => $playlist,
+                    'playlist' => $songs,
                     'ref'   => $setting['deviceRef'],
                     'label' => $setting['deviceLabel'],
                     'feature' => $setting['featureLabel'],
@@ -622,6 +625,54 @@ final class ServiceController extends AbstractController
                 'value' => "false",
                 'address' => $device->getAddress()
             ]);
+
+            $mqttClient->publish($topic, $message);
+        }
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
+    /**
+     * Méthode pour mettre à jour en direct les réglages d'un appareil
+     * @Route("/test-settings", name="app_send_vibe")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param MqttService $mqttService
+     * @return JsonResponse
+     */
+    #[Route('/test-settings', name: 'test-settings', methods: ['POST'])]
+    public function testSettings(Request $request, EntityManagerInterface $em, MqttClient $mqttClient): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $settings = $data['settings'] ?? [];
+        $vibeId = $data['vibeId'] ?? null;
+
+        $vibe = $em->getRepository(Vibe::class)->find($vibeId);
+
+        $playlist = $em->getRepository(Playlist::class)->find($vibe->getPlaylist()->getId());
+        $songs = $playlist->getSongs();
+
+        foreach ($settings as $setting) {
+            $topic = 'device/' . $setting['deviceAddress'];
+
+            if ($setting['featureLabel'] === 'Play') {
+                $message = json_encode([
+                    'playlist' => $songs,
+                    'ref'   => $setting['deviceRef'],
+                    'label' => $setting['deviceLabel'],
+                    'feature' => $setting['featureLabel'],
+                    'address' => $setting['deviceAddress']
+                ]);
+            } else {
+                $message = json_encode([
+                    'value' => $setting['value'],
+                    'ref'   => $setting['deviceRef'],
+                    'label' => $setting['deviceLabel'],
+                    'feature' => $setting['featureLabel'],
+                    'address' => $setting['deviceAddress']
+                ]);
+            }
 
             $mqttClient->publish($topic, $message);
         }

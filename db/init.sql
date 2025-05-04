@@ -97,7 +97,7 @@ CREATE TABLE `default_setting` (
   KEY `IDX_9F74B89860E4B880` (`feature_id`),
   CONSTRAINT `FK_9F74B89860E4B880` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`id`),
   CONSTRAINT `FK_9F74B89894A4C7D5` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,7 +114,10 @@ INSERT INTO `default_setting` VALUES
 (5,'#ffffff',4,4),
 (6,'true',1,6),
 (7,'false',2,6),
-(8,'true',4,7);
+(8,'true',4,7),
+(9,'false',7,8),
+(10,'true',7,9),
+(11,'25',7,10);
 /*!40000 ALTER TABLE `default_setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +141,7 @@ CREATE TABLE `device` (
   KEY `IDX_92FB68E54177093` (`room_id`),
   CONSTRAINT `FK_92FB68E4FFA550E` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`),
   CONSTRAINT `FK_92FB68E54177093` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +154,8 @@ INSERT INTO `device` VALUES
 (1,'Ampoule Salon','1234567','Philips','1234567',2,1),
 (2,'Ampoule chambre','1234568','Philips','1234568',2,2),
 (3,'Prise salon','123456','Samsung','123456',3,1),
-(4,'Ampoule salon 2','123456','Samsung','123456',5,1);
+(4,'Ampoule salon 2','123456','Samsung','123456',5,1),
+(7,'Player JBL','aa:bb:cc:dd','JBL','753643',6,2);
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +173,7 @@ CREATE TABLE `device_type` (
   PRIMARY KEY (`id`),
   KEY `IDX_4D3F4B2A7C1A0B6` (`protocole_id`),
   CONSTRAINT `FK_4D3F4B2A7C1A0B6` FOREIGN KEY (`protocole_id`) REFERENCES `protocole` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,7 +187,8 @@ INSERT INTO `device_type` VALUES
 (2,'Ampoule blanche',1),
 (3,'Prise',1),
 (4,'Capteur température',1),
-(5,'Ampoule couleur',1);
+(5,'Ampoule couleur',1),
+(6,'Player',3);
 /*!40000 ALTER TABLE `device_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +235,7 @@ CREATE TABLE `feature` (
   KEY `IDX_1FD77566F8BD701D` (`device_type_id`),
   CONSTRAINT `FK_1FD77566F8BD700D` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`),
   CONSTRAINT `FK_1FD77566F8BD701D` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,7 +251,10 @@ INSERT INTO `feature` VALUES
 (4,'Couleur',NULL,NULL,NULL,5),
 (5,'Luminosité',0,100,2,5),
 (6,'On/Off',NULL,NULL,NULL,2),
-(7,'On/Off',NULL,NULL,NULL,5);
+(7,'On/Off',NULL,NULL,NULL,5),
+(8,'On/Off',NULL,NULL,NULL,6),
+(9,'Play',NULL,NULL,NULL,6),
+(10,'Volume',0,100,4,6);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -422,8 +430,8 @@ CREATE TABLE `room` (
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
 INSERT INTO `room` VALUES
-(1,'Salon','salon.jpg',null),
-(2,'Chambre','chambre.jpg',null);
+(1,'Salon','salon.jpg',NULL),
+(2,'Chambre','chambre.jpg',NULL);
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -571,7 +579,7 @@ CREATE TABLE `unit` (
   `label` varchar(50) NOT NULL,
   `symbol` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -583,7 +591,8 @@ LOCK TABLES `unit` WRITE;
 INSERT INTO `unit` VALUES
 (1,'Celsius','°C'),
 (2,'Watt','W'),
-(3,'Lumen','lm');
+(3,'Lumen','lm'),
+(4,'Pourcent','%');
 /*!40000 ALTER TABLE `unit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -689,4 +698,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-05-02 17:42:18
+-- Dump completed on 2025-05-04 12:55:40
