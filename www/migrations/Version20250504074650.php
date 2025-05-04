@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250502170206 extends AbstractMigration
+final class Version20250504074650 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -54,7 +54,7 @@ final class Version20250502170206 extends AbstractMigration
             CREATE TABLE protocole (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, image_path VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, image_path VARCHAR(255) NOT NULL, vibe_playing_id INT DEFAULT NULL, INDEX IDX_729F519BFB41A6EC (vibe_playing_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE room_planning (room_id INT NOT NULL, planning_id INT NOT NULL, INDEX IDX_747F7F3254177093 (room_id), INDEX IDX_747F7F323D865311 (planning_id), PRIMARY KEY(room_id, planning_id)) DEFAULT CHARACTER SET utf8mb4
@@ -76,6 +76,9 @@ final class Version20250502170206 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE vibe (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, criteria_id INT DEFAULT NULL, playlist_id INT DEFAULT NULL, profile_id INT DEFAULT NULL, icon_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_42054C01990BEA15 (criteria_id), INDEX IDX_42054C016BBD148 (playlist_id), INDEX IDX_42054C01CCFA12B8 (profile_id), INDEX IDX_42054C0154B9D732 (icon_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE vibe_playing (id INT AUTO_INCREMENT NOT NULL, profile_id INT DEFAULT NULL, vibe_id INT DEFAULT NULL, INDEX IDX_9A4E5796CCFA12B8 (profile_id), INDEX IDX_9A4E57964B255BC3 (vibe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE default_setting ADD CONSTRAINT FK_6DF1E9DD60E4B879 FOREIGN KEY (feature_id) REFERENCES feature (id)
@@ -111,6 +114,9 @@ final class Version20250502170206 extends AbstractMigration
             ALTER TABLE profile ADD CONSTRAINT FK_8157AA0F86383B10 FOREIGN KEY (avatar_id) REFERENCES avatar (id)
         SQL);
         $this->addSql(<<<'SQL'
+            ALTER TABLE room ADD CONSTRAINT FK_729F519BFB41A6EC FOREIGN KEY (vibe_playing_id) REFERENCES vibe_playing (id)
+        SQL);
+        $this->addSql(<<<'SQL'
             ALTER TABLE room_planning ADD CONSTRAINT FK_747F7F3254177093 FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE
         SQL);
         $this->addSql(<<<'SQL'
@@ -142,6 +148,12 @@ final class Version20250502170206 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE vibe ADD CONSTRAINT FK_42054C0154B9D732 FOREIGN KEY (icon_id) REFERENCES icon (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE vibe_playing ADD CONSTRAINT FK_9A4E5796CCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE vibe_playing ADD CONSTRAINT FK_9A4E57964B255BC3 FOREIGN KEY (vibe_id) REFERENCES vibe (id)
         SQL);
     }
 
@@ -182,6 +194,9 @@ final class Version20250502170206 extends AbstractMigration
             ALTER TABLE profile DROP FOREIGN KEY FK_8157AA0F86383B10
         SQL);
         $this->addSql(<<<'SQL'
+            ALTER TABLE room DROP FOREIGN KEY FK_729F519BFB41A6EC
+        SQL);
+        $this->addSql(<<<'SQL'
             ALTER TABLE room_planning DROP FOREIGN KEY FK_747F7F3254177093
         SQL);
         $this->addSql(<<<'SQL'
@@ -213,6 +228,12 @@ final class Version20250502170206 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE vibe DROP FOREIGN KEY FK_42054C0154B9D732
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE vibe_playing DROP FOREIGN KEY FK_9A4E5796CCFA12B8
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE vibe_playing DROP FOREIGN KEY FK_9A4E57964B255BC3
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE avatar
@@ -270,6 +291,9 @@ final class Version20250502170206 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE vibe
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE vibe_playing
         SQL);
     }
 }

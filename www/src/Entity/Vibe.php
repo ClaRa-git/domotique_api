@@ -39,11 +39,11 @@ class Vibe
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['vibe:read', 'device:read', 'icon:read', 'planning:read', 'playlist:read', 'profile:read', 'room:read', 'setting:read'])]
+    #[Groups(['vibe:read', 'device:read', 'icon:read', 'planning:read', 'playlist:read', 'profile:read', 'room:read', 'setting:read', 'vibe_playing:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['vibe:read', 'vibe:write', 'device:read', 'icon:read', 'planning:read', 'playlist:read', 'profile:read', 'room:read', 'setting:read'])]
+    #[Groups(['vibe:read', 'vibe:write', 'device:read', 'icon:read', 'planning:read', 'playlist:read', 'profile:read', 'room:read', 'setting:read', 'vibe_playing:read'])]
     private ?string $label = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -76,10 +76,17 @@ class Vibe
     #[Groups(['vibe:read', 'vibe:write'])]
     private ?Icon $icon = null;
 
+    /**
+     * @var Collection<int, VibePlaying>
+     */
+    #[ORM\OneToMany(targetEntity: VibePlaying::class, mappedBy: 'vibe')]
+    private Collection $vibePlayings;
+
     public function __construct()
     {
         $this->plannings = new ArrayCollection();
         $this->settings = new ArrayCollection();
+        $this->vibePlayings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,6 +210,36 @@ class Vibe
     public function setIcon(?Icon $icon): static
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VibePlaying>
+     */
+    public function getVibePlayings(): Collection
+    {
+        return $this->vibePlayings;
+    }
+
+    public function addVibePlaying(VibePlaying $vibePlaying): static
+    {
+        if (!$this->vibePlayings->contains($vibePlaying)) {
+            $this->vibePlayings->add($vibePlaying);
+            $vibePlaying->setVibe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVibePlaying(VibePlaying $vibePlaying): static
+    {
+        if ($this->vibePlayings->removeElement($vibePlaying)) {
+            // set the owning side to null (unless already changed)
+            if ($vibePlaying->getVibe() === $this) {
+                $vibePlaying->setVibe(null);
+            }
+        }
 
         return $this;
     }

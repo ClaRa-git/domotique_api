@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
@@ -19,16 +21,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     normalizationContext: ['groups' => ['room:read']]
 )]
+#[ApiFilter(
+    ExistsFilter::class,
+    properties: [
+        'vibePlaying'
+    ]
+)]
 class Room
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['room:read', 'device:read', 'planning:read', 'profile:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['room:read', 'device:read', 'planning:read', 'profile:read', 'setting:read', 'vibe:read', "vibe_playing:read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['room:read', 'device:read', 'planning:read', 'profile:read', 'setting:read', 'vibe:read'])]
+    #[Groups(['room:read', 'device:read', 'planning:read', 'profile:read', 'setting:read', 'vibe:read', 'vibe_playing:read'])]
     private ?string $label = null;
 
     /**
@@ -48,6 +56,10 @@ class Room
     #[ORM\Column(length: 255)]
     #[Groups(['room:read'])]
     private ?string $imagePath = null;
+
+    #[ORM\ManyToOne(inversedBy: 'rooms')]
+    #[Groups(['room:read'])]
+    private ?VibePlaying $vibePlaying = null;
 
     public function __construct()
     {
@@ -141,5 +153,17 @@ class Room
     public function __toString(): string
     {
         return $this->label;
+    }
+
+    public function getVibePlaying(): ?VibePlaying
+    {
+        return $this->vibePlaying;
+    }
+
+    public function setVibePlaying(?VibePlaying $vibePlaying): static
+    {
+        $this->vibePlaying = $vibePlaying;
+
+        return $this;
     }
 }

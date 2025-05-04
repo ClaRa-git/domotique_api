@@ -411,6 +411,7 @@ CREATE TABLE `room` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
   `image_path` varchar(255) NOT NULL,
+  `vibe_playing_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -422,8 +423,8 @@ CREATE TABLE `room` (
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
 INSERT INTO `room` VALUES
-(1,'Salon','salon.jpg'),
-(2,'Chambre','chambre.jpg');
+(1,'Salon','salon.jpg',null),
+(2,'Chambre','chambre.jpg',null);
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -650,6 +651,34 @@ LOCK TABLES `vibe` WRITE;
 INSERT INTO `vibe` VALUES
 (1,'chill',1,2,1,1);
 /*!40000 ALTER TABLE `vibe` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vibe_playing`
+--
+
+DROP TABLE IF EXISTS `vibe_playing`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vibe_playing` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_id` int(11) DEFAULT NULL,
+  `vibe_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_42054C01CCFA12C9` (`profile_id`),
+  KEY `IDX_42054C0154B9D743` (`vibe_id`),
+  CONSTRAINT `FK_42054C0154B9D743` FOREIGN KEY (`vibe_id`) REFERENCES `vibe` (`id`),
+  CONSTRAINT `FK_42054C01CCFA12C9` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vibe_playing`
+--
+
+LOCK TABLES `vibe_playing` WRITE;
+/*!40000 ALTER TABLE `vibe_playing` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vibe_playing` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

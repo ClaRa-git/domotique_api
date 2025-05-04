@@ -27,11 +27,11 @@ class Profile
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['profile:read', 'playlist:read', 'vibe:read'])]
+    #[Groups(['profile:read', 'playlist:read', 'vibe:read', 'vibe_playing:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['profile:read', 'profile:write', 'playlist:read', 'vibe:read'])]
+    #[Groups(['profile:read', 'profile:write', 'playlist:read', 'vibe:read', 'vibe_playing:read'])]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
@@ -62,11 +62,18 @@ class Profile
     #[ORM\OneToMany(targetEntity: Planning::class, mappedBy: 'profile')]
     private Collection $plannings;
 
+    /**
+     * @var Collection<int, VibePlaying>
+     */
+    #[ORM\OneToMany(targetEntity: VibePlaying::class, mappedBy: 'profile')]
+    private Collection $vibePlayings;
+
     public function __construct()
     {
         $this->playlists = new ArrayCollection();
         $this->vibes = new ArrayCollection();
         $this->plannings = new ArrayCollection();
+        $this->vibePlayings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,6 +206,36 @@ class Profile
             // set the owning side to null (unless already changed)
             if ($planning->getProfile() === $this) {
                 $planning->setProfile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VibePlaying>
+     */
+    public function getVibePlayings(): Collection
+    {
+        return $this->vibePlayings;
+    }
+
+    public function addVibePlaying(VibePlaying $vibePlaying): static
+    {
+        if (!$this->vibePlayings->contains($vibePlaying)) {
+            $this->vibePlayings->add($vibePlaying);
+            $vibePlaying->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVibePlaying(VibePlaying $vibePlaying): static
+    {
+        if ($this->vibePlayings->removeElement($vibePlaying)) {
+            // set the owning side to null (unless already changed)
+            if ($vibePlaying->getProfile() === $this) {
+                $vibePlaying->setProfile(null);
             }
         }
 

@@ -9,9 +9,12 @@ use App\Entity\DeviceType;
 use App\Entity\Feature;
 use App\Entity\Icon;
 use App\Entity\Playlist;
+use App\Entity\Profile;
 use App\Entity\Protocole;
+use App\Entity\Room;
 use App\Entity\Setting;
 use App\Entity\Vibe;
+use App\Entity\VibePlaying;
 use App\Repository\DeviceRepository;
 use App\Repository\FeatureRepository;
 use App\Repository\PlanningRepository;
@@ -212,6 +215,10 @@ final class ServiceController extends AbstractController
                     $formattedSettings[] = [
                         'id' => 0,
                         'featureId' => $setting->getFeature()->getId(),
+                        'featureLabel' => $setting->getFeature()->getLabel(),
+                        'deviceAddress' => $setting->getDevice()->getAddress(),
+                        'deviceRef' => $setting->getDevice()->getReference(),
+                        'deviceLabel' => $setting->getDevice()->getLabel(),
                         'deviceId' => $setting->getDevice()->getId(),
                         'vibeId' => (int)$vibeId,
                         'label' => $setting->getFeature()->getLabel(),
@@ -237,6 +244,10 @@ final class ServiceController extends AbstractController
                 $formattedSettings[] = [
                     'id' => 0,
                     'featureId' => $setting->getFeature()->getId(),
+                    'featureLabel' => $setting->getFeature()->getLabel(),
+                    'deviceAddress' => $setting->getDevice()->getAddress(),
+                    'deviceRef' => $setting->getDevice()->getReference(),
+                    'deviceLabel' => $setting->getDevice()->getLabel(),
                     'deviceId' => $setting->getDevice()->getId(),
                     'vibeId' => (int)$vibeId,
                     'label' => $setting->getFeature()->getLabel(),
@@ -250,26 +261,9 @@ final class ServiceController extends AbstractController
             // S'il n'existe pas de réglages par défaut
             if (empty($formattedSettings)) {
 
-                // On recupère les features de l'appareil
-                $features = $featureRepository->getFeaturesUnitsForType($deviceTypeId);
-                // On créé un tableau parcourant $features pour le formater
-                foreach ($features as $feature) {
-                    $formattedSettings[] = [
-                        'id' => 0,
-                        'featureId' => $feature->getId(),
-                        'deviceId' => (int)$deviceId,
-                        'vibeId' => (int)$vibeId,
-                        'label' => $feature->getLabel(),
-                        'value' => $feature->getDefaultValue(),
-                        'unit' => $feature->getUnit() ? $feature->getUnit()->getSymbol() : null,
-                        'minimum' => $feature->getMinimum(),
-                        'maximum' => $feature->getMaximum(),
-                    ];
-                }
-
                 return $this->json([
                     'status' => 'ok',
-                    'message' => 'Features found',
+                    'message' => 'No settings/defaut settings found',
                     'settings' => $formattedSettings
                 ]);
 
@@ -402,6 +396,8 @@ final class ServiceController extends AbstractController
                 $formattedSettings[] = [
                     'id' => $setting->getId(),
                     'value' => $setting->getValue(),
+                    'deviceLabel' => $device->getLabel(),
+                    'deviceRef' => $device->getReference(),
                     'deviceAddress' => $device->getAddress(),
                     'roomId' => $device->getRoom()->getId(),
                     'featureLabel' => $setting->getFeature()->getLabel()
@@ -462,28 +458,174 @@ final class ServiceController extends AbstractController
      * Méthode pour envoyer les réglages d'une ambiance à un appareil
      * @Route("/send-vibe", name="app_send_vibe")
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @param MqttService $mqttService
      * @return JsonResponse
      */
     #[Route('/send-vibe', name: 'send_vibe', methods: ['POST'])]
-    public function sendVibe(Request $request, MqttClient $mqttClient): JsonResponse
+    public function sendVibe(Request $request, EntityManagerInterface $em, MqttClient $mqttClient): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
         $settings = $data['settings'] ?? [];
+        $playlist = $data['songs'] ?? null;
+        $vibeId = $data['vibeId'] ?? null;
+        $roomId = $data['roomId'] ?? null;
+
+        $vibe = $em->getRepository(Vibe::class)->find($vibeId);
+
+        // On créé une vibePlaying
+        $newVibePlaying = new VibePlaying();
+        $newVibePlaying->setVibe($vibe);
+        $newVibePlaying->setProfile($em->getRepository(Profile::class)->find($vibe->getProfile()->getId()));
+        $em->persist($newVibePlaying);
+
+        // On met à jour la pièce
+        $room = $em->getRepository(Room::class)->find($roomId);
+        if ($room) {
+            $room->setVibePlaying($newVibePlaying);
+            $em->persist($room);
+        }
+        
+        $em->flush();
 
         foreach ($settings as $setting) {
             $topic = 'device/' . $setting['deviceAddress'];
-            $message = json_encode([
-                'value' => $setting['value'],
-                'ref'   => $setting['deviceRef'],
-                'label' => $setting['deviceLabel'],
-                'feature' => $setting['featureLabel'],
-                'address' => $setting['deviceAddress']
-            ]);
+
+            if ($setting['featureLabel'] === 'Player') {
+                $message = json_encode([
+                    'playlist' => $playlist,
+                    'ref'   => $setting['deviceRef'],
+                    'label' => $setting['deviceLabel'],
+                    'feature' => $setting['featureLabel'],
+                    'address' => $setting['deviceAddress']
+                ]);
+            } else {
+                $message = json_encode([
+                    'value' => $setting['value'],
+                    'ref'   => $setting['deviceRef'],
+                    'label' => $setting['deviceLabel'],
+                    'feature' => $setting['featureLabel'],
+                    'address' => $setting['deviceAddress']
+                ]);
+            }
+
             $mqttClient->publish($topic, $message);
         }
 
         return new JsonResponse(['status' => 'success']);
     }
 
+    /**
+     * Méthode pour arrêter une vibe
+     * @Route("/stop-vibe", name="app_stop_vibe")
+     * @param Request $request
+     * @param MqttClient $mqttClient
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    #[Route('/stop-vibe', name: 'stop_vibe', methods: ['POST'])]
+    public function stopVibe(Request $request, MqttClient $mqttClient, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $vibePlayingId = $data['vibePlayingId'];
+        $vibeId = $data['vibeId'];
+        $roomId = $data['roomId'];
+
+        // Vérifie si le payload est vide
+        if (!$data) {
+            return new JsonResponse(['error' => 'Invalid payload'], 400);
+        }
+
+        // On met à jour vibe_playing_id de la pièce
+        $room = $em->getRepository(Room::class)->find($roomId);
+        if ($room) {
+            $room->setVibePlaying(null);
+            $em->persist($room);
+            $em->flush();
+        }
+
+        // On suppprime la vibe jouée 
+        $vibePlaying = $em->getRepository(VibePlaying::class)->find($vibePlayingId);
+        if ($vibePlaying) {
+            $em->remove($vibePlaying);
+            $em->flush();
+        }
+
+        // On récupère tous les appareils
+        $devices = $em->getRepository(Device::class)->findBy(['room' => $roomId]);
+
+        foreach ($devices as $device) {
+            $topic = 'device/' . $device->getAddress();
+
+            $message = json_encode([
+                'stop' => true,
+                'deviceLabel' => $device->getLabel(),
+                'feature' => "On/Off",
+                'value' => "false",
+                'address' => $device->getAddress()
+            ]);
+
+            $mqttClient->publish($topic, $message);
+        }
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
+    /**
+     * Méthode pour arrêter toutes les vibes d'un user
+     * @Route("/stop-vibes-user", name="app_stop_vibe")
+     * @param Request $request
+     * @param MqttClient $mqttClient
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    #[Route('/stop-vibes-user', name: 'stop_vibes_user', methods: ['POST'])]
+    public function stopVibesUser(Request $request, MqttClient $mqttClient, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $userId = $data['userId'];
+
+        // Vérifie si le payload est vide
+        if (!$data) {
+            return new JsonResponse(['error' => 'Invalid payload'], 400);
+        }    
+
+        // On récupère les vibes de l'utilisateur
+        $vibes = $em->getRepository(Vibe::class)->findBy(['profile' => $userId]);
+
+        // On récupère les vibes en cours de l'utilisateur
+        $vibesPlaying = $em->getRepository(VibePlaying::class)->findBy(['profile' => $userId]);
+        foreach ($vibesPlaying as $vibePlaying) {
+            $em->remove($vibePlaying);
+            $em->flush();
+        }
+
+        // On récupère les rooms
+        $rooms = $em->getRepository(Room::class)->findBy(['vibePlaying' => $vibesPlaying]);
+        foreach ($rooms as $room) {
+            $room->setVibePlaying(null);
+            $em->persist($room);
+            $em->flush();
+        }
+
+        // On récupère les devices
+        $devices = $em->getRepository(Device::class)->findBy(['room' => $rooms]);
+
+        foreach ($devices as $device) {
+            $topic = 'device/' . $device->getAddress();
+
+            $message = json_encode([
+                'stop' => true,
+                'deviceLabel' => $device->getLabel(),
+                'feature' => "On/Off",
+                'value' => "false",
+                'address' => $device->getAddress()
+            ]);
+
+            $mqttClient->publish($topic, $message);
+        }
+
+        return new JsonResponse(['status' => 'success']);
+    }
 }
