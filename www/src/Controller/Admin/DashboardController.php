@@ -3,10 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Avatar;
+use App\Entity\DefaultSetting;
 use App\Entity\Device;
 use App\Entity\DeviceType;
 use App\Entity\Feature;
 use App\Entity\Profile;
+use App\Entity\Protocole;
 use App\Entity\Room;
 use App\Entity\Setting;
 use App\Entity\Song;
@@ -82,6 +84,12 @@ class DashboardController extends AbstractDashboardController
         // Menu de gestion des appareils
         yield MenuItem::section('Gestion des appareils');
 
+        // Sous menu de gestion des protocoles
+        yield MenuItem::subMenu('Protocoles', 'fa fa-plug')->setSubItems([
+            MenuItem::linkToCrud('Liste des protocoles', 'fa fa-list', Protocole::class),
+            MenuItem::linkToCrud('Ajouter un protocole', 'fa fa-plus', Protocole::class)->setAction('new'),
+        ]);
+
         // Sous menu de gestion des appareils
         yield MenuItem::subMenu('Appareils', 'fa fa-plug')->setSubItems([
             MenuItem::linkToCrud('Liste des appareils', 'fa fa-list', Device::class),
@@ -98,9 +106,9 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Ajouter une fonctionnalité', 'fa fa-plus', Feature::class)->setAction('new'),
         ]);
         // Sous menu de gestion des paramètres des appareils
-        yield MenuItem::subMenu('Paramètres des appareils', 'fa fa-cog')->setSubItems([
-            MenuItem::linkToCrud('Liste des paramètres', 'fa fa-list', Setting::class),
-            MenuItem::linkToCrud('Ajouter un paramètre', 'fa fa-plus', Setting::class)->setAction('new'),
+        yield MenuItem::subMenu('Paramètres par défaut des appareils', 'fa fa-cog')->setSubItems([
+            MenuItem::linkToCrud('Liste des paramètres par défaut', 'fa fa-list', DefaultSetting::class),
+            MenuItem::linkToCrud('Ajouter un paramètre par défaut', 'fa fa-plus', DefaultSetting::class)->setAction('new'),
         ]);
 
         // Menu de gestion des unités

@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -32,18 +33,14 @@ class DeviceTypeCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_EDIT, 'Modifier un type d\'appareil');
     }
 
-    /**
-     * configureFields
-     * 
-     * @param string $pageName
-     * @return iterable
-     */
     public function configureFields(string $pageName): iterable
     {
         // redéfinition du formulaire
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('label')
+            TextField::new('label', 'Type d\'appareil'),
+            AssociationField::new('protocole', 'Protocole')
+                ->setFormTypeOption('choice_label', 'id')
         ];
     }
 

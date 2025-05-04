@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Feature;
+use App\Entity\DefaultSetting;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -11,34 +11,34 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class FeatureCrudController extends AbstractCrudController
+class DefaultSettingCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Feature::class;
+        return DefaultSetting::class;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         // redéfinition des titres des pages
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des fonctionnalités')
-            ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une fonctionnalité')
-            ->setPageTitle(Crud::PAGE_EDIT, 'Modifier une fonctionnalité');
+            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des paramètres par défaut')
+            ->setPageTitle(Crud::PAGE_NEW, 'Ajouter un paramètre')
+            ->setPageTitle(Crud::PAGE_EDIT, 'Modifier un paramètre');
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('label', 'Fonctionnalités'),
-            AssociationField::new('unit', 'Unité')
+            TextField::new('value', 'Valeur'),
+            AssociationField::new('feature', 'Fonctionnalité')
                 ->setFormTypeOption('choice_value', 'id'),
-            AssociationField::new('deviceType', 'Type d\'appareil')
-                ->setFormTypeOption('choice_label', 'id')
+            AssociationField::new('device', 'Appareil')
+                ->setFormTypeOption('choice_value', 'id')            
         ];
     }
-    
+
     public function configureActions(Actions $actions): Actions
     {
         return $actions

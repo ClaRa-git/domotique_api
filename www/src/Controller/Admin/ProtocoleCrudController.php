@@ -2,41 +2,36 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Setting;
+use App\Entity\Protocole;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class SettingCrudController extends AbstractCrudController
+class ProtocoleCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Setting::class;
+        return Protocole::class;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         // redéfinition des titres des pages
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des paramètres')
-            ->setPageTitle(Crud::PAGE_NEW, 'Ajouter un paramètre')
-            ->setPageTitle(Crud::PAGE_EDIT, 'Modifier un paramètre');
+            ->setPageTitle(Crud::PAGE_INDEX, 'Liste des fonctionnalités')
+            ->setPageTitle(Crud::PAGE_NEW, 'Ajouter une fonctionnalité')
+            ->setPageTitle(Crud::PAGE_EDIT, 'Modifier une fonctionnalité');
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('value', 'Valeur'),
-            AssociationField::new('feature', 'Fonctionnalité')
-                ->setFormTypeOption('choice_value', 'id'),
-            AssociationField::new('device', 'Appareil')
-                ->setFormTypeOption('choice_value', 'id')            
+            TextField::new('label', 'Protocole'),
         ];
     }
 

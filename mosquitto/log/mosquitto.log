@@ -2014,3 +2014,10 @@
 1746362911: New client connected from 172.18.0.4:60592 as 6817621f32e14 (p1, c1, k10).
 1746362911: Client 6817621f32e14 disconnected.
 1746363106: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746373597: mosquitto version 2.0.21 starting
+1746373597: Config loaded from /mosquitto/config/mosquitto.conf.
+1746373597: Opening ipv4 listen socket on port 1883.
+1746373597: Opening ipv6 listen socket on port 1883.
+1746373597: Opening websockets listen socket on port 9001.
+1746373597: mosquitto version 2.0.21 running
+1746375398: Saving in-memory database to /mosquitto/data//mosquitto.db.
