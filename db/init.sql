@@ -309,7 +309,7 @@ CREATE TABLE `planning` (
   KEY `IDX_D499BFF6CCFA12B8` (`profile_id`),
   CONSTRAINT `FK_D499BFF64B255BC3` FOREIGN KEY (`vibe_id`) REFERENCES `vibe` (`id`),
   CONSTRAINT `FK_D499BFF6CCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -318,6 +318,8 @@ CREATE TABLE `planning` (
 
 LOCK TABLES `planning` WRITE;
 /*!40000 ALTER TABLE `planning` DISABLE KEYS */;
+INSERT INTO `planning` VALUES
+(1,'test','2025-05-13','Mardi','22:03','23:03','daily',1,1);
 /*!40000 ALTER TABLE `planning` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -459,6 +461,8 @@ CREATE TABLE `room_planning` (
 
 LOCK TABLES `room_planning` WRITE;
 /*!40000 ALTER TABLE `room_planning` DISABLE KEYS */;
+INSERT INTO `room_planning` VALUES
+(1,1);
 /*!40000 ALTER TABLE `room_planning` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -698,4 +702,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-05-04 17:25:53
+-- Dump completed on 2025-05-04 20:04:00
