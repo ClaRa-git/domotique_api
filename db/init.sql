@@ -221,7 +221,6 @@ DROP TABLE IF EXISTS `feature`;
 CREATE TABLE `feature` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) NOT NULL,
-  `default_value` varchar(255) NOT NULL,
   `minimum` int(11) DEFAULT NULL,
   `maximum` int(11) DEFAULT NULL,
   `unit_id` int(11) DEFAULT NULL,
@@ -241,13 +240,13 @@ CREATE TABLE `feature` (
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
 INSERT INTO `feature` VALUES
-(1,'Température','0',10,50,1,1),
-(2,'Luminosité','0',0,100,2,2),
-(3,'On/Off','false',NULL,NULL,NULL,3),
-(4,'Couleur','#ffffff',NULL,NULL,NULL,5),
-(5,'Luminosité','0',0,100,2,5),
-(6,'On/Off','false',NULL,NULL,NULL,2),
-(7,'On/Off','false',NULL,NULL,NULL,5);
+(1,'Température',10,50,1,1),
+(2,'Luminosité',0,100,2,2),
+(3,'On/Off',NULL,NULL,NULL,3),
+(4,'Couleur',NULL,NULL,NULL,5),
+(5,'Luminosité',0,100,2,5),
+(6,'On/Off',NULL,NULL,NULL,2),
+(7,'On/Off',NULL,NULL,NULL,5);
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 

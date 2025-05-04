@@ -1171,3 +1171,507 @@
 1746351483: New connection from 172.18.0.4:40524 on port 1883.
 1746351483: New client connected from 172.18.0.4:40524 as 6817357b1b1a8 (p1, c1, k10).
 1746351483: Client 6817357b1b1a8 disconnected.
+1746352300: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746354101: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746354285: New connection from 172.18.0.4:39032 on port 1883.
+1746354285: New client connected from 172.18.0.4:39032 as 6817406d7b322 (p1, c1, k10).
+1746354285: New connection from 172.18.0.4:39040 on port 1883.
+1746354285: New client connected from 172.18.0.4:39040 as 6817406d7b751 (p1, c1, k10).
+1746354285: Client 6817406d7b322 disconnected.
+1746354285: Client 6817406d7b751 disconnected.
+1746354285: New connection from 172.18.0.4:39046 on port 1883.
+1746354285: New client connected from 172.18.0.4:39046 as 6817406d85151 (p1, c1, k10).
+1746354285: Client 6817406d85151 disconnected.
+1746354285: New connection from 172.18.0.4:39058 on port 1883.
+1746354285: New client connected from 172.18.0.4:39058 as 6817406d87665 (p1, c1, k10).
+1746354285: Client 6817406d87665 disconnected.
+1746354285: New connection from 172.18.0.4:39070 on port 1883.
+1746354285: New client connected from 172.18.0.4:39070 as 6817406d8a52e (p1, c1, k10).
+1746354285: Client 6817406d8a52e disconnected.
+1746354285: New connection from 172.18.0.4:39078 on port 1883.
+1746354285: New client connected from 172.18.0.4:39078 as 6817406da1d96 (p1, c1, k10).
+1746354285: Client 6817406da1d96 disconnected.
+1746354286: New connection from 172.18.0.4:39084 on port 1883.
+1746354286: New client connected from 172.18.0.4:39084 as 6817406e0e45d (p1, c1, k10).
+1746354286: Client 6817406e0e45d disconnected.
+1746354286: New connection from 172.18.0.4:39088 on port 1883.
+1746354286: New client connected from 172.18.0.4:39088 as 6817406e146ed (p1, c1, k10).
+1746354286: Client 6817406e146ed disconnected.
+1746354286: New connection from 172.18.0.4:39094 on port 1883.
+1746354286: New client connected from 172.18.0.4:39094 as 6817406e2143a (p1, c1, k10).
+1746354286: Client 6817406e2143a disconnected.
+1746354286: New connection from 172.18.0.4:39110 on port 1883.
+1746354286: New client connected from 172.18.0.4:39110 as 6817406e24fa1 (p1, c1, k10).
+1746354286: Client 6817406e24fa1 disconnected.
+1746354286: New connection from 172.18.0.4:39112 on port 1883.
+1746354286: New client connected from 172.18.0.4:39112 as 6817406e306c2 (p1, c1, k10).
+1746354286: Client 6817406e306c2 disconnected.
+1746354286: New connection from 172.18.0.4:39116 on port 1883.
+1746354286: New client connected from 172.18.0.4:39116 as 6817406e45311 (p1, c1, k10).
+1746354286: Client 6817406e45311 disconnected.
+1746354286: New connection from 172.18.0.4:39126 on port 1883.
+1746354286: New client connected from 172.18.0.4:39126 as 6817406e88570 (p1, c1, k10).
+1746354286: Client 6817406e88570 disconnected.
+1746354286: New connection from 172.18.0.4:39128 on port 1883.
+1746354286: New client connected from 172.18.0.4:39128 as 6817406e941c5 (p1, c1, k10).
+1746354286: Client 6817406e941c5 disconnected.
+1746354286: New connection from 172.18.0.4:39136 on port 1883.
+1746354286: New client connected from 172.18.0.4:39136 as 6817406e9f0ec (p1, c1, k10).
+1746354286: Client 6817406e9f0ec disconnected.
+1746354286: New connection from 172.18.0.4:39140 on port 1883.
+1746354286: New client connected from 172.18.0.4:39140 as 6817406ea1ed8 (p1, c1, k10).
+1746354286: Client 6817406ea1ed8 disconnected.
+1746354286: New connection from 172.18.0.4:39154 on port 1883.
+1746354286: New client connected from 172.18.0.4:39154 as 6817406eb29fe (p1, c1, k10).
+1746354286: Client 6817406eb29fe disconnected.
+1746355149: New connection from 172.18.0.1:51260 on port 1883.
+1746355149: New client connected from 172.18.0.1:51260 as mqtt-explorer-15aec5d0 (p2, c1, k60).
+1746355158: New connection from 172.18.0.4:49898 on port 1883.
+1746355158: New connection from 172.18.0.4:49902 on port 1883.
+1746355158: New connection from 172.18.0.4:49924 on port 1883.
+1746355158: New connection from 172.18.0.4:49916 on port 1883.
+1746355158: New connection from 172.18.0.4:49932 on port 1883.
+1746355158: New client connected from 172.18.0.4:49898 as 681743d616c6e (p1, c1, k10).
+1746355158: New client connected from 172.18.0.4:49902 as 681743d61687d (p1, c1, k10).
+1746355158: New client connected from 172.18.0.4:49924 as 681743d616c69 (p1, c1, k10).
+1746355158: New client connected from 172.18.0.4:49916 as 681743d616c87 (p1, c1, k10).
+1746355158: New client connected from 172.18.0.4:49932 as 681743d616e11 (p1, c1, k10).
+1746355158: Client 681743d616c6e disconnected.
+1746355158: Client 681743d61687d disconnected.
+1746355158: Client 681743d616c69 disconnected.
+1746355158: Client 681743d616c87 disconnected.
+1746355158: Client 681743d616e11 disconnected.
+1746355158: New connection from 172.18.0.4:49940 on port 1883.
+1746355158: New client connected from 172.18.0.4:49940 as 681743d625342 (p1, c1, k10).
+1746355158: Client 681743d625342 disconnected.
+1746355158: New connection from 172.18.0.4:49944 on port 1883.
+1746355158: New client connected from 172.18.0.4:49944 as 681743d681683 (p1, c1, k10).
+1746355158: Client 681743d681683 disconnected.
+1746355158: New connection from 172.18.0.4:49956 on port 1883.
+1746355158: New client connected from 172.18.0.4:49956 as 681743d694281 (p1, c1, k10).
+1746355158: New connection from 172.18.0.4:49968 on port 1883.
+1746355158: New client connected from 172.18.0.4:49968 as 681743d694a45 (p1, c1, k10).
+1746355158: Client 681743d694281 disconnected.
+1746355158: Client 681743d694a45 disconnected.
+1746355158: New connection from 172.18.0.4:49978 on port 1883.
+1746355158: New client connected from 172.18.0.4:49978 as 681743d696cca (p1, c1, k10).
+1746355158: Client 681743d696cca disconnected.
+1746355158: New connection from 172.18.0.4:49992 on port 1883.
+1746355158: New client connected from 172.18.0.4:49992 as 681743d69d3e0 (p1, c1, k10).
+1746355158: Client 681743d69d3e0 disconnected.
+1746355158: New connection from 172.18.0.4:50000 on port 1883.
+1746355158: New client connected from 172.18.0.4:50000 as 681743d69e7cc (p1, c1, k10).
+1746355158: Client 681743d69e7cc disconnected.
+1746355158: New connection from 172.18.0.4:50004 on port 1883.
+1746355158: New client connected from 172.18.0.4:50004 as 681743d6ec969 (p1, c1, k10).
+1746355158: Client 681743d6ec969 disconnected.
+1746355159: New connection from 172.18.0.4:50012 on port 1883.
+1746355159: New client connected from 172.18.0.4:50012 as 681743d70375a (p1, c1, k10).
+1746355159: Client 681743d70375a disconnected.
+1746355159: New connection from 172.18.0.4:50028 on port 1883.
+1746355159: New client connected from 172.18.0.4:50028 as 681743d704a68 (p1, c1, k10).
+1746355159: Client 681743d704a68 disconnected.
+1746355392: New connection from 172.18.0.4:43684 on port 1883.
+1746355392: New client connected from 172.18.0.4:43684 as 681744c0b9141 (p1, c1, k10).
+1746355392: Client 681744c0b9141 disconnected.
+1746355392: New connection from 172.18.0.4:43686 on port 1883.
+1746355392: New client connected from 172.18.0.4:43686 as 681744c0bdd3b (p1, c1, k10).
+1746355392: Client 681744c0bdd3b disconnected.
+1746355392: New connection from 172.18.0.4:43692 on port 1883.
+1746355392: New client connected from 172.18.0.4:43692 as 681744c0cdba0 (p1, c1, k10).
+1746355392: Client 681744c0cdba0 disconnected.
+1746355392: New connection from 172.18.0.4:43700 on port 1883.
+1746355392: New client connected from 172.18.0.4:43700 as 681744c0cec97 (p1, c1, k10).
+1746355392: Client 681744c0cec97 disconnected.
+1746355392: New connection from 172.18.0.4:43710 on port 1883.
+1746355392: New client connected from 172.18.0.4:43710 as 681744c0f0c40 (p1, c1, k10).
+1746355392: Client 681744c0f0c40 disconnected.
+1746355393: New connection from 172.18.0.4:43716 on port 1883.
+1746355393: New client connected from 172.18.0.4:43716 as 681744c101c28 (p1, c1, k10).
+1746355393: Client 681744c101c28 disconnected.
+1746355393: New connection from 172.18.0.4:43730 on port 1883.
+1746355393: New client connected from 172.18.0.4:43730 as 681744c13fa27 (p1, c1, k10).
+1746355393: Client 681744c13fa27 disconnected.
+1746355393: New connection from 172.18.0.4:43742 on port 1883.
+1746355393: New client connected from 172.18.0.4:43742 as 681744c14a963 (p1, c1, k10).
+1746355393: Client 681744c14a963 disconnected.
+1746355393: New connection from 172.18.0.4:43754 on port 1883.
+1746355393: New client connected from 172.18.0.4:43754 as 681744c1502a0 (p1, c1, k10).
+1746355393: Client 681744c1502a0 disconnected.
+1746355393: New connection from 172.18.0.4:43762 on port 1883.
+1746355393: New client connected from 172.18.0.4:43762 as 681744c151bcd (p1, c1, k10).
+1746355393: Client 681744c151bcd disconnected.
+1746355393: New connection from 172.18.0.4:43778 on port 1883.
+1746355393: New client connected from 172.18.0.4:43778 as 681744c16b115 (p1, c1, k10).
+1746355393: Client 681744c16b115 disconnected.
+1746355393: New connection from 172.18.0.4:43794 on port 1883.
+1746355393: New client connected from 172.18.0.4:43794 as 681744c16eb53 (p1, c1, k10).
+1746355393: Client 681744c16eb53 disconnected.
+1746355393: New connection from 172.18.0.4:43800 on port 1883.
+1746355393: New client connected from 172.18.0.4:43800 as 681744c19c094 (p1, c1, k10).
+1746355393: Client 681744c19c094 disconnected.
+1746355393: New connection from 172.18.0.4:43806 on port 1883.
+1746355393: New client connected from 172.18.0.4:43806 as 681744c1a2da8 (p1, c1, k10).
+1746355393: Client 681744c1a2da8 disconnected.
+1746355568: Client mqtt-explorer-15aec5d0 disconnected.
+1746355570: New connection from 172.18.0.1:34498 on port 1883.
+1746355570: New client connected from 172.18.0.1:34498 as mqtt-explorer-15aec5d0 (p2, c1, k60).
+1746355902: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746356538: New connection from 172.18.0.4:37076 on port 1883.
+1746356538: New client connected from 172.18.0.4:37076 as 6817493a989a7 (p1, c1, k10).
+1746356538: Client 6817493a989a7 disconnected.
+1746356538: New connection from 172.18.0.4:37082 on port 1883.
+1746356538: New client connected from 172.18.0.4:37082 as 6817493ab767d (p1, c1, k10).
+1746356538: Client 6817493ab767d disconnected.
+1746356538: New connection from 172.18.0.4:37084 on port 1883.
+1746356538: New client connected from 172.18.0.4:37084 as 6817493ac38b8 (p1, c1, k10).
+1746356538: Client 6817493ac38b8 disconnected.
+1746356538: New connection from 172.18.0.4:37096 on port 1883.
+1746356538: New client connected from 172.18.0.4:37096 as 6817493ac4aa4 (p1, c1, k10).
+1746356538: Client 6817493ac4aa4 disconnected.
+1746356538: New connection from 172.18.0.4:37104 on port 1883.
+1746356538: New client connected from 172.18.0.4:37104 as 6817493ada278 (p1, c1, k10).
+1746356538: Client 6817493ada278 disconnected.
+1746356538: New connection from 172.18.0.4:37118 on port 1883.
+1746356538: New client connected from 172.18.0.4:37118 as 6817493adfcc1 (p1, c1, k10).
+1746356538: Client 6817493adfcc1 disconnected.
+1746356539: New connection from 172.18.0.4:37128 on port 1883.
+1746356539: New client connected from 172.18.0.4:37128 as 6817493b38036 (p1, c1, k10).
+1746356539: Client 6817493b38036 disconnected.
+1746356539: New connection from 172.18.0.4:37140 on port 1883.
+1746356539: New client connected from 172.18.0.4:37140 as 6817493b40a3f (p1, c1, k10).
+1746356539: Client 6817493b40a3f disconnected.
+1746356539: New connection from 172.18.0.4:37152 on port 1883.
+1746356539: New client connected from 172.18.0.4:37152 as 6817493b56604 (p1, c1, k10).
+1746356539: Client 6817493b56604 disconnected.
+1746356539: New connection from 172.18.0.4:37158 on port 1883.
+1746356539: New client connected from 172.18.0.4:37158 as 6817493b58a18 (p1, c1, k10).
+1746356539: Client 6817493b58a18 disconnected.
+1746356539: New connection from 172.18.0.4:37166 on port 1883.
+1746356539: New client connected from 172.18.0.4:37166 as 6817493b685cd (p1, c1, k10).
+1746356539: Client 6817493b685cd disconnected.
+1746356539: New connection from 172.18.0.4:37172 on port 1883.
+1746356539: New client connected from 172.18.0.4:37172 as 6817493b6cef0 (p1, c1, k10).
+1746356539: Client 6817493b6cef0 disconnected.
+1746356539: New connection from 172.18.0.4:37182 on port 1883.
+1746356539: New client connected from 172.18.0.4:37182 as 6817493ba06c2 (p1, c1, k10).
+1746356539: Client 6817493ba06c2 disconnected.
+1746356539: New connection from 172.18.0.4:37194 on port 1883.
+1746356539: New client connected from 172.18.0.4:37194 as 6817493ba2529 (p1, c1, k10).
+1746356539: Client 6817493ba2529 disconnected.
+1746356580: New connection from 172.18.0.4:40992 on port 1883.
+1746356580: New client connected from 172.18.0.4:40992 as 68174964a99be (p1, c1, k10).
+1746356580: Client 68174964a99be disconnected.
+1746356580: New connection from 172.18.0.4:41004 on port 1883.
+1746356580: New client connected from 172.18.0.4:41004 as 68174964d3761 (p1, c1, k10).
+1746356580: Client 68174964d3761 disconnected.
+1746356580: New connection from 172.18.0.4:41006 on port 1883.
+1746356580: New client connected from 172.18.0.4:41006 as 68174964d86da (p1, c1, k10).
+1746356580: Client 68174964d86da disconnected.
+1746356580: New connection from 172.18.0.4:41020 on port 1883.
+1746356580: New client connected from 172.18.0.4:41020 as 68174964eec55 (p1, c1, k10).
+1746356580: Client 68174964eec55 disconnected.
+1746356581: New connection from 172.18.0.4:41026 on port 1883.
+1746356581: New client connected from 172.18.0.4:41026 as 681749650fe2c (p1, c1, k10).
+1746356581: Client 681749650fe2c disconnected.
+1746356581: New connection from 172.18.0.4:41042 on port 1883.
+1746356581: New client connected from 172.18.0.4:41042 as 6817496511d91 (p1, c1, k10).
+1746356581: Client 6817496511d91 disconnected.
+1746356581: New connection from 172.18.0.4:41056 on port 1883.
+1746356581: New client connected from 172.18.0.4:41056 as 681749653a5c3 (p1, c1, k10).
+1746356581: Client 681749653a5c3 disconnected.
+1746356581: New connection from 172.18.0.4:41060 on port 1883.
+1746356581: New client connected from 172.18.0.4:41060 as 681749655ddee (p1, c1, k10).
+1746356581: Client 681749655ddee disconnected.
+1746356581: New connection from 172.18.0.4:41076 on port 1883.
+1746356581: New client connected from 172.18.0.4:41076 as 6817496565435 (p1, c1, k10).
+1746356581: Client 6817496565435 disconnected.
+1746356586: New connection from 172.18.0.4:40226 on port 1883.
+1746356586: New client connected from 172.18.0.4:40226 as 6817496a7a580 (p1, c1, k10).
+1746356586: Client 6817496a7a580 disconnected.
+1746356589: New connection from 172.18.0.4:40230 on port 1883.
+1746356589: New client connected from 172.18.0.4:40230 as 6817496dc4842 (p1, c1, k10).
+1746356589: Client 6817496dc4842 disconnected.
+1746356593: New connection from 172.18.0.4:40240 on port 1883.
+1746356593: New client connected from 172.18.0.4:40240 as 68174971e6b4f (p1, c1, k10).
+1746356593: Client 68174971e6b4f disconnected.
+1746356594: New connection from 172.18.0.4:40242 on port 1883.
+1746356594: New client connected from 172.18.0.4:40242 as 68174971f3cd2 (p1, c1, k10).
+1746356594: Client 68174971f3cd2 disconnected.
+1746356594: New connection from 172.18.0.4:40258 on port 1883.
+1746356594: New client connected from 172.18.0.4:40258 as 681749720be24 (p1, c1, k10).
+1746356594: Client 681749720be24 disconnected.
+1746356594: New connection from 172.18.0.4:40268 on port 1883.
+1746356594: New client connected from 172.18.0.4:40268 as 6817497225a07 (p1, c1, k10).
+1746356594: Client 6817497225a07 disconnected.
+1746356594: New connection from 172.18.0.4:40276 on port 1883.
+1746356594: New client connected from 172.18.0.4:40276 as 6817497231e67 (p1, c1, k10).
+1746356594: Client 6817497231e67 disconnected.
+1746356594: New connection from 172.18.0.4:40282 on port 1883.
+1746356594: New client connected from 172.18.0.4:40282 as 681749723dfab (p1, c1, k10).
+1746356594: Client 681749723dfab disconnected.
+1746356594: New connection from 172.18.0.4:40288 on port 1883.
+1746356594: New client connected from 172.18.0.4:40288 as 68174972710b3 (p1, c1, k10).
+1746356594: Client 68174972710b3 disconnected.
+1746356594: New connection from 172.18.0.4:40298 on port 1883.
+1746356594: New client connected from 172.18.0.4:40298 as 681749728a99b (p1, c1, k10).
+1746356594: Client 681749728a99b disconnected.
+1746356594: New connection from 172.18.0.4:40312 on port 1883.
+1746356594: New client connected from 172.18.0.4:40312 as 681749728df09 (p1, c1, k10).
+1746356594: Client 681749728df09 disconnected.
+1746356594: New connection from 172.18.0.4:40324 on port 1883.
+1746356594: New client connected from 172.18.0.4:40324 as 68174972a654b (p1, c1, k10).
+1746356594: Client 68174972a654b disconnected.
+1746356594: New connection from 172.18.0.4:40326 on port 1883.
+1746356594: New client connected from 172.18.0.4:40326 as 68174972b92d2 (p1, c1, k10).
+1746356594: Client 68174972b92d2 disconnected.
+1746356594: New connection from 172.18.0.4:40342 on port 1883.
+1746356594: New client connected from 172.18.0.4:40342 as 68174972c6553 (p1, c1, k10).
+1746356594: Client 68174972c6553 disconnected.
+1746356594: New connection from 172.18.0.4:40356 on port 1883.
+1746356594: New client connected from 172.18.0.4:40356 as 68174972efbed (p1, c1, k10).
+1746356594: Client 68174972efbed disconnected.
+1746356595: New connection from 172.18.0.4:40372 on port 1883.
+1746356595: New client connected from 172.18.0.4:40372 as 681749730d802 (p1, c1, k10).
+1746356595: Client 681749730d802 disconnected.
+1746356595: New connection from 172.18.0.4:40374 on port 1883.
+1746356595: New client connected from 172.18.0.4:40374 as 6817497315c95 (p1, c1, k10).
+1746356595: Client 6817497315c95 disconnected.
+1746356595: New connection from 172.18.0.4:40384 on port 1883.
+1746356595: New client connected from 172.18.0.4:40384 as 6817497322996 (p1, c1, k10).
+1746356595: Client 6817497322996 disconnected.
+1746356595: New connection from 172.18.0.4:40400 on port 1883.
+1746356595: New client connected from 172.18.0.4:40400 as 681749732ff5d (p1, c1, k10).
+1746356595: Client 681749732ff5d disconnected.
+1746356607: New connection from 172.18.0.4:54942 on port 1883.
+1746356607: New client connected from 172.18.0.4:54942 as 6817497fb7805 (p1, c1, k10).
+1746356607: Client 6817497fb7805 disconnected.
+1746356612: New connection from 172.18.0.4:54958 on port 1883.
+1746356612: New client connected from 172.18.0.4:54958 as 681749842f90f (p1, c1, k10).
+1746356612: Client 681749842f90f disconnected.
+1746356619: New connection from 172.18.0.4:59532 on port 1883.
+1746356619: New client connected from 172.18.0.4:59532 as 6817498be0cf5 (p1, c1, k10).
+1746356619: Client 6817498be0cf5 disconnected.
+1746356620: New connection from 172.18.0.4:59540 on port 1883.
+1746356620: New client connected from 172.18.0.4:59540 as 6817498cc675d (p1, c1, k10).
+1746356620: Client 6817498cc675d disconnected.
+1746356621: New connection from 172.18.0.4:59542 on port 1883.
+1746356621: New client connected from 172.18.0.4:59542 as 6817498d85e57 (p1, c1, k10).
+1746356621: Client 6817498d85e57 disconnected.
+1746356622: New connection from 172.18.0.4:59556 on port 1883.
+1746356622: New client connected from 172.18.0.4:59556 as 6817498e4ac18 (p1, c1, k10).
+1746356622: Client 6817498e4ac18 disconnected.
+1746356623: New connection from 172.18.0.4:59560 on port 1883.
+1746356623: New client connected from 172.18.0.4:59560 as 6817498f405bd (p1, c1, k10).
+1746356623: Client 6817498f405bd disconnected.
+1746356623: New connection from 172.18.0.4:59566 on port 1883.
+1746356623: New client connected from 172.18.0.4:59566 as 6817498fc737d (p1, c1, k10).
+1746356623: Client 6817498fc737d disconnected.
+1746356624: New connection from 172.18.0.4:59568 on port 1883.
+1746356624: New client connected from 172.18.0.4:59568 as 6817499074602 (p1, c1, k10).
+1746356624: Client 6817499074602 disconnected.
+1746356625: New connection from 172.18.0.4:59570 on port 1883.
+1746356625: New client connected from 172.18.0.4:59570 as 68174991294d7 (p1, c1, k10).
+1746356625: Client 68174991294d7 disconnected.
+1746356760: New connection from 172.18.0.4:36620 on port 1883.
+1746356760: New client connected from 172.18.0.4:36620 as 68174a1832fb1 (p1, c1, k10).
+1746356760: Client 68174a1832fb1 disconnected.
+1746356760: New connection from 172.18.0.4:36634 on port 1883.
+1746356760: New client connected from 172.18.0.4:36634 as 68174a18da4e2 (p1, c1, k10).
+1746356760: Client 68174a18da4e2 disconnected.
+1746356761: New connection from 172.18.0.4:36636 on port 1883.
+1746356761: New client connected from 172.18.0.4:36636 as 68174a19b9b58 (p1, c1, k10).
+1746356761: Client 68174a19b9b58 disconnected.
+1746356762: New connection from 172.18.0.4:36646 on port 1883.
+1746356762: New client connected from 172.18.0.4:36646 as 68174a1a60978 (p1, c1, k10).
+1746356762: Client 68174a1a60978 disconnected.
+1746356763: New connection from 172.18.0.4:36656 on port 1883.
+1746356763: New client connected from 172.18.0.4:36656 as 68174a1b3765d (p1, c1, k10).
+1746356763: Client 68174a1b3765d disconnected.
+1746356763: New connection from 172.18.0.4:36658 on port 1883.
+1746356763: New client connected from 172.18.0.4:36658 as 68174a1bbe8f0 (p1, c1, k10).
+1746356763: Client 68174a1bbe8f0 disconnected.
+1746356764: New connection from 172.18.0.4:36664 on port 1883.
+1746356764: New client connected from 172.18.0.4:36664 as 68174a1c774c1 (p1, c1, k10).
+1746356764: Client 68174a1c774c1 disconnected.
+1746356765: New connection from 172.18.0.4:36674 on port 1883.
+1746356765: New client connected from 172.18.0.4:36674 as 68174a1d32648 (p1, c1, k10).
+1746356765: Client 68174a1d32648 disconnected.
+1746356765: New connection from 172.18.0.4:57476 on port 1883.
+1746356765: New client connected from 172.18.0.4:57476 as 68174a1db1c3b (p1, c1, k10).
+1746356765: Client 68174a1db1c3b disconnected.
+1746357113: New connection from 172.18.0.4:32870 on port 1883.
+1746357113: New client connected from 172.18.0.4:32870 as 68174b790adfe (p1, c1, k10).
+1746357113: Client 68174b790adfe disconnected.
+1746357113: New connection from 172.18.0.4:32886 on port 1883.
+1746357113: New client connected from 172.18.0.4:32886 as 68174b79c7226 (p1, c1, k10).
+1746357113: Client 68174b79c7226 disconnected.
+1746357115: New connection from 172.18.0.4:49220 on port 1883.
+1746357115: New client connected from 172.18.0.4:49220 as 68174b7b6759e (p1, c1, k10).
+1746357115: Client 68174b7b6759e disconnected.
+1746357118: New connection from 172.18.0.4:49230 on port 1883.
+1746357118: New client connected from 172.18.0.4:49230 as 68174b7e66627 (p1, c1, k10).
+1746357118: Client 68174b7e66627 disconnected.
+1746357119: New connection from 172.18.0.4:49244 on port 1883.
+1746357119: New client connected from 172.18.0.4:49244 as 68174b7f14aec (p1, c1, k10).
+1746357119: Client 68174b7f14aec disconnected.
+1746357120: New connection from 172.18.0.4:49252 on port 1883.
+1746357120: New client connected from 172.18.0.4:49252 as 68174b8038bc6 (p1, c1, k10).
+1746357120: Client 68174b8038bc6 disconnected.
+1746357121: New connection from 172.18.0.4:49264 on port 1883.
+1746357121: New client connected from 172.18.0.4:49264 as 68174b81d89e3 (p1, c1, k10).
+1746357121: Client 68174b81d89e3 disconnected.
+1746357128: New connection from 172.18.0.4:40580 on port 1883.
+1746357128: New client connected from 172.18.0.4:40580 as 68174b88148db (p1, c1, k10).
+1746357128: Client 68174b88148db disconnected.
+1746357130: New connection from 172.18.0.4:40588 on port 1883.
+1746357130: New client connected from 172.18.0.4:40588 as 68174b8a8dde1 (p1, c1, k10).
+1746357130: Client 68174b8a8dde1 disconnected.
+1746357131: New connection from 172.18.0.4:40600 on port 1883.
+1746357131: New client connected from 172.18.0.4:40600 as 68174b8b6a1cd (p1, c1, k10).
+1746357131: Client 68174b8b6a1cd disconnected.
+1746357132: New connection from 172.18.0.4:40616 on port 1883.
+1746357132: New client connected from 172.18.0.4:40616 as 68174b8c0dc8e (p1, c1, k10).
+1746357132: Client 68174b8c0dc8e disconnected.
+1746357132: New connection from 172.18.0.4:40628 on port 1883.
+1746357132: New client connected from 172.18.0.4:40628 as 68174b8cb667e (p1, c1, k10).
+1746357132: Client 68174b8cb667e disconnected.
+1746357133: New connection from 172.18.0.4:40644 on port 1883.
+1746357133: New client connected from 172.18.0.4:40644 as 68174b8d64aba (p1, c1, k10).
+1746357133: Client 68174b8d64aba disconnected.
+1746357250: New connection from 172.18.0.4:47160 on port 1883.
+1746357250: New client connected from 172.18.0.4:47160 as 68174c02bb03e (p1, c1, k10).
+1746357250: Client 68174c02bb03e disconnected.
+1746357251: New connection from 172.18.0.4:47172 on port 1883.
+1746357251: New client connected from 172.18.0.4:47172 as 68174c037937e (p1, c1, k10).
+1746357251: Client 68174c037937e disconnected.
+1746357252: New connection from 172.18.0.4:47184 on port 1883.
+1746357252: New client connected from 172.18.0.4:47184 as 68174c04374a6 (p1, c1, k10).
+1746357252: Client 68174c04374a6 disconnected.
+1746357253: New connection from 172.18.0.4:47200 on port 1883.
+1746357253: New client connected from 172.18.0.4:47200 as 68174c0513c88 (p1, c1, k10).
+1746357253: Client 68174c0513c88 disconnected.
+1746357253: New connection from 172.18.0.4:47208 on port 1883.
+1746357253: New client connected from 172.18.0.4:47208 as 68174c05a9bef (p1, c1, k10).
+1746357253: Client 68174c05a9bef disconnected.
+1746357254: New connection from 172.18.0.4:47212 on port 1883.
+1746357254: New client connected from 172.18.0.4:47212 as 68174c06518dc (p1, c1, k10).
+1746357254: Client 68174c06518dc disconnected.
+1746357374: New connection from 172.18.0.4:49148 on port 1883.
+1746357374: New client connected from 172.18.0.4:49148 as 68174c7e8caa6 (p1, c1, k10).
+1746357374: Client 68174c7e8caa6 disconnected.
+1746357374: New connection from 172.18.0.4:49150 on port 1883.
+1746357374: New client connected from 172.18.0.4:49150 as 68174c7e9199e (p1, c1, k10).
+1746357374: Client 68174c7e9199e disconnected.
+1746357374: New connection from 172.18.0.4:49166 on port 1883.
+1746357374: New client connected from 172.18.0.4:49166 as 68174c7e994cf (p1, c1, k10).
+1746357374: Client 68174c7e994cf disconnected.
+1746357374: New connection from 172.18.0.4:49176 on port 1883.
+1746357374: New client connected from 172.18.0.4:49176 as 68174c7eb16fc (p1, c1, k10).
+1746357374: Client 68174c7eb16fc disconnected.
+1746357374: New connection from 172.18.0.4:49178 on port 1883.
+1746357374: New client connected from 172.18.0.4:49178 as 68174c7eb93c4 (p1, c1, k10).
+1746357374: Client 68174c7eb93c4 disconnected.
+1746357374: New connection from 172.18.0.4:49190 on port 1883.
+1746357374: New client connected from 172.18.0.4:49190 as 68174c7eb94ea (p1, c1, k10).
+1746357374: Client 68174c7eb94ea disconnected.
+1746357375: New connection from 172.18.0.4:49200 on port 1883.
+1746357375: New client connected from 172.18.0.4:49200 as 68174c7f25a04 (p1, c1, k10).
+1746357375: Client 68174c7f25a04 disconnected.
+1746357375: New connection from 172.18.0.4:49214 on port 1883.
+1746357375: New client connected from 172.18.0.4:49214 as 68174c7f26a6a (p1, c1, k10).
+1746357375: Client 68174c7f26a6a disconnected.
+1746357375: New connection from 172.18.0.4:49226 on port 1883.
+1746357375: New client connected from 172.18.0.4:49226 as 68174c7f31b69 (p1, c1, k10).
+1746357375: Client 68174c7f31b69 disconnected.
+1746357375: New connection from 172.18.0.4:49230 on port 1883.
+1746357375: New client connected from 172.18.0.4:49230 as 68174c7f51ee6 (p1, c1, k10).
+1746357375: Client 68174c7f51ee6 disconnected.
+1746357375: New connection from 172.18.0.4:49238 on port 1883.
+1746357375: New client connected from 172.18.0.4:49238 as 68174c7f54b82 (p1, c1, k10).
+1746357375: Client 68174c7f54b82 disconnected.
+1746357375: New connection from 172.18.0.4:41328 on port 1883.
+1746357375: New client connected from 172.18.0.4:41328 as 68174c7f6c644 (p1, c1, k10).
+1746357375: Client 68174c7f6c644 disconnected.
+1746357375: New connection from 172.18.0.4:41340 on port 1883.
+1746357375: New client connected from 172.18.0.4:41340 as 68174c7fac355 (p1, c1, k10).
+1746357375: Client 68174c7fac355 disconnected.
+1746357375: New connection from 172.18.0.4:41342 on port 1883.
+1746357375: New client connected from 172.18.0.4:41342 as 68174c7fad0b2 (p1, c1, k10).
+1746357375: Client 68174c7fad0b2 disconnected.
+1746357375: New connection from 172.18.0.4:41358 on port 1883.
+1746357375: New client connected from 172.18.0.4:41358 as 68174c7fb2cda (p1, c1, k10).
+1746357375: Client 68174c7fb2cda disconnected.
+1746357375: New connection from 172.18.0.4:41360 on port 1883.
+1746357375: New client connected from 172.18.0.4:41360 as 68174c7fc5d00 (p1, c1, k10).
+1746357375: Client 68174c7fc5d00 disconnected.
+1746357375: New connection from 172.18.0.4:41366 on port 1883.
+1746357375: New client connected from 172.18.0.4:41366 as 68174c7fd67f5 (p1, c1, k10).
+1746357375: Client 68174c7fd67f5 disconnected.
+1746357375: New connection from 172.18.0.4:41368 on port 1883.
+1746357375: New client connected from 172.18.0.4:41368 as 68174c7fea0cd (p1, c1, k10).
+1746357375: Client 68174c7fea0cd disconnected.
+1746357376: New connection from 172.18.0.4:41384 on port 1883.
+1746357376: New client connected from 172.18.0.4:41384 as 68174c8029a35 (p1, c1, k10).
+1746357376: Client 68174c8029a35 disconnected.
+1746357376: New connection from 172.18.0.4:41392 on port 1883.
+1746357376: New client connected from 172.18.0.4:41392 as 68174c802eeda (p1, c1, k10).
+1746357376: Client 68174c802eeda disconnected.
+1746357376: New connection from 172.18.0.4:41408 on port 1883.
+1746357376: New client connected from 172.18.0.4:41408 as 68174c803adc3 (p1, c1, k10).
+1746357376: Client 68174c803adc3 disconnected.
+1746357376: New connection from 172.18.0.4:41418 on port 1883.
+1746357376: New client connected from 172.18.0.4:41418 as 68174c8047db3 (p1, c1, k10).
+1746357376: Client 68174c8047db3 disconnected.
+1746357376: New connection from 172.18.0.4:41426 on port 1883.
+1746357376: New client connected from 172.18.0.4:41426 as 68174c805c38b (p1, c1, k10).
+1746357376: Client 68174c805c38b disconnected.
+1746357376: New connection from 172.18.0.4:41434 on port 1883.
+1746357376: New client connected from 172.18.0.4:41434 as 68174c8060ef1 (p1, c1, k10).
+1746357376: Client 68174c8060ef1 disconnected.
+1746357376: New connection from 172.18.0.4:41444 on port 1883.
+1746357376: New client connected from 172.18.0.4:41444 as 68174c809275e (p1, c1, k10).
+1746357376: Client 68174c809275e disconnected.
+1746357376: New connection from 172.18.0.4:41448 on port 1883.
+1746357376: New client connected from 172.18.0.4:41448 as 68174c809515f (p1, c1, k10).
+1746357376: Client 68174c809515f disconnected.
+1746357376: New connection from 172.18.0.4:41450 on port 1883.
+1746357376: New client connected from 172.18.0.4:41450 as 68174c8097d01 (p1, c1, k10).
+1746357376: Client 68174c8097d01 disconnected.
+1746357380: New connection from 172.18.0.4:41454 on port 1883.
+1746357380: New client connected from 172.18.0.4:41454 as 68174c84a4fd6 (p1, c1, k10).
+1746357380: Client 68174c84a4fd6 disconnected.
+1746357380: New connection from 172.18.0.4:41462 on port 1883.
+1746357380: New client connected from 172.18.0.4:41462 as 68174c84d58e2 (p1, c1, k10).
+1746357380: Client 68174c84d58e2 disconnected.
+1746357380: New connection from 172.18.0.4:41476 on port 1883.
+1746357380: New client connected from 172.18.0.4:41476 as 68174c84f1195 (p1, c1, k10).
+1746357380: Client 68174c84f1195 disconnected.
+1746357703: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746357774: New connection from 172.18.0.4:34414 on port 1883.
+1746357774: New client connected from 172.18.0.4:34414 as 68174e0e44e76 (p1, c1, k10).
+1746357774: Client 68174e0e44e76 disconnected.
+1746357776: New connection from 172.18.0.4:57932 on port 1883.
+1746357776: New client connected from 172.18.0.4:57932 as 68174e104b652 (p1, c1, k10).
+1746357776: Client 68174e104b652 disconnected.
+1746357777: New connection from 172.18.0.4:57940 on port 1883.
+1746357777: New client connected from 172.18.0.4:57940 as 68174e11c9e87 (p1, c1, k10).
+1746357777: Client 68174e11c9e87 disconnected.
+1746357778: New connection from 172.18.0.4:57944 on port 1883.
+1746357778: New client connected from 172.18.0.4:57944 as 68174e12a5a6b (p1, c1, k10).
+1746357778: Client 68174e12a5a6b disconnected.
+1746357779: New connection from 172.18.0.4:57960 on port 1883.
+1746357779: New client connected from 172.18.0.4:57960 as 68174e136f540 (p1, c1, k10).
+1746357779: Client 68174e136f540 disconnected.
+1746358207: New connection from 172.18.0.4:57312 on port 1883.
+1746358207: New client connected from 172.18.0.4:57312 as 68174fbfe379b (p1, c1, k10).
+1746358207: Client 68174fbfe379b disconnected.
+1746358209: New connection from 172.18.0.4:57322 on port 1883.
+1746358209: New client connected from 172.18.0.4:57322 as 68174fc132c17 (p1, c1, k10).
+1746358209: Client 68174fc132c17 disconnected.
+1746358210: New connection from 172.18.0.4:57332 on port 1883.
+1746358210: New client connected from 172.18.0.4:57332 as 68174fc24aabe (p1, c1, k10).
+1746358210: Client 68174fc24aabe disconnected.
+1746358211: New connection from 172.18.0.4:57348 on port 1883.
+1746358211: New client connected from 172.18.0.4:57348 as 68174fc3115f4 (p1, c1, k10).
+1746358211: Client 68174fc3115f4 disconnected.

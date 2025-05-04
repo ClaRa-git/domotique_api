@@ -170,7 +170,6 @@ final class ServiceController extends AbstractController
 
         $deviceId = $data['deviceId'];
         $vibeId = $data['vibeId'];
-        $deviceTypeId = $data['deviceTypeId'];
 
         // On essaie de récupère les réglages de l'appareil pour l'ambiance donnée 
         $settings = $settingRepository->getSettingsDeviceVibe($deviceId, $vibeId);
@@ -468,7 +467,6 @@ final class ServiceController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         $settings = $data['settings'] ?? [];
-        $playlist = $data['songs'] ?? null;
         $vibeId = $data['vibeId'] ?? null;
         $roomId = $data['roomId'] ?? null;
 
@@ -486,13 +484,15 @@ final class ServiceController extends AbstractController
             $room->setVibePlaying($newVibePlaying);
             $em->persist($room);
         }
-        
+
         $em->flush();
+
+        $playlist = $em->getRepository(Playlist::class)->find($vibe->getPlaylist()->getSongs());
 
         foreach ($settings as $setting) {
             $topic = 'device/' . $setting['deviceAddress'];
 
-            if ($setting['featureLabel'] === 'Player') {
+            if ($setting['featureLabel'] === 'Play') {
                 $message = json_encode([
                     'playlist' => $playlist,
                     'ref'   => $setting['deviceRef'],
