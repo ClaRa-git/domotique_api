@@ -2021,3 +2021,32 @@
 1746373597: Opening websockets listen socket on port 9001.
 1746373597: mosquitto version 2.0.21 running
 1746375398: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746377199: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746379000: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1746379209: New connection from 172.18.0.4:57482 on port 1883.
+1746379209: New client connected from 172.18.0.4:57482 as 6817a1c9b5d36 (p1, c1, k10).
+1746379209: Client 6817a1c9b5d36 disconnected.
+1746379210: New connection from 172.18.0.4:57494 on port 1883.
+1746379210: New client connected from 172.18.0.4:57494 as 6817a1ca7421c (p1, c1, k10).
+1746379210: Client 6817a1ca7421c disconnected.
+1746379211: New connection from 172.18.0.4:57506 on port 1883.
+1746379211: New client connected from 172.18.0.4:57506 as 6817a1cbb5598 (p1, c1, k10).
+1746379211: Client 6817a1cbb5598 disconnected.
+1746379213: New connection from 172.18.0.4:57520 on port 1883.
+1746379213: New client connected from 172.18.0.4:57520 as 6817a1cd510a3 (p1, c1, k10).
+1746379213: Client 6817a1cd510a3 disconnected.
+1746379213: New connection from 172.18.0.4:57528 on port 1883.
+1746379213: New client connected from 172.18.0.4:57528 as 6817a1cd5cb34 (p1, c1, k10).
+1746379213: Client 6817a1cd5cb34 disconnected.
+1746379213: New connection from 172.18.0.4:57532 on port 1883.
+1746379213: New client connected from 172.18.0.4:57532 as 6817a1cd63d04 (p1, c1, k10).
+1746379213: Client 6817a1cd63d04 disconnected.
+1746379213: New connection from 172.18.0.4:57546 on port 1883.
+1746379213: New client connected from 172.18.0.4:57546 as 6817a1cd68d60 (p1, c1, k10).
+1746379213: Client 6817a1cd68d60 disconnected.
+1746379213: New connection from 172.18.0.4:57560 on port 1883.
+1746379213: New client connected from 172.18.0.4:57560 as 6817a1cd73623 (p1, c1, k10).
+1746379213: Client 6817a1cd73623 disconnected.
+1746379213: New connection from 172.18.0.4:57576 on port 1883.
+1746379213: New client connected from 172.18.0.4:57576 as 6817a1cd7c9ed (p1, c1, k10).
+1746379213: Client 6817a1cd7c9ed disconnected.

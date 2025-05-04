@@ -154,7 +154,7 @@ INSERT INTO `device` VALUES
 (1,'Ampoule Salon','1234567','Philips','1234567',2,1),
 (2,'Ampoule chambre','1234568','Philips','1234568',2,2),
 (3,'Prise salon','123456','Samsung','123456',3,1),
-(4,'Ampoule salon 2','123456','Samsung','123456',5,1),
+(4,'Ampoule salon 2','123456','Samsung','123456',5,NULL),
 (7,'Player JBL','aa:bb:cc:dd','JBL','753643',6,2);
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -698,4 +698,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-05-04 12:55:40
+-- Dump completed on 2025-05-04 17:25:53

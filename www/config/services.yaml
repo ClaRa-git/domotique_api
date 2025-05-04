@@ -25,3 +25,11 @@ services:
             $port: '%env(int:MQTT_PORT)%'
             $username: '%env(MQTT_USERNAME)%'
             $password: '%env(MQTT_PASSWORD)%'
+    
+    App\Service\MqttListener:
+        arguments:
+            $host: '%env(MQTT_HOST)%'
+            $port: '%env(int:MQTT_PORT)%'
+            $username: '%env(MQTT_USERNAME)%'
+            $password: '%env(MQTT_PASSWORD)%'
+
