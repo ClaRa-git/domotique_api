@@ -53,7 +53,6 @@ class DashboardController extends AbstractDashboardController
     {
         // Menu principal
         yield MenuItem::linkToUrl('Accueil', 'fa fa-home', 'http://localhost:8082/admin');
-        yield MenuItem::linkToUrl('Swagger', 'fa fa-book', 'http://localhost:8082/api');
 
         // Menu de gestion des profils
         yield MenuItem::section('Gestion des profils');
