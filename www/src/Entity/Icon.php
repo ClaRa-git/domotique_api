@@ -24,11 +24,11 @@ class Icon
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['icon:read', 'vibe:read'])]
+    #[Groups(['icon:read', 'vibe:read', 'playlist:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['icon:read', 'vibe:read'])]
+    #[Groups(['icon:read', 'vibe:read', 'planning:read'])]
     private ?string $imagePath = null;
 
     /**

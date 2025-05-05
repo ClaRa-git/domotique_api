@@ -54,7 +54,7 @@ class Room
     private Collection $plannings;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['room:read'])]
+    #[Groups(['room:read', 'planning:read'])]
     private ?string $imagePath = null;
 
     #[ORM\ManyToOne(inversedBy: 'rooms')]

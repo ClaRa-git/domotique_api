@@ -73,7 +73,7 @@ class Vibe
     private Collection $settings;
 
     #[ORM\ManyToOne(inversedBy: 'vibes')]
-    #[Groups(['vibe:read', 'vibe:write'])]
+    #[Groups(['vibe:read', 'vibe:write', 'planning:read'])]
     private ?Icon $icon = null;
 
     /**
