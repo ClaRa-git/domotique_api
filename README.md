@@ -82,10 +82,7 @@ source ~/.bash_profile
 bash
 
 ccomposer install
-
-```
-nnpm
-npm i
+nnpm npm i
 
 ```
 
