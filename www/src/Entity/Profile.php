@@ -11,6 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 #[ApiResource(
@@ -22,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['profile:read']],
     denormalizationContext: ['groups' => ['profile:write']],
 )]
-class Profile
+class Profile implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -74,6 +76,21 @@ class Profile
         $this->vibes = new ArrayCollection();
         $this->plannings = new ArrayCollection();
         $this->vibePlayings = new ArrayCollection();
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function eraseCredentials(): void
+    {
+        // pas de plainPassword temporaire à effacer
     }
 
     public function getId(): ?int
