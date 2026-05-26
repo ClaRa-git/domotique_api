@@ -10,7 +10,7 @@
         "api-platform/core": "^4.1",
         "api-platform/doctrine-orm": ">=4.1.4",
         "api-platform/symfony": ">=4.1.4",
-        "doctrine/doctrine-bundle": "^2.14",
+        "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.4.1",
         "doctrine/orm": "^3.3.2",
         "dragonmantank/cron-expression": "^3.4",
