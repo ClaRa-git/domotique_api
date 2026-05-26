@@ -16,6 +16,7 @@
         "dragonmantank/cron-expression": "^3.4",
         "easycorp/easyadmin-bundle": "^4.24.5",
         "james-heinrich/getid3": "^1.9.23",
+        "lexik/jwt-authentication-bundle": "^3.2",
         "nelmio/cors-bundle": "^2.5",
         "php-mqtt/client": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.6.1",

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProfileRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,19 +17,36 @@ class SecurityController extends AbstractController
 {
     private ProfileRepository $profileRepository;
     private UserPasswordHasherInterface $passwordHasher;
+    private JWTTokenManagerInterface $jwtManager;
 
     public function __construct(
         ProfileRepository $profileRepository,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        JWTTokenManagerInterface $jwtManager
     ) {
         $this->profileRepository = $profileRepository;
         $this->passwordHasher = $passwordHasher;
+        $this->jwtManager = $jwtManager;
     }
 
     #[Route(path: '/', name: 'app_index')]
     public function index(): RedirectResponse
     {
         return $this->redirectToRoute('admin');
+    }
+
+    #[Route(path: '/login-data', name: 'app_login_data', methods: ['GET'])]
+    public function loginData(): JsonResponse
+    {
+        $profiles = $this->profileRepository->findAll();
+
+        $data = array_map(fn($profile) => [
+            'id'       => $profile->getId(),
+            'username' => $profile->getUsername(),
+            'avatar'   => $profile->getAvatar()?->getImagePath(),
+        ], $profiles);
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     #[Route(path: '/login', name: 'app_login')]
@@ -54,7 +72,6 @@ class SecurityController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        // Validation des champs manquants
         if (empty($data['username']) || empty($data['password'])) {
             return new JsonResponse([
                 'success' => false,
@@ -67,7 +84,6 @@ class SecurityController extends AbstractController
 
         $user = $this->profileRepository->findOneBy(['username' => $username]);
 
-        // Message générique — ne pas révéler si c'est le user ou le mdp qui est faux
         if (!$user) {
             return new JsonResponse([
                 'success' => false,
@@ -75,7 +91,6 @@ class SecurityController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        // Vérification avec le hasheur — remplace la comparaison en clair
         if (!$this->passwordHasher->isPasswordValid($user, $password)) {
             return new JsonResponse([
                 'success' => false,
@@ -83,9 +98,13 @@ class SecurityController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
+        // Génération du token JWT
+        $token = $this->jwtManager->create($user);
+
         return new JsonResponse([
             'success' => true,
             'message' => 'Connexion réussie',
+            'token' => $token,
             'user' => [
                 'id' => $user->getId(),
                 'username' => $user->getUsername(),
