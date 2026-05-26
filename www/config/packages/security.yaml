@@ -1,16 +1,12 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        # Provider admin EasyAdmin
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: username
-        # Provider pour les profils utilisateurs React
         profile_provider:
             entity:
                 class: App\Entity\Profile
@@ -20,6 +16,18 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/(login-react|login-data)
+            stateless: true
+            security: false
+
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: profile_provider
+            jwt: ~
+
         main:
             lazy: true
             provider: app_user_provider
@@ -29,20 +37,18 @@ security:
                 enable_csrf: true
             logout:
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login-react, roles: PUBLIC_ACCESS }
+        - { path: ^/login-data, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
         password_hashers:
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+                cost: 4
+                time_cost: 3
+                memory_cost: 10
