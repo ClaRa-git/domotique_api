@@ -23,7 +23,7 @@ security:
             security: false
 
         api:
-            pattern: ^/(api|service-device|service-setting|service-settings-update|service-vibe-recommended|send-vibe|stop-vibe|stop-vibes-user|test-settings)
+            pattern: ^/(api|service-device|service-setting|service-settings-update|service-vibe-recommended|send-vibe|stop-vibe|stop-vibes-user|test-settings|service-planning)
             stateless: true
             provider: profile_provider
             jwt: ~
