@@ -29,12 +29,24 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ServiceController extends AbstractController
 {
-    /**
-     * @Route("/service-device", name="app_service_device")
-     * @param int $roomId
-     * @param int $vibeId
-     * @return Response
-     */
+    // Méthode utilitaire — vérifie que le userId du body == user JWT connecté
+    private function assertOwnership(int $requestedUserId): void
+    {
+        $user = $this->getUser();
+        if (!$user || $user->getId() !== $requestedUserId) {
+            throw $this->createAccessDeniedException('Accès interdit à cette ressource.');
+        }
+    }
+
+    // Vérifie que la vibe appartient au user connecté
+    private function assertVibeOwnership(Vibe $vibe): void
+    {
+        $user = $this->getUser();
+        if (!$user || $vibe->getProfile()->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException('Accès interdit à cette ressource.');
+        }
+    }
+
     #[Route('/service-device', name: 'app_service_device')]
     public function getDeviceForVibe(Request $request, DeviceRepository $deviceRepository): Response
     {
@@ -45,13 +57,6 @@ final class ServiceController extends AbstractController
         return $this->json($results);
     }
 
-    /**
-     * @Route("/api/device/init", name="api_device_init")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param FeatureRepository $featureRepo
-     * @return JsonResponse
-     */
     #[Route('/api/device-init', name: 'api_device_init', methods: ['POST'])]
     public function initDevice(Request $request, EntityManagerInterface $em, FeatureRepository $featureRepo): JsonResponse {
         $data = json_decode($request->getContent(), true);
@@ -66,7 +71,6 @@ final class ServiceController extends AbstractController
         $device->setBrand($data['brand'] ?? null);
         $device->setReference($data['reference'] ?? null);
 
-        // Vérifie si le DeviceType existe déjà
         $deviceType = $em->getRepository(DeviceType::class)->findOneBy(['label' => $data['deviceType']]);
         if ($deviceType) {
             $device->setDeviceType($deviceType);        
@@ -74,7 +78,6 @@ final class ServiceController extends AbstractController
             $deviceType = new DeviceType();
             $deviceType->setLabel($data['deviceType']);
 
-            // Vérifie si le Protocole existe déjà
             $protocole = $em->getRepository(Protocole::class)->findOneBy(['label' => $data['protocole']]);
             if ($protocole) {
                 $deviceType->setProtocole($protocole);
@@ -116,13 +119,6 @@ final class ServiceController extends AbstractController
         return new JsonResponse(['status' => 'ok', 'device_id' => $device->getId()]);
     }
 
-    /**
-     * @Route("/service-planning", name="app_service_planning")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param PlanningRepository $planningRepository
-     * @return JsonResponse
-     */
     #[Route('/service-planning', name: 'app_service_planning', methods: ['POST'])]
     public function getPlanningsForDate(Request $request, EntityManagerInterface $em, PlanningRepository $planningRepository): JsonResponse
     {
@@ -139,7 +135,6 @@ final class ServiceController extends AbstractController
         $weeklyPlannings = $planningRepository->getWeeklyPlanning($day);
         $dailyPlannings = $planningRepository->getDailyPlannings($date);
 
-        // On combine les deux tableaux
         $plannings = array_merge($planningsForDay, $weeklyPlannings, $dailyPlannings);
 
         return $this->json([
@@ -148,17 +143,6 @@ final class ServiceController extends AbstractController
         ]);        
     }
 
-    /**
-     * Récupère les settings s'ils existent d'un appareil pour une ambiance donnée
-     * S'ils n'exitent pas, on récupère les réglages par défaut s'ils existent
-     * S'ils n'existent pas, on récupère les features de l'appareil
-     * S'ils n'existent pas, on renvoie un message d'erreur
-     * @Route("/service-setting", name="app_service_setting")
-     * @param Request $request
-     * @param SettingRepository $settingRepository
-     * @param FeatureRepository $featureRepository
-     * @return JsonResponse
-     */
     #[Route('/service-setting', name: 'app_service_setting', methods: ['POST'])]
     public function getSettingsForDevice(Request $request, SettingRepository $settingRepository, FeatureRepository $featureRepository): JsonResponse
     {
@@ -171,10 +155,8 @@ final class ServiceController extends AbstractController
         $deviceId = $data['deviceId'];
         $vibeId = $data['vibeId'];
 
-        // On essaie de récupère les réglages de l'appareil pour l'ambiance donnée 
         $settings = $settingRepository->getSettingsDeviceVibe($deviceId, $vibeId);
 
-        // On créé un tableau parcourant $settings pour le formater
         $formattedSettings = [];
 
         foreach ($settings as $setting) {
@@ -195,13 +177,9 @@ final class ServiceController extends AbstractController
             ];
         }
 
-        // On regarde si l'appareil a des réglages par défaut
         $defaultSettings = $settingRepository->getDefaultSettings($deviceId);
 
-        // Si le taille de settings est différente de celle de defaultSettings
-        // On combine les deux tableaux
         if (count($settings) !== count($defaultSettings)) {
-            // On garde les réglages de l'appareil et on rajoute les réglages par défaut qui n'exite pas dans $settings
             foreach ($defaultSettings as $setting) {
                 $found = false;
                 foreach ($settings as $s) {
@@ -235,10 +213,8 @@ final class ServiceController extends AbstractController
                 'settings' => $formattedSettings
             ]);
         } 
-        // S'il n'existe pas de réglages
         else if (empty($formattedSettings)) {
 
-            // On créé un tableau parcourant $defaultSettings pour le formater
             foreach ($defaultSettings as $setting) {
                 $formattedSettings[] = [
                     'id' => 0,
@@ -257,17 +233,13 @@ final class ServiceController extends AbstractController
                 ];
             }
 
-            // S'il n'existe pas de réglages par défaut
             if (empty($formattedSettings)) {
-
                 return $this->json([
                     'status' => 'ok',
                     'message' => 'No settings/defaut settings found',
                     'settings' => $formattedSettings
                 ]);
-
             } else {
-
                 return $this->json([
                     'status' => 'ok',
                     'message' => 'Default settings found',
@@ -288,35 +260,31 @@ final class ServiceController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/settings-update", name="app_settings_update")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
     #[Route('/service-settings-update', name: 'app_service-settings_update', methods: ['POST'])]
     public function updateSettings(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        // Vérifie si le payload est vide
         if (!$data) {
             return new JsonResponse(['error' => 'Invalid payload'], 400);
         }
 
         foreach ($data as $settingData) {
-            // Vérifie si le setting existe
             $setting = $em->getRepository(Setting::class)->find($settingData['id']);
             if ($setting) {
-                // Met à jour la valeur du setting
+                // Vérifie que la vibe du setting appartient au user connecté
+                $this->assertVibeOwnership($setting->getVibe());
+
                 $setting->setValue($settingData['value']);
                 $em->persist($setting);
             } 
-            // Si le setting n'existe pas, on le crée
             else {
                 $device = $em->getRepository(Device::class)->find($settingData['deviceId']);
                 $vibe = $em->getRepository(Vibe::class)->find($settingData['vibeId']);
                 $feature = $em->getRepository(Feature::class)->find($settingData['featureId']);
+
+                // Vérifie que la vibe appartient au user connecté
+                $this->assertVibeOwnership($vibe);
 
                 $setting = new Setting();
                 $setting->setValue($settingData['value']);
@@ -325,11 +293,8 @@ final class ServiceController extends AbstractController
                 $setting->setFeature($feature);
                 $em->persist($setting);
             }
-
-            
         }
         
-        // On met à jour le réglage
         $em->flush();
 
         return $this->json([
@@ -338,18 +303,15 @@ final class ServiceController extends AbstractController
         ]);
     }
 
-    /**
-     * Méthode pour récupérer les vibes recommandées
-     * @Route("/service-vibe-recommended", name="app_service_vibe_recommended")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
     #[Route('/service-vibe-recommended', name: 'app_service_vibe_recommended', methods: ['POST'])]
     public function recommendVibes(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $userId = $data['userId'];
+
+        // Vérification IDOR
+        $this->assertOwnership((int) $userId);
+
         $userMood = $data['mood'];
         $userTone = $data['tone'];
         $userStress = $data['stress'];
@@ -371,13 +333,10 @@ final class ServiceController extends AbstractController
 
         usort($results, fn($a, $b) => $a['distance'] <=> $b['distance']);
 
-        // retourne les 2 vibes les plus proches
         $topVibes = array_slice(array_map(fn($r) => $r['vibe'], $results), 0, 2);
 
-        // On va réconstruire les vibes
         $fullVibes = [];
 
-        // On récupère les critères des vibes
         foreach ($topVibes as $vibe) {
             $criteriaId = $vibe->getCriteria()->getId();
             $criteria = $em->getRepository(Criteria::class)->find($criteriaId);
@@ -413,7 +372,6 @@ final class ServiceController extends AbstractController
                 $playlistId = $playlist->getId();
                 $playlistTitle = $playlist->getTitle();
 
-                // On récupère toutes les songs de la playlist
                 $songs = $playlist->getSongs();
                 foreach ($songs as $song) {
                     $playlistSongs[] = [
@@ -455,14 +413,6 @@ final class ServiceController extends AbstractController
         ]);
     }
 
-    /**
-     * Méthode pour lancer une ambiance
-     * @Route("/send-vibe", name="app_send_vibe")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param MqttService $mqttService
-     * @return JsonResponse
-     */
     #[Route('/send-vibe', name: 'send_vibe', methods: ['POST'])]
     public function sendVibe(Request $request, EntityManagerInterface $em, MqttClient $mqttClient): JsonResponse
     {
@@ -474,14 +424,15 @@ final class ServiceController extends AbstractController
 
         $vibe = $em->getRepository(Vibe::class)->find($vibeId);
 
-        // On créé une vibePlaying
+        // Vérifie que la vibe appartient au user connecté
+        $this->assertVibeOwnership($vibe);
+
         $newVibePlaying = new VibePlaying();
         $newVibePlaying->setVibe($vibe);
         $newVibePlaying->setProfile($em->getRepository(Profile::class)->find($vibe->getProfile()->getId()));
         $em->persist($newVibePlaying);
         $em->flush();
 
-        // On met à jour la pièce
         $room = $em->getRepository(Room::class)->find($roomId);
         if ($room) {
             $room->setVibePlaying($newVibePlaying);
@@ -519,28 +470,23 @@ final class ServiceController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
-    /**
-     * Méthode pour arrêter une vibe
-     * @Route("/stop-vibe", name="app_stop_vibe")
-     * @param Request $request
-     * @param MqttClient $mqttClient
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
     #[Route('/stop-vibe', name: 'stop_vibe', methods: ['POST'])]
     public function stopVibe(Request $request, MqttClient $mqttClient, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $vibePlayingId = $data['vibePlayingId'];
-        $vibeId = $data['vibeId'];
-        $roomId = $data['roomId'];
 
-        // Vérifie si le payload est vide
         if (!$data) {
             return new JsonResponse(['error' => 'Invalid payload'], 400);
         }
 
-        // On met à jour vibe_playing_id de la pièce
+        $vibePlayingId = $data['vibePlayingId'];
+        $vibeId = $data['vibeId'];
+        $roomId = $data['roomId'];
+
+        // Vérifie que la vibe appartient au user connecté
+        $vibe = $em->getRepository(Vibe::class)->find($vibeId);
+        $this->assertVibeOwnership($vibe);
+
         $room = $em->getRepository(Room::class)->find($roomId);
         if ($room) {
             $room->setVibePlaying(null);
@@ -548,14 +494,12 @@ final class ServiceController extends AbstractController
             $em->flush();
         }
 
-        // On suppprime la vibe jouée 
         $vibePlaying = $em->getRepository(VibePlaying::class)->find($vibePlayingId);
         if ($vibePlaying) {
             $em->remove($vibePlaying);
             $em->flush();
         }
 
-        // On récupère tous les appareils
         $devices = $em->getRepository(Device::class)->findBy(['room' => $roomId]);
 
         foreach ($devices as $device) {
@@ -575,36 +519,28 @@ final class ServiceController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
-    /**
-     * Méthode pour arrêter toutes les vibes d'un user
-     * @Route("/stop-vibes-user", name="app_stop_vibe")
-     * @param Request $request
-     * @param MqttClient $mqttClient
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
     #[Route('/stop-vibes-user', name: 'stop_vibes_user', methods: ['POST'])]
     public function stopVibesUser(Request $request, MqttClient $mqttClient, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
+        if (!$data || !isset($data['userId'])) {
+            return new JsonResponse(['error' => 'Invalid payload'], 400);
+        }
+
+        // Vérification IDOR
+        $this->assertOwnership((int) $data['userId']);
+
         $userId = $data['userId'];
 
-        // Vérifie si le payload est vide
-        if (!$data) {
-            return new JsonResponse(['error' => 'Invalid payload'], 400);
-        }    
-
-        // On récupère les vibes de l'utilisateur
         $vibes = $em->getRepository(Vibe::class)->findBy(['profile' => $userId]);
 
-        // On récupère les vibes en cours de l'utilisateur
         $vibesPlaying = $em->getRepository(VibePlaying::class)->findBy(['profile' => $userId]);
         foreach ($vibesPlaying as $vibePlaying) {
             $em->remove($vibePlaying);
             $em->flush();
         }
 
-        // On récupère les rooms
         $rooms = $em->getRepository(Room::class)->findBy(['vibePlaying' => $vibesPlaying]);
         foreach ($rooms as $room) {
             $room->setVibePlaying(null);
@@ -612,7 +548,6 @@ final class ServiceController extends AbstractController
             $em->flush();
         }
 
-        // On récupère les devices
         $devices = $em->getRepository(Device::class)->findBy(['room' => $rooms]);
 
         foreach ($devices as $device) {
@@ -632,14 +567,6 @@ final class ServiceController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
-    /**
-     * Méthode pour mettre à jour en direct les réglages d'un appareil
-     * @Route("/test-settings", name="app_send_vibe")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param MqttService $mqttService
-     * @return JsonResponse
-     */
     #[Route('/test-settings', name: 'test-settings', methods: ['POST'])]
     public function testSettings(Request $request, EntityManagerInterface $em, MqttClient $mqttClient): JsonResponse
     {
@@ -649,6 +576,9 @@ final class ServiceController extends AbstractController
         $vibeId = $data['vibeId'] ?? null;
 
         $vibe = $em->getRepository(Vibe::class)->find($vibeId);
+
+        // Vérifie que la vibe appartient au user connecté
+        $this->assertVibeOwnership($vibe);
 
         $playlist = $em->getRepository(Playlist::class)->find($vibe->getPlaylist()->getId());
         $songs = $playlist->getSongs();
