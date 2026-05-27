@@ -20,11 +20,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: PlanningRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(security: "is_granted('ROLE_USER') and object.getProfile().getId() == user.getId()"),
+        new Get(security: "is_granted('ROLE_USER')"),
         new GetCollection(),
-        new Patch(security: "is_granted('ROLE_USER') and object.getProfile().getId() == user.getId()"),
+        new Patch(security: "is_granted('ROLE_USER')"),
         new Post(security: "is_granted('ROLE_USER')"),
-        new Delete(security: "is_granted('ROLE_USER') and object.getProfile().getId() == user.getId()"),
+        new Delete(security: "is_granted('ROLE_USER')"),
     ],
     normalizationContext: ['groups' => ['planning:read']],
     denormalizationContext: ['groups' => ['planning:write']],

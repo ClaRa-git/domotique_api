@@ -19,9 +19,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(security: "is_granted('ROLE_USER')"),
         new GetCollection(security: "is_granted('ROLE_USER')"),
-        new Patch(security: "is_granted('ROLE_USER') and object.getProfile().getId() == user.getId()"),
+        new Patch(security: "is_granted('ROLE_USER')"),
         new Post(security: "is_granted('ROLE_USER')"),
-        new Delete(security: "is_granted('ROLE_USER') and object.getProfile().getId() == user.getId()"),
+        new Delete(security: "is_granted('ROLE_USER')"),
     ],
     normalizationContext: ['groups' => ['vibe_playing:read']],
 )]
