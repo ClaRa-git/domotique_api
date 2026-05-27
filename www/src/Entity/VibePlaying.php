@@ -17,11 +17,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: VibePlayingRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
-        new Patch(),
-        new Post(),
-        new Delete()
+        new Get(security: "is_granted('ROLE_USER')"),
+        new GetCollection(security: "is_granted('ROLE_USER')"),
+        new Patch(security: "is_granted('ROLE_USER') and object.getProfile().getId() == user.getId()"),
+        new Post(security: "is_granted('ROLE_USER')"),
+        new Delete(security: "is_granted('ROLE_USER') and object.getProfile().getId() == user.getId()"),
     ],
     normalizationContext: ['groups' => ['vibe_playing:read']],
 )]
