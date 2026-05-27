@@ -17,9 +17,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
+        new Get(security: "is_granted('ROLE_USER') and object.getId() == user.getId()"),
         new GetCollection(),
-        new Patch()
+        new Patch(security: "is_granted('ROLE_USER') and object.getId() == user.getId()"),
     ],
     normalizationContext: ['groups' => ['profile:read']],
     denormalizationContext: ['groups' => ['profile:write']],
