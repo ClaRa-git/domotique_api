@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use App\Repository\ProfileRepository;
+use App\State\ProfilePasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,8 +20,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
     operations: [
         new Get(security: "is_granted('ROLE_USER') and object.getId() == user.getId()"),
         new GetCollection(),
-        new Patch(security: "is_granted('ROLE_USER') and object.getId() == user.getId()"),
-    ],
+        new Patch(
+            security: "is_granted('ROLE_USER') and object.getId() == user.getId()",
+            processor: ProfilePasswordHasher::class
+),    ],
     normalizationContext: ['groups' => ['profile:read']],
     denormalizationContext: ['groups' => ['profile:write']],
 )]

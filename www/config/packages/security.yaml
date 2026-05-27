@@ -23,7 +23,7 @@ security:
             security: false
 
         api:
-            pattern: ^/api
+            pattern: ^/(api|service-device|service-setting|service-settings-update|service-vibe-recommended|send-vibe|stop-vibe|stop-vibes-user|test-settings)
             stateless: true
             provider: profile_provider
             jwt: ~
@@ -43,6 +43,10 @@ security:
         - { path: ^/login-react, roles: PUBLIC_ACCESS }
         - { path: ^/login-data, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/service-, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/send-vibe, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/stop-vibe, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/test-settings, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
