@@ -11,10 +11,12 @@ class AIConversationService
     
     public function __construct(
         HttpClientInterface $httpClient,
-        string $ollamaUrl = 'http://localhost:11434'
+        string $ollamaUrl = 'http://localhost:11434',
+        string $ollamaModel = 'llama3.2'
     ) {
         $this->httpClient = $httpClient;
         $this->ollamaUrl = $ollamaUrl;
+        $this->ollamaModel = $ollamaModel;
     }
 
     /**
@@ -42,7 +44,7 @@ class AIConversationService
         try {
             $response = $this->httpClient->request('POST', $this->ollamaUrl . '/api/chat', [
                 'json' => [
-                    'model' => 'llama3.2',
+                    'model' => $this->ollamaModel,
                     'messages' => $ollamaMessages,
                     'stream' => false,
                     'format' => 'json', // Force la réponse en JSON
@@ -128,14 +130,19 @@ PROMPT;
             
             $vibeCriteria = $vibe->getCriteria();
             
-            // Calcul de la distance euclidienne
+            // Guard : si l'un des critères est null, on skip
+            if ($vibeCriteria->getMood() === null 
+                || $vibeCriteria->getStress() === null 
+                || $vibeCriteria->getTone() === null) {
+                continue;
+            }
+            
             $distance = sqrt(
                 pow($criteria['mood'] - $vibeCriteria->getMood(), 2) +
                 pow($criteria['stress'] - $vibeCriteria->getStress(), 2) +
                 pow($criteria['tone'] - $vibeCriteria->getTone(), 2)
             );
             
-            // Normalisation du score (distance max théorique = sqrt(3 * 100²) ≈ 173.2)
             $score = max(0, 100 - ($distance / 1.732));
             
             $scores[] = [
@@ -144,10 +151,8 @@ PROMPT;
             ];
         }
         
-        // Tri par score décroissant
         usort($scores, fn($a, $b) => $b['score'] <=> $a['score']);
         
-        // Retourne les 3 meilleurs
         return array_slice($scores, 0, 3);
     }
 

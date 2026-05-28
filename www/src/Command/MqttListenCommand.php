@@ -3,13 +3,14 @@
 namespace App\Command;
 
 use App\Service\MqttListener;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'app:mqtt:listen', description: 'Écoute les messages MQTT et enregistre les devices')]
 class MqttListenCommand extends Command
 {
-    protected static $defaultName = 'app:mqtt:listen';
     private MqttListener $listener;
 
     public function __construct(MqttListener $listener)
@@ -18,12 +19,7 @@ class MqttListenCommand extends Command
         $this->listener = $listener;
     }
 
-    protected function configure()
-    {
-        $this->setDescription('Écoute les messages MQTT et enregistre les devices');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
+protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Démarrage de l’écoute MQTT...');
         $this->listener->listen();
