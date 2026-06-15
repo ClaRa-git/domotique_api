@@ -114,10 +114,16 @@ npm run build
 
 ### 6. Générer les clés JWT
 
+Utilisez la commande du bundle — elle lit automatiquement la passphrase depuis le `.env` :
+
 ```bash
-mkdir -p www/config/jwt
-openssl genpkey -out www/config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
-openssl pkey -in www/config/jwt/private.pem -out www/config/jwt/public.pem -pubout
+cconsole lexik:jwt:generate-keypair --overwrite
+```
+
+Les fichiers sont générés à l'intérieur du conteneur (propriétaire `root`). Corrigez les permissions pour qu'Apache puisse lire la clé privée :
+
+```bash
+sudo chmod 644 www/config/jwt/private.pem
 ```
 
 ### 7. Configurer l'environnement
@@ -133,6 +139,29 @@ DATABASE_URL="mysql://admin:admin@mariadb_domotique:3306/domotique"
 ```bash
 db-import
 ```
+
+### 9. Configurer Ollama (fonctionnalité IA — Noctys)
+
+Installez Ollama sur la **machine hôte** (pas dans Docker) :
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+Démarrez le serveur et téléchargez le modèle :
+
+```bash
+ollama serve
+ollama pull llama3.2
+```
+
+> **Linux + Docker** : depuis le conteneur, `localhost` pointe le conteneur lui-même, pas l'hôte. L'`OLLAMA_URL` dans `www/.env` doit utiliser l'IP de la gateway Docker (visible dans `docker network inspect`) :
+>
+> ```env
+> OLLAMA_URL=http://172.21.0.1:11434
+> ```
+>
+> Vérifiez l'IP exacte avec : `docker network inspect domotique_api_default | grep Gateway`
 
 ---
 
