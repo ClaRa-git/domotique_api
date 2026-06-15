@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(security: "is_granted('ROLE_USER')"),
         new GetCollection(),
         new Patch(security: "is_granted('ROLE_USER')"),
-        new Post(security: "is_granted('ROLE_USER')"),
+        new Post(security: "is_granted('ROLE_USER')", processor: \App\State\VibePostProcessor::class),
         new Delete(security: "is_granted('ROLE_USER')"),
     ],
     normalizationContext: ['groups' => ['vibe:read']],

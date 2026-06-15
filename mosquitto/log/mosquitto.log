@@ -3422,3 +3422,33 @@
 1781516142: New connection from 172.18.0.3:38486 on port 1883.
 1781516142: New client connected from 172.18.0.3:38486 as 6a2fc76e43866 (p3, c1, k10).
 1781516142: Client 6a2fc76e43866 [172.18.0.3:38486] disconnected.
+1781517077: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1781518878: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1781520679: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1781521583: New connection from 172.18.0.3:36046 on port 1883.
+1781521583: New client connected from 172.18.0.3:36046 as 6a2fdcaf71319 (p3, c1, k10).
+1781521583: Client 6a2fdcaf71319 [172.18.0.3:36046] disconnected.
+1781521583: New connection from 172.18.0.3:36052 on port 1883.
+1781521583: New client connected from 172.18.0.3:36052 as 6a2fdcaf71651 (p3, c1, k10).
+1781521583: Client 6a2fdcaf71651 [172.18.0.3:36052] disconnected.
+1781521583: New connection from 172.18.0.3:36064 on port 1883.
+1781521583: New client connected from 172.18.0.3:36064 as 6a2fdcaf717d9 (p3, c1, k10).
+1781521583: Client 6a2fdcaf717d9 [172.18.0.3:36064] disconnected.
+1781521583: New connection from 172.18.0.3:36080 on port 1883.
+1781521583: New client connected from 172.18.0.3:36080 as 6a2fdcaf71945 (p3, c1, k10).
+1781521583: Client 6a2fdcaf71945 [172.18.0.3:36080] disconnected.
+1781521583: New connection from 172.18.0.3:36096 on port 1883.
+1781521583: New client connected from 172.18.0.3:36096 as 6a2fdcaf71a8e (p3, c1, k10).
+1781521583: Client 6a2fdcaf71a8e [172.18.0.3:36096] disconnected.
+1781521583: New connection from 172.18.0.3:36106 on port 1883.
+1781521583: New client connected from 172.18.0.3:36106 as 6a2fdcaf71bb1 (p3, c1, k10).
+1781521583: Client 6a2fdcaf71bb1 [172.18.0.3:36106] disconnected.
+1781521591: New connection from 172.18.0.3:36114 on port 1883.
+1781521591: New client connected from 172.18.0.3:36114 as 6a2fdcb790fd2 (p3, c1, k10).
+1781521591: Client 6a2fdcb790fd2 [172.18.0.3:36114] disconnected.
+1781521591: New connection from 172.18.0.3:36126 on port 1883.
+1781521591: New client connected from 172.18.0.3:36126 as 6a2fdcb7912f0 (p3, c1, k10).
+1781521591: Client 6a2fdcb7912f0 [172.18.0.3:36126] disconnected.
+1781521591: New connection from 172.18.0.3:36142 on port 1883.
+1781521591: New client connected from 172.18.0.3:36142 as 6a2fdcb791485 (p3, c1, k10).
+1781521591: Client 6a2fdcb791485 [172.18.0.3:36142] disconnected.
