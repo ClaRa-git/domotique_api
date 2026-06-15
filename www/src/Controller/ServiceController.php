@@ -481,9 +481,9 @@ final class ServiceController extends AbstractController
             return new JsonResponse(['error' => 'Invalid payload'], 400);
         }
 
-        $vibePlayingId = $data['vibePlayingId'];
-        $vibeId = $data['vibeId'];
-        $roomId = $data['roomId'];
+        $vibePlayingId = $data['vibePlayingId'] ?? null;
+        $vibeId = $data['vibeId'] ?? null;
+        $roomId = $data['roomId'] ?? null;
 
         // Vérifie que la vibe appartient au user connecté
         $vibe = $em->getRepository(Vibe::class)->find($vibeId);

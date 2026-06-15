@@ -79,9 +79,10 @@ PROMPT;
             ]);
         }
 
-        $mood   = max(0, min(10, (int) ($parsed['mood']   ?? 5)));
-        $tone   = max(0, min(10, (int) ($parsed['tone']   ?? 5)));
-        $stress = max(0, min(10, (int) ($parsed['stress'] ?? 5)));
+        // Les critères en base sont sur 0-100 (sliders PopupMood), on convertit le 0-10 de l'IA
+        $mood   = max(0, min(100, (int) ($parsed['mood']   ?? 5) * 10));
+        $tone   = max(0, min(100, (int) ($parsed['tone']   ?? 5) * 10));
+        $stress = max(0, min(100, (int) ($parsed['stress'] ?? 5) * 10));
 
         $vibes = $vibeRepository->getAllForUser($user->getId());
 
@@ -110,6 +111,7 @@ PROMPT;
                     'deviceRef'     => $device->getReference(),
                     'deviceAddress' => $device->getAddress(),
                     'featureLabel'  => $setting->getFeature()->getLabel(),
+                    'roomId'        => $device->getRoom()?->getId(),
                 ];
             }
             return [

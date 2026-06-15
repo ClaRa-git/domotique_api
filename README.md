@@ -90,6 +90,8 @@ fi
 ccomposer install
 ```
 
+Si une erreur apparait, faire ccomposer update pour mettre à jour les dépendances.
+
 ### 4. Installer les dépendances JavaScript
 
 Entrez dans le conteneur Apache puis installez les dépendances :
@@ -151,7 +153,25 @@ curl -fsSL https://ollama.com/install.sh | sh
 Démarrez le serveur et téléchargez le modèle :
 
 ```bash
-ollama serve
+OLLAMA_HOST=0.0.0.0 ollama serve
+```
+
+Si une erreur apparait concernant le port, vérifier s'il est déjà occupé avec :
+```bash
+sudo lsof -i :11434
+```
+Si c'est ollama qui bloque, faire :
+```bash
+sudo systemctl stop ollama
+```
+Si ollama est déjà installer, il se peut qu'il faille le désintaller sans quoi il continuera de bloquer le lancement (installation via snap par exemple)
+sinon arrêter le processus :
+```bash
+kill -9 <PID>
+```
+
+
+```bash
 ollama pull llama3.2
 ```
 

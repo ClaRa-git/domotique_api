@@ -3289,3 +3289,136 @@
 1746448494: Opening ipv6 listen socket on port 1883.
 1746448494: Opening websockets listen socket on port 9001.
 1746448494: mosquitto version 2.0.21 running
+1781507567: mosquitto version 2.1.2 starting
+1781507567: Config loaded from /mosquitto/config/mosquitto.conf.
+1781507567: Bridge support available.
+1781507567: Persistence support available.
+1781507567: TLS support available.
+1781507567: TLS-PSK support available.
+1781507567: Websockets support available.
+1781507567: Opening ipv4 listen socket on port 1883.
+1781507567: Opening ipv6 listen socket on port 1883.
+1781507567: Opening ipv4 listen socket on port 9001.
+1781507567: Opening ipv6 listen socket on port 9001.
+1781507567: mosquitto version 2.1.2 running
+1781509368: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1781511169: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1781512178: mosquitto version 2.1.2 terminating
+1781512178: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1781512190: mosquitto version 2.1.2 starting
+1781512190: Config loaded from /mosquitto/config/mosquitto.conf.
+1781512190: Bridge support available.
+1781512190: Persistence support available.
+1781512190: TLS support available.
+1781512190: TLS-PSK support available.
+1781512190: Websockets support available.
+1781512190: Opening ipv4 listen socket on port 1883.
+1781512190: Opening ipv6 listen socket on port 1883.
+1781512190: Opening ipv4 listen socket on port 9001.
+1781512190: Opening ipv6 listen socket on port 9001.
+1781512190: mosquitto version 2.1.2 running
+1781513470: mosquitto version 2.1.2 terminating
+1781513470: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1781513476: mosquitto version 2.1.2 starting
+1781513476: Config loaded from /mosquitto/config/mosquitto.conf.
+1781513476: Bridge support available.
+1781513476: Persistence support available.
+1781513476: TLS support available.
+1781513476: TLS-PSK support available.
+1781513476: Websockets support available.
+1781513476: Opening ipv4 listen socket on port 1883.
+1781513476: Opening ipv6 listen socket on port 1883.
+1781513476: Opening ipv4 listen socket on port 9001.
+1781513476: Opening ipv6 listen socket on port 9001.
+1781513476: mosquitto version 2.1.2 running
+1781513524: New connection from 172.18.0.3:43446 on port 1883.
+1781513524: New client connected from 172.18.0.3:43446 as 6a2fbd3413430 (p3, c1, k10).
+1781513524: Client 6a2fbd3413430 [172.18.0.3:43446] disconnected.
+1781513524: New connection from 172.18.0.3:43454 on port 1883.
+1781513524: New client connected from 172.18.0.3:43454 as 6a2fbd34148aa (p3, c1, k10).
+1781513524: Client 6a2fbd34148aa [172.18.0.3:43454] disconnected.
+1781513527: New connection from 172.18.0.3:43466 on port 1883.
+1781513527: New client connected from 172.18.0.3:43466 as 6a2fbd37e1375 (p3, c1, k10).
+1781513527: Client 6a2fbd37e1375 [172.18.0.3:43466] disconnected.
+1781513527: New connection from 172.18.0.3:43476 on port 1883.
+1781513527: New client connected from 172.18.0.3:43476 as 6a2fbd37e16a9 (p3, c1, k10).
+1781513527: Client 6a2fbd37e16a9 [172.18.0.3:43476] disconnected.
+1781513690: New connection from 172.18.0.3:49052 on port 1883.
+1781513690: New client connected from 172.18.0.3:49052 as 6a2fbdda33c3a (p3, c1, k10).
+1781513690: Client 6a2fbdda33c3a [172.18.0.3:49052] disconnected.
+1781513690: New connection from 172.18.0.3:49060 on port 1883.
+1781513690: New client connected from 172.18.0.3:49060 as 6a2fbdda33fbe (p3, c1, k10).
+1781513690: Client 6a2fbdda33fbe [172.18.0.3:49060] disconnected.
+1781513693: New connection from 172.18.0.3:55466 on port 1883.
+1781513693: New client connected from 172.18.0.3:55466 as 6a2fbddd8a871 (p3, c1, k10).
+1781513693: Client 6a2fbddd8a871 [172.18.0.3:55466] disconnected.
+1781513693: New connection from 172.18.0.3:55476 on port 1883.
+1781513693: New client connected from 172.18.0.3:55476 as 6a2fbddd8ac48 (p3, c1, k10).
+1781513693: Client 6a2fbddd8ac48 [172.18.0.3:55476] disconnected.
+1781515010: New connection from 172.18.0.3:52874 on port 1883.
+1781515010: New client connected from 172.18.0.3:52874 as 6a2fc3024ea74 (p3, c1, k10).
+1781515010: Client 6a2fc3024ea74 [172.18.0.3:52874] disconnected.
+1781515010: New connection from 172.18.0.3:52888 on port 1883.
+1781515010: New client connected from 172.18.0.3:52888 as 6a2fc3024ed8f (p3, c1, k10).
+1781515010: Client 6a2fc3024ed8f [172.18.0.3:52888] disconnected.
+1781515010: New connection from 172.18.0.3:52900 on port 1883.
+1781515010: New client connected from 172.18.0.3:52900 as 6a2fc3024ef40 (p3, c1, k10).
+1781515010: Client 6a2fc3024ef40 [172.18.0.3:52900] disconnected.
+1781515010: New connection from 172.18.0.3:52916 on port 1883.
+1781515010: New client connected from 172.18.0.3:52916 as 6a2fc3024f0e6 (p3, c1, k10).
+1781515010: Client 6a2fc3024f0e6 [172.18.0.3:52916] disconnected.
+1781515010: New connection from 172.18.0.3:52932 on port 1883.
+1781515010: New client connected from 172.18.0.3:52932 as 6a2fc3024f249 (p3, c1, k10).
+1781515010: Client 6a2fc3024f249 [172.18.0.3:52932] disconnected.
+1781515010: New connection from 172.18.0.3:52940 on port 1883.
+1781515010: New client connected from 172.18.0.3:52940 as 6a2fc3024f3a6 (p3, c1, k10).
+1781515010: Client 6a2fc3024f3a6 [172.18.0.3:52940] disconnected.
+1781515015: New connection from 172.18.0.3:59736 on port 1883.
+1781515015: New client connected from 172.18.0.3:59736 as 6a2fc3071e60d (p3, c1, k10).
+1781515015: Client 6a2fc3071e60d [172.18.0.3:59736] disconnected.
+1781515015: New connection from 172.18.0.3:59742 on port 1883.
+1781515015: New client connected from 172.18.0.3:59742 as 6a2fc3071e99c (p3, c1, k10).
+1781515015: Client 6a2fc3071e99c [172.18.0.3:59742] disconnected.
+1781515015: New connection from 172.18.0.3:59752 on port 1883.
+1781515015: New client connected from 172.18.0.3:59752 as 6a2fc3071ebad (p3, c1, k10).
+1781515015: Client 6a2fc3071ebad [172.18.0.3:59752] disconnected.
+1781515229: New connection from 172.18.0.3:37856 on port 1883.
+1781515229: New client connected from 172.18.0.3:37856 as 6a2fc3dd91bf7 (p3, c1, k10).
+1781515229: Client 6a2fc3dd91bf7 [172.18.0.3:37856] disconnected.
+1781515229: New connection from 172.18.0.3:37868 on port 1883.
+1781515229: New client connected from 172.18.0.3:37868 as 6a2fc3dd91f1c (p3, c1, k10).
+1781515229: Client 6a2fc3dd91f1c [172.18.0.3:37868] disconnected.
+1781515242: New connection from 172.18.0.3:59476 on port 1883.
+1781515242: New client connected from 172.18.0.3:59476 as 6a2fc3ead47fb (p3, c1, k10).
+1781515242: Client 6a2fc3ead47fb [172.18.0.3:59476] disconnected.
+1781515242: New connection from 172.18.0.3:59480 on port 1883.
+1781515242: New client connected from 172.18.0.3:59480 as 6a2fc3ead4b1f (p3, c1, k10).
+1781515242: Client 6a2fc3ead4b1f [172.18.0.3:59480] disconnected.
+1781515256: New connection from 172.18.0.3:37454 on port 1883.
+1781515256: New client connected from 172.18.0.3:37454 as 6a2fc3f89eb47 (p3, c1, k10).
+1781515256: Client 6a2fc3f89eb47 [172.18.0.3:37454] disconnected.
+1781515256: New connection from 172.18.0.3:37460 on port 1883.
+1781515256: New client connected from 172.18.0.3:37460 as 6a2fc3f89eea8 (p3, c1, k10).
+1781515256: Client 6a2fc3f89eea8 [172.18.0.3:37460] disconnected.
+1781515256: New connection from 172.18.0.3:37464 on port 1883.
+1781515256: New client connected from 172.18.0.3:37464 as 6a2fc3f89f074 (p3, c1, k10).
+1781515256: Client 6a2fc3f89f074 [172.18.0.3:37464] disconnected.
+1781515256: New connection from 172.18.0.3:37478 on port 1883.
+1781515256: New client connected from 172.18.0.3:37478 as 6a2fc3f89f20e (p3, c1, k10).
+1781515256: Client 6a2fc3f89f20e [172.18.0.3:37478] disconnected.
+1781515256: New connection from 172.18.0.3:37490 on port 1883.
+1781515256: New client connected from 172.18.0.3:37490 as 6a2fc3f89f3a3 (p3, c1, k10).
+1781515256: Client 6a2fc3f89f3a3 [172.18.0.3:37490] disconnected.
+1781515256: New connection from 172.18.0.3:37504 on port 1883.
+1781515256: New client connected from 172.18.0.3:37504 as 6a2fc3f89f528 (p3, c1, k10).
+1781515256: Client 6a2fc3f89f528 [172.18.0.3:37504] disconnected.
+1781515276: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1781516142: New connection from 172.18.0.3:38464 on port 1883.
+1781516142: New client connected from 172.18.0.3:38464 as 6a2fc76e4328c (p3, c1, k10).
+1781516142: Client 6a2fc76e4328c [172.18.0.3:38464] disconnected.
+1781516142: New connection from 172.18.0.3:38472 on port 1883.
+1781516142: New client connected from 172.18.0.3:38472 as 6a2fc76e435eb (p3, c1, k10).
+1781516142: Client 6a2fc76e435eb [172.18.0.3:38472] disconnected.
+1781516142: New connection from 172.18.0.3:38486 on port 1883.
+1781516142: New client connected from 172.18.0.3:38486 as 6a2fc76e43866 (p3, c1, k10).
+1781516142: Client 6a2fc76e43866 [172.18.0.3:38486] disconnected.
