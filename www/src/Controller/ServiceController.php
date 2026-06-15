@@ -440,8 +440,10 @@ final class ServiceController extends AbstractController
             $em->flush();
         }
 
-        $playlist = $em->getRepository(Playlist::class)->find($vibe->getPlaylist()->getId());
-        $songs = $playlist->getSongs();
+        $playlistEntity = $vibe->getPlaylist()
+            ? $em->getRepository(Playlist::class)->find($vibe->getPlaylist()->getId())
+            : null;
+        $songs = $playlistEntity ? $playlistEntity->getSongs() : [];
 
         foreach ($settings as $setting) {
             $topic = 'device/' . $setting['deviceAddress'];
@@ -479,9 +481,9 @@ final class ServiceController extends AbstractController
             return new JsonResponse(['error' => 'Invalid payload'], 400);
         }
 
-        $vibePlayingId = $data['vibePlayingId'];
-        $vibeId = $data['vibeId'];
-        $roomId = $data['roomId'];
+        $vibePlayingId = $data['vibePlayingId'] ?? null;
+        $vibeId = $data['vibeId'] ?? null;
+        $roomId = $data['roomId'] ?? null;
 
         // Vérifie que la vibe appartient au user connecté
         $vibe = $em->getRepository(Vibe::class)->find($vibeId);
@@ -500,20 +502,22 @@ final class ServiceController extends AbstractController
             $em->flush();
         }
 
-        $devices = $em->getRepository(Device::class)->findBy(['room' => $roomId]);
+        if ($roomId !== null) {
+            $devices = $em->getRepository(Device::class)->findBy(['room' => $roomId]);
 
-        foreach ($devices as $device) {
-            $topic = 'device/' . $device->getAddress();
+            foreach ($devices as $device) {
+                $topic = 'device/' . $device->getAddress();
 
-            $message = json_encode([
-                'stop' => true,
-                'deviceLabel' => $device->getLabel(),
-                'feature' => "On/Off",
-                'value' => "false",
-                'address' => $device->getAddress()
-            ]);
+                $message = json_encode([
+                    'stop' => true,
+                    'deviceLabel' => $device->getLabel(),
+                    'feature' => "On/Off",
+                    'value' => "false",
+                    'address' => $device->getAddress()
+                ]);
 
-            $mqttClient->publish($topic, $message);
+                $mqttClient->publish($topic, $message);
+            }
         }
 
         return new JsonResponse(['status' => 'success']);

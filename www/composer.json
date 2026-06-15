@@ -10,11 +10,11 @@
         "api-platform/core": "^4.1",
         "api-platform/doctrine-orm": ">=4.1.4",
         "api-platform/symfony": ">=4.1.4",
-        "doctrine/doctrine-bundle": "^2.12",
+        "doctrine/doctrine-bundle": "^2.18.3",
         "doctrine/doctrine-migrations-bundle": "^3.4.1",
         "doctrine/orm": "^3.3.2",
         "dragonmantank/cron-expression": "^3.4",
-        "easycorp/easyadmin-bundle": "^4.24.5",
+        "easycorp/easyadmin-bundle": "^4.29.12",
         "james-heinrich/getid3": "^1.9.23",
         "lexik/jwt-authentication-bundle": "^3.2",
         "nelmio/cors-bundle": "^2.5",
@@ -25,7 +25,7 @@
         "symfony/console": "7.3.*",
         "symfony/dotenv": "7.3.*",
         "symfony/expression-language": "7.3.*",
-        "symfony/flex": "^2.5",
+        "symfony/flex": "^2.11",
         "symfony/framework-bundle": "7.3.*",
         "symfony/http-client": "7.3.*",
         "symfony/messenger": "7.3.*",
@@ -39,7 +39,7 @@
         "symfony/validator": "7.3.*",
         "symfony/webpack-encore-bundle": "^2.2",
         "symfony/yaml": "7.3.*",
-        "vich/uploader-bundle": "^2.6"
+        "vich/uploader-bundle": "^2.9.4"
     },
     "config": {
         "allow-plugins": {

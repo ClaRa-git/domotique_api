@@ -20,8 +20,17 @@ services:
         bind:
             $decorated: '@api_platform.doctrine.orm.state.persist_processor'
 
+    App\State\VibePostProcessor:
+        bind:
+            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Controller\AiController:
+        arguments:
+            $ollamaUrl: '%env(OLLAMA_URL)%'
+            $ollamaModel: '%env(OLLAMA_MODEL)%'
 
     App\Service\MqttClient:
         arguments:

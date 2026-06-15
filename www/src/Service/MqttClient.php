@@ -31,8 +31,12 @@ class MqttClient
         }
 
 
-        $mqtt->connect($settings, true);
-        $mqtt->publish($topic, $message);
-        $mqtt->disconnect();
+        try {
+            $mqtt->connect($settings, true);
+            $mqtt->publish($topic, $message);
+            $mqtt->disconnect();
+        } catch (\Throwable) {
+            // Broker indisponible : on continue sans planter la requête
+        }
     }
 }

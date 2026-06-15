@@ -17,6 +17,8 @@ services:
       # variables d'environnement
       - PHP_ERROR_REPORTING=E_ALL # afficher toutes les erreurs
       - PHP_DISPLAY_ERRORS=On # afficher les erreurs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   mariadb_domotique:
     # nom du service

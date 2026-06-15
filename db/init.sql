@@ -377,8 +377,8 @@ CREATE TABLE `profile` (
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
 INSERT INTO `profile` VALUES
-(1,'user1','user1',1),
-(2,'user2','user2',2);
+(1,'user1','$2y$10$9keMclLXNZmyKDeLw0jsROqprIop989JMTZF5GJat/Dui9U2q3omu',1),
+(2,'user2','$2y$10$ukHLHdptPwfhqbAk6fzByuLG/xZtOQbKgEyvc6ogqCHcrEEThrFAa',2);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
