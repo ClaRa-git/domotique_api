@@ -164,12 +164,11 @@ Si c'est ollama qui bloque, faire :
 ```bash
 sudo systemctl stop ollama
 ```
-Si ollama est déjà installer, il se peut qu'il faille le désintaller sans quoi il continuera de bloquer le lancement (installation via snap par exemple)
+Si ollama est déjà installé, il se peut qu'il faille le désintaller sans quoi il continuera de bloquer le lancement (installation via snap par exemple)
 sinon arrêter le processus :
 ```bash
 kill -9 <PID>
 ```
-
 
 ```bash
 ollama pull llama3.2
@@ -182,6 +181,18 @@ ollama pull llama3.2
 > ```
 >
 > Vérifiez l'IP exacte avec : `docker network inspect domotique_api_default | grep Gateway`
+
+---
+
+## Simulateur
+
+Pour voir l'application intéragir en temps réel avec les appareils, on peut utiliser MQTT explorer.
+Paramètres :
+Name : *nom au choix*
+Protocole : mqtt://
+Host : localhost
+Port : 1883
+*Pas de Username ni Password*
 
 ---
 
