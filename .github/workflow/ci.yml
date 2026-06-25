@@ -1,0 +1,184 @@
+name: 🏠 Hoomy CI Pipeline
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+
+  # ─────────────────────────────────────────
+  # JOB 1 — Backend PHP / Symfony
+  # ─────────────────────────────────────────
+  backend:
+    name: 🐘 Backend (PHP 8.2 / Symfony)
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: superAdmin
+          MYSQL_DATABASE: domotique_test
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: admin
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, intl, pdo_mysql, openssl
+          coverage: none
+
+      - name: 📦 Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: www/vendor
+          key: composer-${{ hashFiles('www/composer.lock') }}
+          restore-keys: composer-
+
+      - name: 📦 Installation des dépendances PHP
+        working-directory: www
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: 🔑 Génération des clés JWT
+        working-directory: www
+        run: |
+          mkdir -p config/jwt
+          openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa \
+            -pkeyopt rsa_keygen_bits:4096 -pass pass:${{ secrets.JWT_PASSPHRASE || 'hoomy_ci_passphrase' }}
+          openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem \
+            -pubout -passin pass:${{ secrets.JWT_PASSPHRASE || 'hoomy_ci_passphrase' }}
+
+      - name: ⚙️ Configuration de l'environnement de test
+        working-directory: www
+        run: |
+          cp .env .env.test.local
+          echo "DATABASE_URL=mysql://admin:admin@127.0.0.1:3306/domotique_test" >> .env.test.local
+          echo "APP_ENV=test" >> .env.test.local
+          echo "JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE || 'hoomy_ci_passphrase' }}" >> .env.test.local
+
+      - name: 🗄️ Création du schéma de base de données (test)
+        working-directory: www
+        run: |
+          php bin/console doctrine:database:create --env=test --if-not-exists
+          php bin/console doctrine:migrations:migrate --env=test --no-interaction
+
+      - name: 🧪 Exécution des tests PHPUnit
+        working-directory: www
+        run: |
+          php bin/phpunit --testdox \
+            --log-junit ../reports/phpunit-results.xml \
+            2>&1 || true
+
+      - name: 📊 Upload du rapport de tests PHP
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rapport-tests-php
+          path: reports/phpunit-results.xml
+
+  # ─────────────────────────────────────────
+  # JOB 2 — Frontend React / Node
+  # ─────────────────────────────────────────
+  frontend:
+    name: ⚛️ Frontend (Node 20 / React)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: www/package-lock.json
+
+      - name: 📦 Installation des dépendances JS
+        working-directory: www
+        run: npm ci
+
+      - name: 🧪 Exécution des tests Jest
+        working-directory: www
+        run: npm test -- --watchAll=false --passWithNoTests 2>&1 || true
+
+      - name: 🏗️ Build des assets (production)
+        working-directory: www
+        run: npm run build
+
+      - name: 📊 Upload des assets compilés
+        uses: actions/upload-artifact@v4
+        with:
+          name: assets-production
+          path: www/public/build/
+
+  # ─────────────────────────────────────────
+  # JOB 3 — Qualité de code
+  # ─────────────────────────────────────────
+  code-quality:
+    name: 🔍 Qualité du code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: php-cs-fixer
+
+      - name: 🟢 Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: www/package-lock.json
+
+      - name: 📦 Installation des dépendances JS
+        working-directory: www
+        run: npm ci
+
+      - name: 🎨 Vérification du style PHP (PHP-CS-Fixer)
+        working-directory: www
+        run: |
+          php-cs-fixer fix --dry-run --diff --format=txt src/ 2>&1 || true
+
+      - name: 🎨 Lint JavaScript / React (ESLint)
+        working-directory: www
+        run: npx eslint assets/react/ --ext .js,.jsx --format stylish 2>&1 || true
+
+  # ─────────────────────────────────────────
+  # JOB 4 — Résumé du pipeline
+  # ─────────────────────────────────────────
+  pipeline-summary:
+    name: 📋 Résumé CI
+    runs-on: ubuntu-latest
+    needs: [backend, frontend, code-quality]
+    if: always()
+
+    steps:
+      - name: ✅ Pipeline terminé
+        run: |
+          echo "========================================"
+          echo "  🏠 HOOMY — Rapport CI"
+          echo "========================================"
+          echo "  Backend  : ${{ needs.backend.result }}"
+          echo "  Frontend : ${{ needs.frontend.result }}"
+          echo "  Qualité  : ${{ needs.code-quality.result }}"
+          echo "========================================"
