@@ -1,4 +1,4 @@
-# Projet Domotique Hoomy
+# 🏠 Projet Domotique Hoomy
 
 Application de bien-être permettant de créer des **vibes** qui contrôlent des appareils domotiques via MQTT.
 
@@ -9,7 +9,7 @@ Application de bien-être permettant de créer des **vibes** qui contrôlent des
 - [Docker](https://www.docker.com/) et Docker Compose installés
 - Bash (Linux / macOS) ou WSL (Windows)
 
-> **A lire en entier avant de commencer.**
+> **Lire en entier avant de commencer.**
 
 ---
 
@@ -52,7 +52,7 @@ docker-compose up -d
 
 ### 2. Configurer les alias (une seule fois)
 
-Ajoutez ce bloc dans votre `~/.bashrc` pour charger automatiquement les alias du projet :
+Ajoutez ce bloc dans votre `~/.bashrc` :
 
 ```bash
 load_aliases() {
@@ -90,11 +90,11 @@ fi
 ccomposer install
 ```
 
-Si une erreur apparait, faire ccomposer update pour mettre à jour les dépendances.
+> En cas d'erreur de dépendances, lancer `ccomposer update`.
 
 ### 4. Installer les dépendances JavaScript
 
-Entrez dans le conteneur Apache puis installez les dépendances :
+Entrez dans le conteneur Apache, puis installez :
 
 ```bash
 nnpm
@@ -116,13 +116,13 @@ npm run build
 
 ### 6. Générer les clés JWT
 
-Utilisez la commande du bundle — elle lit automatiquement la passphrase depuis le `.env` :
+La commande lit automatiquement la passphrase depuis le `.env` :
 
 ```bash
 cconsole lexik:jwt:generate-keypair --overwrite
 ```
 
-Les fichiers sont générés à l'intérieur du conteneur (propriétaire `root`). Corrigez les permissions pour qu'Apache puisse lire la clé privée :
+Les fichiers sont générés avec le propriétaire `root` (dans le conteneur). Corrigez les permissions pour qu'Apache puisse lire la clé privée :
 
 ```bash
 sudo chmod 644 www/config/jwt/private.pem
@@ -130,10 +130,11 @@ sudo chmod 644 www/config/jwt/private.pem
 
 ### 7. Configurer l'environnement
 
-Vérifiez votre fichier `.env` dans `www/` et adaptez si besoin :
+Vérifiez le fichier `www/.env` et adaptez si besoin :
 
 ```env
 DATABASE_URL="mysql://admin:admin@mariadb_domotique:3306/domotique"
+JWT_PASSPHRASE=votre_passphrase
 ```
 
 ### 8. Importer la base de données
@@ -144,55 +145,97 @@ db-import
 
 ### 9. Configurer Ollama (fonctionnalité IA — Noctys)
 
-Installez Ollama sur la **machine hôte** (pas dans Docker) :
+Ollama doit être installé sur la **machine hôte** (pas dans Docker) :
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-Démarrez le serveur et téléchargez le modèle :
+Démarrez le serveur en écoutant sur toutes les interfaces :
 
 ```bash
 OLLAMA_HOST=0.0.0.0 ollama serve
 ```
 
-Si une erreur apparait concernant le port, vérifier s'il est déjà occupé avec :
-```bash
-sudo lsof -i :11434
-```
-Si c'est ollama qui bloque, faire :
-```bash
-sudo systemctl stop ollama
-```
-Si ollama est déjà installé, il se peut qu'il faille le désintaller sans quoi il continuera de bloquer le lancement (installation via snap par exemple)
-sinon arrêter le processus :
-```bash
-kill -9 <PID>
-```
+> **Si le port 11434 est déjà occupé**, identifiez le processus :
+> ```bash
+> sudo lsof -i :11434
+> ```
+> - Si c'est un service `ollama` existant (ex : installé via snap) : `sudo systemctl stop ollama` ou désinstallez-le.
+> - Sinon : `kill -9 <PID>`
+
+Téléchargez le modèle :
 
 ```bash
 ollama pull llama3.2
 ```
 
-> **Linux + Docker** : depuis le conteneur, `localhost` pointe le conteneur lui-même, pas l'hôte. L'`OLLAMA_URL` dans `www/.env` doit utiliser l'IP de la gateway Docker (visible dans `docker network inspect`) :
+> **Linux + Docker** : depuis le conteneur, `localhost` pointe le conteneur lui-même, pas l'hôte. Utilisez l'IP de la gateway Docker dans `www/.env` :
 >
 > ```env
 > OLLAMA_URL=http://172.21.0.1:11434
 > ```
 >
-> Vérifiez l'IP exacte avec : `docker network inspect domotique_api_default | grep Gateway`
+> Vérifiez l'IP exacte avec :
+> ```bash
+> docker network inspect domotique_api_default | grep Gateway
+> ```
 
 ---
 
-## Simulateur
+## Tests & CI
 
-Pour voir l'application intéragir en temps réel avec les appareils, on peut utiliser MQTT explorer.
-Paramètres :
-Name : *nom au choix*
-Protocole : mqtt://
-Host : localhost
-Port : 1883
-*Pas de Username ni Password*
+Le projet inclut une suite de tests automatisés exécutés via GitHub Actions à chaque push sur `main` ou `develop`.
+
+### Lancer les tests en local
+
+```bash
+# Tous les tests
+php bin/phpunit --testdox
+
+# Tests unitaires uniquement
+php bin/phpunit tests/Unit/ --testdox
+
+# Tests de sécurité uniquement
+php bin/phpunit tests/Security/ --testdox
+
+# Tests fonctionnels API
+php bin/phpunit tests/Functional/ --testdox
+```
+
+### Structure des tests
+
+```
+www/tests/
+├── Unit/Entity/
+│   ├── VibeTest.php          # Tests entité Vibe
+│   └── CriteriaTest.php      # Tests entité Criteria
+├── Functional/
+│   └── ApiEndpointTest.php   # Tests endpoints API
+└── Security/
+    └── SecurityTest.php      # Tests IDOR, JWT, injections
+```
+
+### Pipeline CI (`.github/workflows/ci.yml`)
+
+| Job | Description |
+|---|---|
+| Backend | PHPUnit + migrations BDD test + rapport XML |
+| Frontend | Build Webpack Encore |
+| Qualité | PHP-CS-Fixer + ESLint |
+
+---
+
+## Simulateur MQTT
+
+Pour voir l'application interagir en temps réel avec les appareils, utilisez **MQTT Explorer**.
+
+| Paramètre | Valeur |
+|---|---|
+| Protocole | `mqtt://` |
+| Host | `localhost` |
+| Port | `1883` |
+| Username / Password | *(laisser vide)* |
 
 ---
 
@@ -220,14 +263,14 @@ Port : 1883
 
 ## Alias disponibles
 
-Ces alias sont définis dans `aliases.sh` et accessibles une fois la configuration shell effectuée.
+Définis dans `aliases.sh`, accessibles depuis la racine du projet.
 
-| Alias | Description |
+| Alias | Commande équivalente |
 |---|---|
-| `ccomposer` | Exécuter Composer dans le conteneur |
-| `cconsole` | Exécuter `symfony console` dans le conteneur |
-| `nnpm` | Ouvrir un bash dans le conteneur Apache (pour npm) |
-| `s777` | Donner les permissions 777 sur le répertoire courant |
+| `ccomposer` | `composer` dans le conteneur |
+| `cconsole` | `symfony console` dans le conteneur |
+| `nnpm` | Bash dans le conteneur Apache (pour npm) |
+| `s777` | `chmod 777 -R ./` |
 | `me` | `symfony console make:entity` |
 | `mm` | `symfony console make:migration` |
 | `dmm` | `symfony console doctrine:migrations:migrate` |
@@ -235,15 +278,15 @@ Ces alias sont définis dans `aliases.sh` et accessibles une fois la configurati
 | `ddd` | `symfony console doctrine:database:drop --force` |
 | `ddc` | `symfony console doctrine:database:create` |
 | `ccc` | `symfony console cache:clear` |
-| `db-export` | Exporter un snapshot de la base de données |
-| `db-import` | Restaurer un snapshot de la base de données |
+| `db-export` | Exporter un snapshot de la BDD |
+| `db-import` | Restaurer un snapshot de la BDD |
 
 ---
 
 ## Exemple : appairer un appareil
 
 ```bash
-curl -X POST http://localhost:8082/api/device/init \
+curl -X POST http://localhost:8082/api/device-init \
   -H "Content-Type: application/json" \
   -d '{
     "label": "Smart Bulb",
@@ -259,6 +302,8 @@ curl -X POST http://localhost:8082/api/device/init \
     ]
   }'
 ```
+
+> **Note :** l'URL de la route est `/api/device-init` (avec tiret), pas `/api/device/init`.
 
 ---
 
