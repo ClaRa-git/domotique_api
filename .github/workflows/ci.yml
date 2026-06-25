@@ -42,6 +42,30 @@ jobs:
           extensions: mbstring, intl, pdo_mysql, openssl
           coverage: none
 
+      - name: ⚙️ Création du fichier .env pour le CI
+        working-directory: www
+        run: |
+          cat > .env << 'EOF'
+          APP_ENV=test
+          APP_SECRET=hoomy_ci_secret_not_used_in_prod
+          DATABASE_URL="mysql://admin:admin@127.0.0.1:3306/domotique_test"
+          JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+          JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+          JWT_PASSPHRASE=hoomy_ci_passphrase
+          OLLAMA_URL=http://localhost:11434
+          MQTT_HOST=localhost
+          MQTT_PORT=1883
+          EOF
+
+      - name: 🔑 Génération des clés JWT
+        working-directory: www
+        run: |
+          mkdir -p config/jwt
+          openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa \
+            -pkeyopt rsa_keygen_bits:4096 -pass pass:hoomy_ci_passphrase
+          openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem \
+            -pubout -passin pass:hoomy_ci_passphrase
+
       - name: 📦 Cache Composer
         uses: actions/cache@v4
         with:
@@ -51,24 +75,11 @@ jobs:
 
       - name: 📦 Installation des dépendances PHP
         working-directory: www
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
-      - name: 🔑 Génération des clés JWT
+      - name: 🗑️ Vider le cache Symfony
         working-directory: www
-        run: |
-          mkdir -p config/jwt
-          openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa \
-            -pkeyopt rsa_keygen_bits:4096 -pass pass:${{ secrets.JWT_PASSPHRASE || 'hoomy_ci_passphrase' }}
-          openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem \
-            -pubout -passin pass:${{ secrets.JWT_PASSPHRASE || 'hoomy_ci_passphrase' }}
-
-      - name: ⚙️ Configuration de l'environnement de test
-        working-directory: www
-        run: |
-          cp .env .env.test.local
-          echo "DATABASE_URL=mysql://admin:admin@127.0.0.1:3306/domotique_test" >> .env.test.local
-          echo "APP_ENV=test" >> .env.test.local
-          echo "JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE || 'hoomy_ci_passphrase' }}" >> .env.test.local
+        run: php bin/console cache:clear --env=test
 
       - name: 🗄️ Création du schéma de base de données (test)
         working-directory: www
