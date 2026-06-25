@@ -23,6 +23,7 @@ jobs:
           MYSQL_DATABASE: domotique_test
           MYSQL_USER: admin
           MYSQL_PASSWORD: admin
+          MYSQL_ROOT_HOST: "%"
         ports:
           - 3306:3306
         options: >-
@@ -48,7 +49,7 @@ jobs:
           cat > .env << 'EOF'
           APP_ENV=test
           APP_SECRET=hoomy_ci_secret_not_used_in_prod
-          DATABASE_URL="mysql://admin:admin@127.0.0.1:3306/domotique_test"
+          DATABASE_URL="mysql://admin:admin@127.0.0.1:3306/domotique"
           JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
           JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
           JWT_PASSPHRASE=hoomy_ci_passphrase
@@ -81,11 +82,17 @@ jobs:
         working-directory: www
         run: php bin/console cache:clear --env=test
 
-      - name: 🗄️ Création du schéma de base de données (test)
-        working-directory: www
+      - name: 🗄️ Création de la base de test et droits utilisateur
         run: |
-          php bin/console doctrine:database:create --env=test --if-not-exists
-          php bin/console doctrine:migrations:migrate --env=test --no-interaction
+          mysql -h 127.0.0.1 -P 3306 -u root -psuperAdmin -e "
+            CREATE DATABASE IF NOT EXISTS domotique_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+            GRANT ALL PRIVILEGES ON domotique_test.* TO 'admin'@'%';
+            FLUSH PRIVILEGES;
+          "
+
+      - name: 🗄️ Migration de la base de données (test)
+        working-directory: www
+        run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
 
       - name: 🧪 Exécution des tests PHPUnit
         working-directory: www
