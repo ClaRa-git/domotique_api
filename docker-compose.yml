@@ -55,6 +55,39 @@ services:
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
 
+  scheduler:
+    build: apache
+    container_name: scheduler_domotique
+    restart: always
+    volumes:
+      - ./www:/var/www/html
+      - ./apache/custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
+    environment:
+      - PHP_ERROR_REPORTING=E_ALL
+      - PHP_DISPLAY_ERRORS=On
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: php /var/www/html/bin/console messenger:consume scheduler_default --no-interaction -vv
+    depends_on:
+      - mariadb_domotique
+      - mosquitto
+
+  mqtt_listener:
+    build: apache
+    container_name: mqtt_listener_domotique
+    restart: always
+    volumes:
+      - ./www:/var/www/html
+      - ./apache/custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
+    environment:
+      - PHP_ERROR_REPORTING=E_ALL
+      - PHP_DISPLAY_ERRORS=On
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: php /var/www/html/bin/console app:mqtt:listen
+    depends_on:
+      - mosquitto
+
 volumes:
   mysql-domotique:
 

@@ -10,10 +10,10 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class LogHelloHandler
 {
-    private MqttClient $mqttClient;
-
-    public function __construct( private LoggerInterface $logger)
-    {        
+    public function __construct(
+        private LoggerInterface $logger,
+        private MqttClient $mqttClient,
+    ) {
     }
 
     public function __invoke(LogHello $message): void

@@ -42,6 +42,78 @@ class PlanningRepository extends ServiceEntityRepository
     //    }
 
     /**
+     * Plannings dont l'heure de déclenchement correspond à $time (format "HH:MM"),
+     * qu'ils soient ponctuels, quotidiens ou hebdomadaires.
+     * @return Planning[]
+     */
+    public function findActiveForCurrentMinute(string $time, \DateTimeInterface $date, string $dayLabel): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        return $qb->select('p')
+            ->from(Planning::class, 'p')
+            ->where(
+                $qb->expr()->orX(
+                    // Ponctuel : jour exact
+                    $qb->expr()->andX(
+                        'p.recurrence = :none',
+                        'p.dateStart = :date',
+                    ),
+                    // Quotidien : démarré depuis dateStart
+                    $qb->expr()->andX(
+                        'p.recurrence = :daily',
+                        'p.dateStart <= :date',
+                    ),
+                    // Hebdomadaire : même jour de création
+                    $qb->expr()->andX(
+                        'p.recurrence <> :none',
+                        'p.recurrence <> :daily',
+                        'p.dayCreation = :day',
+                    ),
+                )
+            )
+            ->andWhere('p.hourStart = :time')
+            ->setParameter('none', 'none')
+            ->setParameter('daily', 'daily')
+            ->setParameter('date', \DateTime::createFromInterface($date), \Doctrine\DBAL\Types\Types::DATE_MUTABLE)
+            ->setParameter('day', $dayLabel)
+            ->setParameter('time', $time)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Plannings dont l'heure de fin correspond à $time — même logique que findActiveForCurrentMinute.
+     * @return Planning[]
+     */
+    public function findEndingAtCurrentMinute(string $time, \DateTimeInterface $date, string $dayLabel): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        return $qb->select('p')
+            ->from(Planning::class, 'p')
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->andX('p.recurrence = :none', 'p.dateStart = :date'),
+                    $qb->expr()->andX('p.recurrence = :daily', 'p.dateStart <= :date'),
+                    $qb->expr()->andX(
+                        'p.recurrence <> :none',
+                        'p.recurrence <> :daily',
+                        'p.dayCreation = :day',
+                    ),
+                )
+            )
+            ->andWhere('p.hourEnd = :time')
+            ->setParameter('none', 'none')
+            ->setParameter('daily', 'daily')
+            ->setParameter('date', \DateTime::createFromInterface($date), \Doctrine\DBAL\Types\Types::DATE_MUTABLE)
+            ->setParameter('day', $dayLabel)
+            ->setParameter('time', $time)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Méthode pour récupérer les plannings d'une date donnée
      * @param \DateTimeInterface $date
      * @return array
