@@ -97,8 +97,9 @@ jobs:
       - name: 🧪 Exécution des tests PHPUnit
         working-directory: www
         run: |
-          php bin/phpunit --testdox \
-            --log-junit ../reports/phpunit-results.xml \
+          mkdir -p reports
+          php vendor/bin/phpunit --testdox \
+            --log-junit reports/phpunit-results.xml \
             2>&1 || true
 
       - name: 📊 Upload du rapport de tests PHP
@@ -106,7 +107,7 @@ jobs:
         if: always()
         with:
           name: rapport-tests-php
-          path: reports/phpunit-results.xml
+          path: www/reports/phpunit-results.xml
 
   # ─────────────────────────────────────────
   # JOB 2 — Frontend React / Node
