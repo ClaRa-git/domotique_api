@@ -78,6 +78,13 @@ jobs:
         working-directory: www
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
+      - name: 📦 Installation de PHPUnit (si absent)
+        working-directory: www
+        run: |
+          if [ ! -f vendor/bin/phpunit ]; then
+            composer require --dev phpunit/phpunit symfony/test-pack --no-interaction --no-scripts
+          fi
+
       - name: 🗑️ Vider le cache Symfony
         working-directory: www
         run: php bin/console cache:clear --env=test
